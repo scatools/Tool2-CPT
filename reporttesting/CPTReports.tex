@@ -1,0 +1,233 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Grand Bay   Conservation Prioritization Tool Report},
+            pdfauthor={Strategic Conservation Assessment Project},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{\textbf{Grand Bay} Conservation Prioritization Tool Report}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{\emph{Strategic Conservation Assessment Project}}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{April 16, 2019}
+
+
+\begin{document}
+\maketitle
+
+\subsection{Spatial footprint of conservation area
+assessed}\label{spatial-footprint-of-conservation-area-assessed}
+
+\subsubsection{\texorpdfstring{\textbf{MAP GOES
+HERE}}{MAP GOES HERE}}\label{map-goes-here}
+
+\begin{itemize}
+\tightlist
+\item
+  {[} {]} Mercury
+\item
+  {[}x{]} Venus
+\item
+  {[}x{]} Earth (Orbit/Moon)
+\item
+  {[}x{]} Mars
+\item
+  {[} {]} Jupiter
+\item
+  {[} {]} Saturn
+\item
+  {[} {]} Uranus
+\item
+  {[} {]} Neptune
+\item
+  {[} {]} Comet Haley
+\end{itemize}
+
+\subsection{\texorpdfstring{\textbf{Summary}}{Summary}}\label{summary}
+
+This report evaluates the \textbf{Grand Bay} area of interest,
+approximately \textbf{32 acres} of land adjacent to the 2000, and
+houses\\
+1, NA, and NA (5 percent of the project area). Lands within Grand Bay
+support a diversity of fish and wildlife, including the federally listed
+1 and NA, and contains roughly 29 percent of the NA's critical habitat.
+Also, protection of Grand Bay would preserve a considerable amount of
+structural connectivity to surrounding lands, as 1 percent of the
+project area is classified as a hub or corridor by the EPA National
+Ecological Framework. \textbf{Conserving this area of interest would
+protect longleaf pine and rangeland working lands (about 31 percent of
+the project area).} This area of interest also buffers water flowing
+into waterbodies with known impairments (McCrae Dead River and
+Tchoutacabouffa River) and preservation would allow this landscape to
+continue to provide such water quality protections. In the future, the
+Grand Bay area may be vulnerable to inundation due to sea level rise,
+and is expected to have a high threat of development by the year 2060
+according to the SLEUTH urbanization model.
+
+\subsubsection{\texorpdfstring{\textbf{Data Table Goes
+Here}}{Data Table Goes Here}}\label{data-table-goes-here}
+
+\subsubsection{Any Additional Figures ???}\label{any-additional-figures}
+
+\subsection{\texorpdfstring{\textbf{Supporting
+Information}}{Supporting Information}}\label{supporting-information}
+
+\paragraph{Definitions of Raw Data
+Measures}\label{definitions-of-raw-data-measures}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Threat of Urbanization -} Threat of Conversion indicates the
+  likelihood of the proposed conservation area to be urbanized by the
+  year 2060. A score of zero indicates the hexagon is already urban and
+  score of 0+ to one indicates the predicted likelihood of threat in
+  decreasing order. A score of one indicates absolutely no threat of
+  conversion based on SLEUTH 2060 urbanization model.
+\item
+  \textbf{Connectivity with PAD-US -} Connectivity to PAD-US indicates
+  of the proposed conservation area is close to an area classified as
+  protected by PAD-US data. A binary attribute which represents the
+  spatial relationship between Hexagon and PAD-US. Any Hexagon directly
+  intersects or within 1 Hex (1 km2) distance would be count as 1,
+  otherwise, 0.
+\item
+  \textbf{Structural Connectivity -} Hub and Corridors A percent
+  attribute which stands for the proportion of area, been classified as
+  Hub or Corridor by the raw data source, within each Hexagon. Since the
+  Hexagon unit area is 1 Km2, it also stands for the actual area of Hub
+  within each Hexagon.
+\item
+  \textbf{Proposed Area of Conservation -} The area of the proposed area
+  of interest, in acres.
+\item
+  \textbf{303(d) - Impaired Watershed Area -} A percent attribute which
+  stands for the proportion of impaired watershed within each Hexagon.
+  The watershed data is analyzed based on HUC12 level. Any HUC12
+  watershed contains 303(d) impaired streams would be considered as
+  impaired.
+\item
+  \textbf{Biodiversity Index -} A zero score indicates the lowest
+  biodiversity and score of 0+ to 10 indicates biodiversity in
+  increasing order. A score of 10 indicates highest biodiversity within
+  Gulf of Mexico region. Biodiversity index were classified into 10
+  groups based on the same method proposed in Jenkins (2015)\footnote{Jenkins,
+    CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands
+    mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.}.
+\item
+  \textbf{T\&E Species Area -} The attribute is based on the U.S. Fish
+  \& Wildlife Service designated T\&E critical habitat. The value in
+  each hexagon is the cumulative \% area of critical habitats for all
+  T\&E species.
+\item
+  \textbf{T\&E Species Counts -} A numeric attribute which represents
+  the number of T\&E Species within each Hexagon. The attribute is based
+  on the U.S. Fish \& Wildlife Service designated T\&E critical habitat.
+\item
+  \textbf{Light Pollution Index -} A score of zero indicates the sky
+  above the hex is already polluted/bright and score of 0+ to one
+  indicates light pollution (LP) in decreasing order.
+\item
+  \textbf{National Registry of Historic Places -} A numeric attribute
+  which represents the counts of historical Places within each Hexagon.
+  The data is based on U.S. NPS National Registry of Historic Places.
+\item
+  \textbf{National Heritage Area -} A \% attribute which stands for the
+  proportion of Heritage area within each Hexagon. The Heritage data is
+  based on the NPS National Heritage Area layer.
+\item
+  \textbf{Land Cover - High Priority -} The total \% area of identified
+  top priority land cover (Tier 1) classes within a hexagon created from
+  NCLD, CCAP, and GAP land cover classification maps.
+\item
+  \textbf{Working Lands -} High Priority The \% area of Pine, Cropland
+  and Pasture/Hay classes from NLCD classification map excluding the
+  areas that are already protected (PAD-US).
+\item
+  \textbf{Commercial Fisheries Reliance -} Engagement Commercial fishing
+  engagement measures the presence of commercial fishing through fishing
+  activity as shown through permits and vessel landings. A high rank
+  indicates more engagement.
+\item
+  \textbf{Recreational Fisheries Engagement -} Engagement Recreational
+  fishing engagement measures the presence of recreational fishing
+  through fishing activity estimates. A high rank indicates more
+  engagement.
+\end{enumerate}
+
+
+\end{document}

@@ -1,0 +1,121 @@
+---
+title: "Conservation Prioritization Tool - Report alpha"
+author: "Strategic Conservation Assessment Project"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+params:
+  #n: NA
+  #r: NA
+  footprint: NA
+  rankmatrix: NA
+  rankalt: NA
+  centralweights: NA
+  rawdata: NA
+  centralalt: NA
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Spatial footprint of Area of Interest
+
+```{r include=FALSE}
+library(leaflet)
+#library(dplyr)
+library(sf)
+library(DT)
+```
+
+```{r echo=FALSE}
+c<-params$footprint
+c$proposal<-1:length(c$geometry)
+colorlist=c("red","blue","orange","green","black","pink","orange","white","yellow","brown")
+color<-colorNumeric(colorlist,c$proposal)
+my_map<-leaflet() %>%
+  addTiles() %>%
+  addPolygons(data= c,fillColor = color(c$proposal),
+              fillOpacity = 0.5,weight=0.5)%>%
+  addLegend(position ="bottomright", colors=color(c$proposal),labels=paste0("Proposal ",c$proposal),opacity = 0.5)
+my_map
+```
+
+This report evaluates `r ncol(params$centralalt)` projects.
+
+
+## Conservation Measures Considered in the Assessment
+
+
+```{r echo=FALSE}
+DT::datatable(params$rawdata)
+```
+
+
+
+## User Preferences Considered for Assessment
+
+Since we are using MCDA approach, we will not have any weights input from User. Instead, all weights would be equally considered and aggregated by five RESTORE goals.
+
+
+## Results
+
+
+
+
+```{r echo=FALSE}
+ranking<-c("Rank 1","Rank 2","Rank 3","Rank 4","Rank 5","Rank 6","Rank 7")
+colorlist1<-c("green","brown","gray","coral","aquamarine","chartreuse","cyan","chocolate","antiquewhite","cadetblue")
+barplot(params$rankmatrix,main="Rank Acceptability", xlim = c(0, ncol(params$rankmatrix) + 2.5), space=0.5,
+          xlab="",names=params$rankalt,ylab="%",
+          col=colorlist1[1:length(params$rankalt)])
+legend("topright", 
+        legend = ranking[1:length(params$rankalt)], 
+        fill = colorlist1[1:length(params$rankalt)],
+       cex = 0.75)
+```
+
+```{r echo=FALSE}
+criteria_labels = c('Habitat','W.Quality','LCMR','Comm.Res','Economy')
+proplist=c("Proposal 1","Proposal 2","Proposal 3","Proposal 4","Proposal 5","Proposal 6","Proposal 7","Proposal 8","Proposal 9","Proposal 10")
+plot(params$centralweights[1,],type='b',lwd=2,ylim=c(0,100),col="red",main="Central Weights",
+     ylab="Goal Weights (%)",xlab="",xaxt="n")
+axis(side=1,at=c(1:length(criteria_labels)),
+         labels=criteria_labels,srt=45,xpd=T)
+for(j in 2:nrow(params$centralweights)){
+      lines(params$centralweights[j,],type='b',lwd=2,ylim=c(0,100),col=colorlist[j])
+    }
+legend("topleft",legend=params$rankalt[1:length(params$rankalt)],
+           col=colorlist[1:ncol(params$centralalt)], lty=1,lwd=2,cex=1)
+```
+
+***
+
+# Supporting Information
+
+### Definitions of Priority Attributes
+
+
+1. **Threat of Urbanization -** 	Threat of Conversion indicates the likelihood of the proposed conservation area to be urbanized by the year 2060. A score of zero indicates the hexagon is already urban and score of 0+ to one indicates the predicted likelihood of threat in decreasing order. A score of one indicates absolutely no threat of conversion based on SLEUTH 2060 urbanization model.
+2. **Connectivity with PAD-US -** 	Connectivity to PAD-US indicates of the proposed conservation area is close to an area classified as protected by PAD-US data. A binary attribute which represents the spatial relationship between Hexagon and PAD-US. Any Hexagon directly intersects or within 1 Hex (1 km2) distance would be count as 1, otherwise, 0.
+3.	**Structural connectivity -** Hub and Corridors	A percent attribute which stands for the proportion of area, been classified as Hub or Corridor by the raw data source, within each Hexagon. Since the Hexagon unit area is 1 Km2, it also stands for the actual area of Hub within each Hexagon.
+4.	**Proposed Area of Conservation -**	The area of the proposed plan in square kilometers
+5.	**303(d) - impaired Watershed Area -**	A percent attribute which stands for the proportion of impaired watershed within each Hexagon. The watershed data is analyzed based on HUC12 level. Any HUC12 watershed contains 303(d) impaired streams would be considered as impaired.
+6.	**Biodiversity Index -**	A zero score indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Biodiversity index were classified into 10 groups based on the same method proposed in Jenkins's paper. Data Source: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
+7.	**T&E Species area -**	The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat. The value in each hexagon is the cumulative % area of critical habitats for all T&E species.
+8.	**T&E Species counts -**	A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.
+9.	**Light Pollution Index -**	A score of zero indicates the sky above the hex is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.
+10.	**National Registry of historical Places -**	A numeric attribute which represents the counts of historical Places within each Hexagon. The data is based on U.S. NPS National Registry of Historical Places
+11.	**National Heritage Area -**	A % attribute which stands for the proportion of Heritage area within each Hexagon. The Heritage data is based on the NPS National Heritage Area layer.
+12.	**Land Cover - High Priority-**	The total % area of identified top priority land cover (Tier 1) classes within a hexagon created from NCLD, CCAP, and GAP land cover classification maps. 
+13.	**Working Lands -** High Priority	The % area of Pine, Cropland and Pasture/Hay classes from NLCD classification map excluding the areas that are already protected (PAD-US). 
+14.	**Commercial Fisheries -** Engagement	Commercial fishing engagement measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings. A high rank indicates more engagement.
+15.	**Recreational Fisheries -** Engagement	Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates. A high rank indicates more engagement.
+
+### Rank Acceptability
+
+### Central Weights 
+

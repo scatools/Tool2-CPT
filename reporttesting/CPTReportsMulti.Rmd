@@ -1,0 +1,144 @@
+---
+header-includes:
+   - \usepackage{bbding}
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+params:
+  #n: NA
+  #r: NA
+  report_table: NA
+  Project_num: NA
+  footprint: NA
+  proplist: NA
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(shinyjs)
+useShinyjs(rmd=T)
+```
+
+
+---
+title: "**`r params$report_table$plan_Name`** <br> Conservation Prioritization Tool Report"
+author: "*Strategic Conservation Assessment Project*"
+date: '`r format(Sys.time(), "%B %d, %Y")`'
+output: html_document
+---
+```{r,echo=FALSE}
+Project_num<-params$Project_num
+RESTORE_Cbox<-rep(NA,Project_num)
+for(i in 1:length(RESTORE_Cbox)){
+  RESTORE_Cbox[i]<-ifelse(params$report_table$plan_RSTORE_check[i]==1,"checkmark","times")
+}
+PADUS_Cbox<-rep(NA,Project_num)
+for(i in 1:length(PADUS_Cbox)){
+  PADUS_Cbox[i]<-ifelse(params$report_table$plan_PADUS_check[i]==1,"checkmark","times")
+}
+URBAN_Cbox<-rep(NA,Project_num)
+for(i in 1:length(URBAN_Cbox)){
+URBAN_Cbox[i]<-ifelse(params$report_table$plan_Urbanthreat_check[i]==1,"checkmark","times")
+}
+CRITHAB_Cbox<-rep(NA,Project_num)
+for(i in 1:length(CRITHAB_Cbox)){
+CRITHAB_Cbox[i]<-ifelse(params$report_table$plan_crithab_check[i]==1,"checkmark","times")
+}
+IMPAIREDWB_Cbox<-rep(NA,Project_num)
+for(i in 1:length(IMPAIREDWB_Cbox)){
+IMPAIREDWB_Cbox[i]<-ifelse(params$report_table$plan_impairedwb_check[i]==1,"checkmark","times")
+}
+HISTORIC_Cbox<-rep(NA,Project_num)
+for(i in 1:length(HISTORIC_Cbox)){
+HISTORIC_Cbox[i]<-ifelse(params$report_table$plan_historic_check[i]==1,"checkmark","times")
+}
+HERITAGE_Cbox<-rep(NA,Project_num)
+for(i in 1:length(HERITAGE_Cbox)){
+HERITAGE_Cbox[i]<-ifelse(params$report_table$plan_heritage_check[i]==1,"checkmark","times")
+}
+recreationfishing<-rep(NA,Project_num)
+commercialfishing<-rep(NA,Project_num)
+for(i in 1:Project_num){
+  commercialfishing[i]<-ifelse(params$report_table$plan_commercialfishing[i]==1,"Low",
+                                                        ifelse(params$report_table$plan_commercialfishing[i]==2,"Medium",
+                                                               ifelse(params$report_table$plan_commercialfishing[i]==3,"Medium-High",
+                                                                      ifelse(params$report_table$plan_commercialfishing[i]==4,"High","Insufficient Data"))))
+  recreationfishing[i]<-ifelse(params$report_table$plan_recreationfishing[i]==1,"Low",
+                                                        ifelse(params$report_table$plan_recreationfishing[i]==2,"Medium",
+                                                               ifelse(params$report_table$plan_recreationfishing[i]==3,"Medium-High",
+                                                                      ifelse(params$report_table$plan_recreationfishing[i]==4,"High","Insufficient Data"))))
+}
+plan_Name<-rep(NA,Project_num)
+for(i in 1:length(plan_Name)){
+  plan_Name[i]<-as.character(params$report_table$plan_Name[i])
+}
+Row1<-ifelse(Project_num==1,":-------------:|",
+             ifelse(Project_num==2,":-------------:|:-------------:|",
+                    ifelse(Project_num==3,":-------------:|:-------------:|:-------------:|",
+                           ifelse(Project_num==4,":-------------:|:-------------:|:-------------:|:-------------:|",
+                                  ifelse(Project_num==5,":-------------:|:-------------:|:-------------:|:-------------:|:-------------:|","")))))
+
+```
+## Spatial footprint of conservation area assessed
+```{r echo=FALSE}
+c<-params$footprint
+c$proposal<-1:length(c$geometry)
+colorlist=c("red","blue","orange","green","black","pink","orange","white","yellow","brown")
+color<-colorNumeric(colorlist,c$proposal)
+my_map<-leaflet() %>%
+  addTiles() %>%
+  addPolygons(data= c,fillColor = color(c$proposal),
+              fillOpacity = 0.5,weight=0.5 ) %>%
+  addLegend(position ="bottomright", colors=color(c$proposal),labels=params$proplist[1:length(c$geometry)],opacity = 0.5)
+my_map
+```
+
+
+|**Conservation Checklist**|**`r plan_Name[1]`**|**`r plan_Name[2]`**|**`r plan_Name[3]`**|**`r plan_Name[4]`**|**`r plan_Name[5]`**|
+|------------------------:|`r Row1`
+| Within SCA Boundary      |$\`r RESTORE_Cbox[1]`$|$\`r RESTORE_Cbox[2]`$|$\`r RESTORE_Cbox[3]`$|$\`r RESTORE_Cbox[4]`$|$\`r RESTORE_Cbox[5]`$|
+| PAD-US connectivity      |$\`r PADUS_Cbox[1]`$|$\`r PADUS_Cbox[2]`$|$\`r PADUS_Cbox[3]`$|$\`r PADUS_Cbox[4]`$|$\`r PADUS_Cbox[5]`$|  
+| Threat of Urbanization   |$\`r URBAN_Cbox[1]`$|$\`r URBAN_Cbox[2]`$|$\`r URBAN_Cbox[3]`$|$\`r URBAN_Cbox[4]`$|$\`r URBAN_Cbox[5]`$|
+| Contains Critical Habitat of T&E Sp.|$\`r CRITHAB_Cbox[1]`$|$\`r CRITHAB_Cbox[2]`$|$\`r CRITHAB_Cbox[3]`$|$\`r CRITHAB_Cbox[4]`$|$\`r CRITHAB_Cbox[5]`$|
+| Contains 303(d) Impaired Waterbody|$\`r IMPAIREDWB_Cbox[1]`$|$\`r IMPAIREDWB_Cbox[2]`$|$\`r IMPAIREDWB_Cbox[3]`$|$\`r IMPAIREDWB_Cbox[4]`$|$\`r IMPAIREDWB_Cbox[5]`$|
+| Contains Historic Sites|$\`r HISTORIC_Cbox[1]`$|$\`r HISTORIC_Cbox[2]`$|$\`r HISTORIC_Cbox[3]`$|$\`r HISTORIC_Cbox[4]`$|$\`r HISTORIC_Cbox[5]`$|
+| Within National Heritage Area|$\`r HERITAGE_Cbox[1]`$|$\`r HERITAGE_Cbox[2]`$|$\`r HERITAGE_Cbox[3]`$|$\`r HERITAGE_Cbox[4]`$|$\`r HERITAGE_Cbox[5]`$|
+| High Priority Landcover|`r params$report_table$plan_HPCperc[1]`%|`r params$report_table$plan_HPCperc[2]`%|`r params$report_table$plan_HPCperc[3]`%|`r params$report_table$plan_HPCperc[4]`%|`r params$report_table$plan_HPCperc[5]`%|
+| Impaired Watershed Area|`r params$report_table$plan_ImpairedWS[1]`%|`r params$report_table$plan_ImpairedWS[2]`%|`r params$report_table$plan_ImpairedWS[3]`%|`r params$report_table$plan_ImpairedWS[4]`%|`r params$report_table$plan_ImpairedWS[5]`%|
+| Working Lands|`r params$report_table$plan_Worklandsperc[1]`%|`r params$report_table$plan_Worklandsperc[2]`%|`r params$report_table$plan_Worklandsperc[3]`%|`r params$report_table$plan_Worklandsperc[4]`%|`r params$report_table$plan_Worklandsperc[5]`%|
+| Commercial Fishing Reliance Index|`r commercialfishing[1]`|`r commercialfishing[2]`|`r commercialfishing[3]`|`r commercialfishing[4]`|`r commercialfishing[5]`|
+| Recreational Fishing Engagement Index|`r recreationfishing[1]`|`r recreationfishing[2]`|`r recreationfishing[3]`|`r recreationfishing[4]`|`r recreationfishing[5]`|
+
+`r params$PADUS_Checkbox`
+
+
+## **Supporting Information**
+
+#### Definitions of Raw Data Measures
+
+1. **Proposed Area of Conservation -** The size of the given project or AOI in acres.
+2. **Connectivity to Existing Protected Area -** Connectivity to Existing Protected Area (CEPA) indicates the nexus of the given AOI being adjacent to an already protected area. A CEPA score of one indicates that the AOI is immediately adjacent to or within the one square kilometer buffer of an existing protected area.  A score of zero indicates that the AOI is not within the one square kilometer buffer of an existing protected area.
+3. **Structural Connectivity -** Hub and Corridors A percent attribute which stands for the proportion of area, been classified as Hub or Corridor by the raw data source, within each Hexagon. Since the Hexagon unit area is 1 Km2, it also stands for the actual area of Hub within each Hexagon.
+4. **Threat of Urbanization -** Threat of urbanization (ToU) indicates the likelihood of the given project area or Area of Interest (AOI) being urbanized by the year 2060. A ToU score of zero indicates the AOI is already urbanized. A ToU score of one indicates that there is absolutely no threat of urbanization. A ToU score of greater than zero to one indicates the predicted likelihood of threat in decreasing order.
+5. **Composition of Natural Lands -** Composition of Natural Lands (CoNL) represents the amount of natural lands contained within the given AOI. Natural lands are undeveloped and important ecosystem types that are currently not used for resource extraction and currently not protected. See Tier 1 and Tier 2 Land Cover types Table. 
+6. **303(d) - Impaired Watershed Area -**  Impaired Watershed Area (IWA) indicates the proportion of impaired/polluted HUC12 level watershed contained within the AOI.  Any watershed containing a US Environmental Protection Agency 303(d) listed (between the years 2010-2018) impaired waterbody is considered to be impaired.
+7. **Stream Abundance -** Stream Abundance indicates the total length of streams and rivers contained within the AOI. The streams and rivers listed in the National Hydrological Dataset (NHD) are considered.
+8. **Biodiversity Index -** Biodiversity Index is on a continuous zero-to-ten range representing prioritized species richness for more than 1200 endemic mammals, birds, amphibians, reptiles, freshwater fish, and trees in the US. An index of 0 indicates the lowest under-protected (vulnerable) biodiversity. An index of 10 indicates the highest under protected biodiversity. [^1]
+9. **Threatened & Endangered Species - Critical Habitat  -** Threatened and Endangered Species - Critical Habitat (TESH) is a representation of cumulative percentage area of designated critical habitat mapped by the US Fish and Wildlife Service for any threatened or endangered species within the AOI. 
+10. **Threatened & Endangered Species - Number of Species -** Threatened & Endangered Species - Number of Species (TESH) is a representation of the number of threatened or endangered species (proposed and listed) whose ranges overlap within the AOI. The range map managed by the US Fish and Wildlife Service is considered. 
+11. **Light Pollution Index -** Light Pollution Index (LPI) indicates the average radiance composite of nighttime data in the AOI. The LPI ranges from zero-to-one. A score of zero indicates the sky above the AOI has highest pollution(bright) and a score of one indicate absolute dark sky. Scores between 0+ to one indicates light pollution in decreasing order. 
+12. **National Registry of Historic Places -** The National Register of Historic Places (NRHP) represents the total the number of places worthy of preservation within the AOI. An index of 0 indicates no places are present in the project area and 1 indicates more than 3 places are within the AOI. See NRHP threshold table for more details.
+13. **National Heritage Area -** The National Heritage Area (NHR) represent the percentage of heritage area contained within the AOI. 
+14. **Social Vulnerability to Sea Level Rise -** Community Vulnerability to Sea Level Rise (SVSLR) represent the social vulnerability of population due to the sea level rise of 0.3m (by the year 2060). A score of 0 indicates no threat by sea level rise, and a score of 1 indicates high vulnerability. A score between 0+ to 1 indicates the vulnerability to sea level rise in increasing order. 
+15. **Social Vulnerability to Flooding -** Social Vulnerability to Flooding (SVF) represent the social vulnerability of population to inundation as mapped by the NOAA coastal flood frequency map. A score of 0 indicates no threat by inundation, and a score of 1 indicates high vulnerability. A score between 0+ to 1 indicates the vulnerability to inundation in increasing order.
+16. **Working Lands -** Working Lands represents the percentage of the AOI which is pine, cropland, rangelands, and pasture/hay classes, excluding the areas that are already protected.
+17. **Commercial Fisheries Reliance -** The Commercial Fisheries Reliance Index (CFRI) is on a discrete one-to-four range that measures the presence of commercial fishing, shown through fishing permits and vessel landings, in relation to the population of a community.  An index value of one represents low engagement and an index value of 4 represents the highest engagement.
+18. **Recreational Fisheries Engagement -** The Recreational Fishing Engagement Index (RFEI) is on a discrete one-to-four range that measures the presence of recreational fishing through fishing activity estimates. An index value of one represents low engagement and an index value of 4 represents the highest engagement.
+
+
+
+[^1]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
+
