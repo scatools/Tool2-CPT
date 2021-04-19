@@ -8,17 +8,17 @@ function(input, output, session) {
   #                   3. colorlist1 (color for central weights)
   #                   4. proplist (default names for proposals)
   showModal(div(id="ModalDiv123", modalDialog(
-    title = "Welcome to the Gulf State's Land Conservation Prioritization Tool",
+    title = "Welcome to the SCA Conservation Prioritization Tool",
     HTML(c("<div align='left'>
-             &nbsp; &nbsp;Using this tool, you can create a custom report on your areas of interest (up to 10), with our catalog of over 15 metrics and address particular conservation and restoration questions.<br/>
+             &nbsp; &nbsp;Using this tool, you can create a custom report on your areas of interest (up to 10), with our catalog of over 20 metrics and address particular conservation and restoration questions.<br/>
              Some key features:</br>
              <ul>
              <li>Quickly create custom prioritization maps</li>
              <li>HTML and CSV outputs</li>
-             <li>Over 15 metrics</li>
+             <li>Over 20 metrics</li>
              </ul>
              <b>Intended Use</b></br>
-             &nbsp; &nbsp; The Gulf Conservation Prioritization Tool (CPT) is <b>not</b> intended to be prescriptive. Instead this tool was designed to provide data to <b>support</b> conservation planning efforts across the Gulf Coast Region. All users acknowledge that the CPT model is intended to <b>explore</b> ecological and socioeconomic co-benefits of proposed areas of land conservation, and should <B>not</b> be used in a decision making context.<br/>
+             &nbsp; &nbsp; The Conservation Prioritization Tool (CPT) is <b>not</b> intended to be prescriptive. Instead this tool was designed to provide data to <b>support</b> conservation planning efforts across the Gulf Coast Region. All users acknowledge that the CPT model is intended to <b>explore</b> ecological and socioeconomic co-benefits of proposed areas of land conservation, and should <B>not</b> be used in a decision making context.<br/>
              &nbsp; &nbsp; The flexibility of this tool enables a user to evaluate conservation alternatives using either a multi-criteria decision analysis (MCDA) framework, or user-defined values.</div>")),
     footer = tagList(
                      actionButton("oneprojectmode", "Single project mode"),
