@@ -3,7 +3,7 @@ input[type="number"] {
 }
 
 
-div.outer {
+div .outer {
   position: fixed;
   top: 41px;
   left: 0;
@@ -41,7 +41,9 @@ h1, h2, h3, h4 { font-weight: 400; }
   transition-delay: 0;
 }
 
-
+.info .legend i {
+  font-size:11px
+}
 
 
 #Sidebar {
