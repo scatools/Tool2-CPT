@@ -55,54 +55,16 @@ vars6 <- c(
 )
 
 
-tagList(useShinyjs(),
+tagList(
         tags$head(
-          includeScript("google-analytics.js")
+          useShinyjs()
         ),
         navbarPage( title= "Gulf Coast Conservation Prioritization Tool", id="nav",
-                   #tabPanel("Home",
-                   #          tabsetPanel(id="tabsAbout",
-                   #                     tabPanel("Introduction",
-                   #                               column(4,
-                   #                                      h4(HTML('&nbsp;'),HTML('&nbsp;'),"Welcome to the ", strong("Gulf Conservation Prioritization Tool (CPT)"),"  
-                   #                                                . The CPT is intended for users to evaluate proposed land
-                   #                                                conservation projects based on their alignment to the",strong("goals of the RESTORE Council"), "(Table 1).Under each RESTORE goal are several priorities that were 
-                   #                                                identified by stakeholders and are reflected as GIS data layers."),
-                   #                                      h4(HTML('&nbsp;'),HTML('&nbsp;'),"To get started, a user 
-                   #                                                simply provides",strong(" Area(s) of Interests")," for proposed land conservation 
-                   #                                                projects, by either drawing or uploading shape files.  The tool then uses 
-                   #                                                a",strong(" multi-criteria decision framework"), " to score land 
-                   #                                                conservation value for each proposed project, based on RESTORE goals. Users can specify the importance of each RESTORE goal and its associated 
-                   #                                                priorities, or let the application assign weights randomly (see 'Assigning Weights').
-                   #                                                For further information, or to report any problems you are having with your application
-                   #                                                experience, feel free to submit a question or comment under the 'Help' tab.")
-                   #                                     ),
-                   #                               column(5,
-                   #                                     imageOutput("goalsTable")
-                   #                                      #,
-                   #                                     
-                   #                                      #tags$style("#logo {vertical-align:top;margin-top:150px;}"),
-                   #                                      #imageOutput("logo")
-                   #                                      ))
-                   # 
-                   #                                      ),
-                   #                               column(3,
-                   #                                      absolutePanel(top = 50,width = 300,
-                   #                                      wellPanel(
-                   #                                      selectInput("onestory","Select an option:", vars2),
-                   #                                      actionButton("gototool","Explore the tool",style="color:#0000FF;")
-                   #                                     )
-                   #                                      )
-                   ##                                     )
-                   #          
-                   #         ),
-                   
                    tabPanel("Area of Interest",
                             div(class="outer",
                                 tags$head(
                                   includeCSS("styles.css"),
-                                  useShinyjs(),
-                                  extendShinyjs(text = jscode)
+                                  extendShinyjs(text = jscode, functions = c("refresh","pageCol"))
                                 ),
                                 scr,
                                 leafletOutput("map", width="100%", height="100%"),
@@ -110,7 +72,6 @@ tagList(useShinyjs(),
                                 absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                                               draggable = TRUE, top = 60, left = "auto", right = 20, bottom = "auto",
                                               width = 400, height = "auto",
-                                              
                                               conditionalPanel("output.mode =='mcda'",
                                               h2("Specify Area of Interests"),
                                               selectInput("way", "Input", vars),
@@ -223,8 +184,8 @@ tagList(useShinyjs(),
                                               tags$br(),
                                               
                                               actionButton("refresh", "Start over"),
-                                              tags$br(),
-                                              style = "z-index: 1000;"
+                                              #tags$br(),
+                                              #style = "z-index: 1000;"
                                 ))
                                
                                 
@@ -234,13 +195,13 @@ tagList(useShinyjs(),
                             tabsetPanel(type = "tabs",
                                         id = "tabs",
                                         tabPanel("Single project Data Overview",
-                                                 value="osdataoverview",
+                                                 value="osdataoverview", id = "osdataoverview",
                                                  fluidRow(
                                                    column(9,
                                                           tabsetPanel(id="viewdataos",
                                                             tabPanel("Data Summary",
                                                                      value = "osdatasummary",
-                                                                     DT::dataTableOutput("showing_matrix_os")%>% withSpinner()
+                                                                     DT::dataTableOutput("showing_matrix_os") 
                                                               
                                                             ),
                                                             tabPanel("Rename Area of Interest",value = "renameos",
@@ -282,25 +243,25 @@ tagList(useShinyjs(),
                                                           br(),
                                                           hr()
                                                           ),
-                                                          leafletOutput("mapresult4",height = 250)%>% withSpinner()
+                                                          leafletOutput("mapresult4",height = 250) 
                                                           )
                                                  )
                                                  ),
                                         
                                         tabPanel("Portfolio Data Overview",
-                                                 value="portfoliooverview",
+                                                 value="portfoliooverview",id="portfoliooverview",
                                                  fluidRow(
                                                    column(9,
                                                           tabsetPanel(
                                                             tabPanel("Data Summary",
                                                                      
                                                                      value = "portfoliodatasummary",
-                                                                     DT::dataTableOutput("showing_matrix_portfolio_goal")%>% withSpinner()
+                                                                     DT::dataTableOutput("showing_matrix_portfolio_goal") 
                                                                      
                                                                      
                                                            ),
                                                            tabPanel("Detail View",
-                                                                    DT::dataTableOutput("showing_matrix_portfolio")%>% withSpinner()
+                                                                    DT::dataTableOutput("showing_matrix_portfolio") 
                                                                     )
                                                           )),
                                                    column(3,
@@ -314,40 +275,27 @@ tagList(useShinyjs(),
                                                           plotlyOutput("barportfolio"),
                                                           br(),
                                                           br(),
-                                                          leafletOutput("mapresult_portfolio",height = 250)%>% withSpinner()
+                                                          leafletOutput("mapresult_portfolio",height = 250) 
                                                           )
                                                  )
                                         ),
                                         tabPanel("Data Overview",
-                                                 value= "dataoverview",
+                                                 value= "dataoverview",id = "dataoverview",
                                                  fluidRow(
                                                    column(9,
                                                           tabsetPanel(id="viewdata",
                                                             tabPanel("Raw Data",value = "rawdata",
-                                                                  hr(),
-                                                                  strong("Habitat"),             
-                                                                  DT::dataTableOutput("showing_matrix_hab")%>% withSpinner(),
-                                                                  hr(),
-                                                                  strong("Water Quality & Quantity"),
-                                                                  DT::dataTableOutput("showing_matrix_wq")%>% withSpinner(),
-                                                                  hr(),
-                                                                  strong("Living Marine & Coastal Resource"),
-                                                                  DT::dataTableOutput("showing_matrix_lcmr")%>% withSpinner(),
-                                                                  hr(),
-                                                                  strong("Community Resilience"),
-                                                                  DT::dataTableOutput("showing_matrix_cr")%>% withSpinner(),
-                                                                  hr(),
-                                                                  strong("Gulf Economy"),
-                                                                  DT::dataTableOutput("showing_matrix_eco")%>% withSpinner(),
-                                                                  hr()
+                                                                  hr(),           
+                                                                  DT::dataTableOutput("showing_matrix") ,
+                                              
                                                             ),
                                                             tabPanel("Scaled Data",value = "scaledata",
                                                                      
-                                                                  DT::dataTableOutput("showing_matrix1")%>% withSpinner()
+                                                                  DT::dataTableOutput("showing_matrix1") 
                                                             ),
                                                             tabPanel("Deselect Hexagons",value = "deselect",
                                                                      br(),
-                                                                     leafletOutput("mapresult",width = "100%", height = 800)%>% withSpinner()
+                                                                     leafletOutput("mapresult",width = "100%", height = 800) 
                                                                      ),
                                                             #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                             #                Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
@@ -361,7 +309,7 @@ tagList(useShinyjs(),
                                                                               actionButton("finish_utility",label = "Finalize Utility Function Input")
                                                                               ),
                                                                        column(9,
-                                                                              DT::dataTableOutput("showing_matrix2")%>% withSpinner()
+                                                                              DT::dataTableOutput("showing_matrix2") 
                                                                               )
                                                                      
                                                                      )
@@ -444,7 +392,7 @@ tagList(useShinyjs(),
                                                           br(),
                                                           downloadButton("downloadData","Export Raw Datatable"),
                                                           br(),
-                                                          leafletOutput("mapresult5",height = 250)%>% withSpinner()
+                                                          leafletOutput("mapresult5",height = 250) 
                                                    ))
                                         ),
                                         
@@ -503,7 +451,7 @@ tagList(useShinyjs(),
                                                                       fluidRow(
                                                                         column(6,
                                                                                br(),
-                                                                               DT::dataTableOutput("hab_PA_measures_Table")%>% withSpinner()),
+                                                                               DT::dataTableOutput("hab_PA_measures_Table") ),
                                                                         #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                                         #                Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
                                                                         #                })")),
@@ -515,7 +463,7 @@ tagList(useShinyjs(),
                                                                       fluidRow(
                                                                         column(6,
                                                                                br(),
-                                                                               DT::dataTableOutput("wq_PA_measures_Table")%>% withSpinner()),
+                                                                               DT::dataTableOutput("wq_PA_measures_Table") ),
                                                                         #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                                         #                Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
                                                                         #                })")),
@@ -527,7 +475,7 @@ tagList(useShinyjs(),
                                                                       fluidRow(
                                                                         column(6,
                                                                                br(),
-                                                                               DT::dataTableOutput("lcmr_PA_measures_Table")%>% withSpinner()),
+                                                                               DT::dataTableOutput("lcmr_PA_measures_Table") ),
                                                                         #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                                         #                Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
                                                                         #                })")),
@@ -539,7 +487,7 @@ tagList(useShinyjs(),
                                                                       fluidRow(
                                                                         column(6,
                                                                                br(),
-                                                                               DT::dataTableOutput("commres_PA_measures_Table")%>% withSpinner()),
+                                                                               DT::dataTableOutput("commres_PA_measures_Table") ),
                                                                         #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                                         #               Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
                                                                         #               })")),
@@ -551,7 +499,7 @@ tagList(useShinyjs(),
                                                                       fluidRow(
                                                                         column(6,
                                                                                br(),
-                                                                               DT::dataTableOutput("gulfecon_PA_measures_Table")%>% withSpinner()),
+                                                                               DT::dataTableOutput("gulfecon_PA_measures_Table") ),
                                                                         #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                                         #                Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
                                                                         #                })")),
@@ -563,19 +511,19 @@ tagList(useShinyjs(),
                                                                       fluidRow(
                                                                         column(6,
                                                                                br(),
-                                                                               DT::dataTableOutput("UserAdded_PA_measures_Table")%>% withSpinner()
+                                                                               DT::dataTableOutput("UserAdded_PA_measures_Table") 
                                                                                ),
                                                                         #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                                         #                Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
                                                                         #                })")),
                                                                                br(),
                                                                                actionButton("UAmove", "Next"))),
-                                                             tabPanel("Weights Reivew",
+                                                             tabPanel("Weights Review",
                                                                       fluidRow(column(5,
-                                                                                      DT::dataTableOutput("weights_review")%>% withSpinner()),
+                                                                                      DT::dataTableOutput("weights_review") ),
                                                                                column(5,
                                                                                       tableOutput("weights_review_ua")),
-                                                                               column(4, 
+                                                                               column(2, 
                                                                                       br(),
                                                                                       actionButton("Weightsdone", "Finalize weights",style="color:#0000FF;")
                                                                                       )))
@@ -589,30 +537,32 @@ tagList(useShinyjs(),
                                         tabPanel("Default Result",
                                                  value="defaultweight",
                                                  fluidRow(
-                                                   column(4,
+                                                   column(5,style='padding:10px;',
                                                           uiOutput("defaultresult2"),
-                                                          uiOutput("defaultresult_test2"),
                                                           em("The table above shows the raw score for each RESTORE goal aggregated from weighted Priority Attributes."),
                                                           br()
-                                                   ),
-                                                   column(5,
+                                                   )),
+                                                 hr(),
+                                                 fluidRow(
+                                                   column(6,style='padding:10px;',
                                                           uiOutput("defaultresult4")
                                                           
                                                    ),
-                                                   
-                                                   column(3,
-                                                          absolutePanel(
-                                                            
-                                                            leafletOutput("mapresult6", width=400, height=250),
-                                                            top= 150,width = "80%"
-                                                          ),
+                                                   column(5, offset = 1,
                                                           br(),
                                                           actionButton("backtomain","Back to main menu", style = "color:#0000FF;"),
                                                           br(),
                                                           br(),
-                                                          actionButton("gotodefineweights","If you would like to alter weights in the comparison...")
+                                                          actionButton("gotodefineweights","If you would like to alter weights in the comparison..."),
+                                                          hr(),
+                                                          absolutePanel(
+                                                            leafletOutput("mapresult6", width=600, height=350),
+                                                            top= 140,width = "80%"
+                                                          )
+                                                          )
                                                    )
-                                                 )
+                                                   
+                                                 
                                         ),
                                         tabPanel("Simulation Model Output",
                                                  value = "SMAA_result",
@@ -642,27 +592,29 @@ tagList(useShinyjs(),
                                         ),
                                         tabPanel("User Defined Weights",
                                                  value = "Weights_result",
-                                                 fluidRow(column(4,
+                                                 fluidRow(column(5,style='padding:10px;',
                                                                  uiOutput("resultpresent2"),
                                                                  em("The table above shows the raw score for each RESTORE goal aggregated from weighted Priority Attributes."),
-                                                                 br(),
-                                                                 br(),
-                                                                 br(),
-                                                                 downloadButton("report1", "Generate Detailed report"),
-                                                                 br(),
-                                                                 downloadButton("report3", "Download Spatial Footprint")
-                                                 ),
-                                                 column(4,
+                                                
+                                                 )),
+                                                 hr(),
+                                                 fluidRow(
+                                                 column(6,style='padding:10px;',
                                                         uiOutput("resultpresent4")
                                                         ),
-                                                 column(4,
+                                                 column(5,offset = 1,
+                                                        br(),
+                                                        downloadButton("report1", "Generate Detailed report"),
+                                                        br(),
+                                                        downloadButton("report3", "Download Spatial Footprint"),
+                                                        hr(),
                                                         absolutePanel(
-                                                          
-                                                          leafletOutput("mapresult1", width=400, height=250),
-                                                          top= 100,width = 400,right = 100
+                                                          leafletOutput("mapresult1", width=600, height=350),
+                                                          top= 130,width = 600
                                                         )
                                                  )
-                                                )
+                                                 )
+                                                
                                         )
                             )
                             
@@ -672,9 +624,9 @@ tagList(useShinyjs(),
                                         tabPanel("Contact Us",
                                                  column(8,
                                                         h5(strong("For more information please contact our Conservation Applications Specialist: ")),
-                                                        h6(tags$b("Matthew Heinemann")),
-                                                        h6("D.J. Case and Associates"),
-                                                        HTML(paste0("Email: ",'<a href="mailto:Matt.Heinemann@djcase.com"> Matt.Heinemann@djcase.com</a>')),
+                                                        h6(tags$b("Amanda Sesser")),
+                                                        h6("Strategic Conservation Assessment Project"),
+                                                        HTML(paste0("Email: ",'<a href="mailto:scaprojectgulf@gmail.com"> scaprojectgulf@gmail.com</a>')),
                                                         hr(),
                                                         h5(strong("Or one of our project's Principal Investigators: ")),
                                                         h6(tags$b("Kristine Evans")),

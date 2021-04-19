@@ -2,13 +2,17 @@
 header-includes:
    - \usepackage{bbding}
 output:
-  html_document: default
-  pdf_document: default
-  word_document: default
+  html_document: 
+      toc: true
+      toc_float: 
+        collapsed: false
+        smooth_scroll: true
 params:
   #n: NA
   #r: NA
   report_table: NA
+  report_table_1: NA
+  report_table_2: NA
   extrareport_table: NA
   footprint: NA
 ---
@@ -23,7 +27,7 @@ useShinyjs(rmd=T)
 
 
 ---
-title: "**`r params$report_table$plan_Name`** <br> Conservation Prioritization Tool Report"
+title: "Conservation Prioritization Tool Report"
 author: "*Strategic Conservation Assessment Project*"
 date: '`r format(Sys.time(), "%B %d, %Y")`'
 output: html_document
@@ -36,12 +40,15 @@ CRITHAB_Cbox<-ifelse(params$report_table$plan_crithab_check==1,"checkmark","time
 IMPAIREDWB_Cbox<-ifelse(params$report_table$plan_impairedwb_check==1,"checkmark","times")
 HISTORIC_Cbox<-ifelse(params$report_table$plan_historic_check==1,"checkmark","times")
 HERITAGE_Cbox<-ifelse(params$report_table$plan_heritage_check==1,"checkmark","times")
-
+SOVI_Cbox<-ifelse(params$report_table_1$SOVI==1,"checkmark","times")
 #checkboxGroupInput("check_test",label="",choices = c("Within 1 sq km of currently protected #land"),selected = c("Within 1 sq km of currently protected land"))
 #shinyjs::disable("check_test") #NEEDS FIXING#
 
 ```
-## Spatial footprint of conservation area assessed
+# Area of Interest - **`r params$report_table$plan_Name`**
+
+## **Spatial footprint**
+
 ```{r echo=FALSE}
 c<-params$footprint
 c$proposal<-1:length(c$geometry)
@@ -52,6 +59,8 @@ my_map<-leaflet() %>%
 my_map
 ```
 
+## **Conservation Checklist**
+
 |**Conservation Checklist**|`r params$report_table$plan_Name`|
 |:------------------------|:-------------:|
 | Within SCA Boundary      |$\`r RESTORE_Cbox`$|
@@ -61,44 +70,46 @@ my_map
 | Contains 303(d) Impaired Waterbody|$\`r IMPAIREDWB_Cbox`$|
 | Contains Historic Sites|$\`r HISTORIC_Cbox`$|
 | Within National Heritage Area|$\`r HERITAGE_Cbox`$|
-| Stream Abundance|`r params$report_table$plan_streamabundance` km|
+| Hydrologic Response|`r params$report_table$plan_QpChange`|
 | High Priority Landcover|`r params$report_table$plan_HPCperc`%|
 | Impaired Watershed Area|`r params$report_table$plan_ImpairedWS`%|
-| Designated Use of Waters|`r params$extrareport_table$plan_DesignUse`|
-| Vulnerability to Flooding|`r params$report_table$plan_CV_flooding`|
-| Vulnerability to Sea Level Rise|`r params$report_table$plan_CV_slr`|
+| Near Socially Vulnerable Community|$\`r SOVI_Cbox`$|
+| Community Threat Index|`r params$report_table_1$Comm_Threat`|
 | Working Lands|`r params$report_table$plan_Worklandsperc`%|
 | Commercial Fishing Reliance Index|`r params$report_table$plan_commercialfishing`|
 | Recreational Fishing Engagement Index|`r params$report_table$plan_recreationfishing`|
 
 ## **Summary**
 
-This report evaluates the **`r params$report_table$plan_Name`** area of interest, approximately **`r params$report_table[1,2]` acres** of land `r params$report_table$PADUS_Check`. `r params$report_table$plan_Name` houses [`r params$report_table$hab_abundance`] (Roughly `r params$report_table[1,8]` percent of the project area). Lands within `r params$report_table$plan_Name` support a diversity of fish and wildlife, `r params$report_table$TE_text`. [Names of T&E species coming soon].  Also, protection of `r params$report_table$plan_Name` would preserve a considerable amount of structural connectivity to surrounding lands, as `r params$report_table[1,3]` percent of the project area is classified as a hub or corridor by the EPA National Ecological Framework. `r params$report_table$WL_text`. `r params$report_table$WQ_text`. `r params$report_table$SLR_text``r params$report_table$Sleuth_text`.
 
+`r report_table_2$AOI_Name``r report_table_2$AOI_Area``r report_table_2$PADUS``r report_table_2$Connectivity``r report_table_2$SLEUTH``r report_table_2$HPL_Num``r report_table_2$HPL_Perc``r report_table_2$Impaired_Perc``r report_table_2$Impaired_Name``r report_table_2$Qp_Change``r report_table_2$Biodiveristy``r report_table_2$TE_Perc``r report_table_2$TE_Num``r report_table_2$TE_Name``r report_table_2$Light_Pollut``r report_table_2$Historic``r report_table_2$Heritage``r report_table_2$SOVI``r report_table_2$Comm_Threat``r report_table_2$HPWL_Num``r report_table_2$HPWL_Perc``r report_table_2$C_Fish``r report_table_2$R_Fish``r report_table_2$A_and_R`
 
 ## **Supporting Information**
 
 #### Definitions of Raw Data Measures
+1. **Proposed Area of Conservation-** The area of the proposed plan in square kilometers, or the area within a HUC-12 watershed. 
+2. **Composition of Natural Lands-** Represents the amount of natural lands contained within the given area of interest (AOI). Natural lands are undeveloped and important ecosystem types that are not currently protected or used for resource extraction. 
+3. **Connectivity to Existing Protected Area-** Indicates if the proposed conservation area is within 1 km to an area classified as protected by the Protected Areas Database of the United States (PAD-US) 2.0[^1].
+4. **Threat of Urbanization-** The likelihood of the given project area of area of interest (AOI) being urbanized by the year 2060, according to the SLEUTH model[^2].  
+5. **Structural Connectivity-** A percent attribute which stands for the proportion of area that is classified as a hub or corridor by the National Ecological Framework (NEF)[^3].
+6. **303D-Impaired Watershed Area-** The proportion of impaired watershed within each hexagonal unit.  The watershed data is analyzed based on the HUC-12 level. Any HUC-12 watershed that contains 303D impaired streams is considered impaired.
+7. **Hydrologic Response to Land-use Change-** The percent change in estimated peak flow of a HUC-12 watershed from a 1" rainfall event between its currently developed state and a hypothetical pre-developed state.
+8. **Biodiversity Index-** Biodiversity index were classified into 10 groups based on the same method proposed in Jenkins (2015)[^4]. A zero score indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region.
+9. **T&E Species Critical Habitat Area-** The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat. The value in each hexagon is the cumulative % area of critical habitats for all T&E species.
+10. **T&E Species Count-** A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.
+11. **Light Pollution Index-** A score of zero indicates the sky above the hex is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.
+12. **National Registry of Historic Places-** A numeric attribute which represents the counts of historical Places within each Hexagon. The data is based on U.S. NPS National Registry of Historic Places.
+13. **National Heritage Area-** A % attribute which stands for the proportion of Heritage area within each Hexagon. The Heritage data is based on the NPS National Heritage Area layer.
+14. **Social Vulnerability Index-** Social vulnerability hotspots.  Possibly proximity to a social vulnerability hotspot?  Put this down along with other definitions of question.
+15. **Community Threat Index-** The Community Threat Index (CTI) includes datasets that show coastal flood and severe storm hazards on the landscape. The Threat Index is a raster-based model (30x30 meters) with a cumulative scoring of inputs, which include:  Storm surge scenarios, Sea level rise scenarios, Flood-prone areas, Soil erodibility, Impermeable soils, Areas of low slope, Geologic stressors (Landslide Susceptibility and Land Subsidence).
+16. **High Priority Working Lands-** The percentage area of Pine, Cropland and Pasture/Hay classes from NLCD classification map excluding the areas that are already protected (PAD-US).
+17. **Commercial Fishing Reliance-** Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. A high rank indicates more reliance.
+18. **Recreational Fishing Engagement-** Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure. A high rank indicates more engagement.
+19. **Access and Recreation - Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
 
-1. **Proposed Area of Conservation -** The size of the given project or AOI in acres. 
-2. **Connectivity to Existing Protected Area -** Connectivity to Existing Protected Area (CEPA) indicates the nexus of the given AOI being adjacent to an already protected area. A CEPA score of one indicates that the AOI is immediately adjacent to or within the one square kilometer buffer of an existing protected area.  A score of zero indicates that the AOI is not within the one square kilometer buffer of an existing protected area.
-3. **Structural Connectivity -** Hub and Corridors A percent attribute which stands for the proportion of area, been classified as Hub or Corridor by the raw data source, within each Hexagon. Since the Hexagon unit area is 1 Km2, it also stands for the actual area of Hub within each Hexagon.
-4. **Threat of Urbanization -** Threat of urbanization (ToU) indicates the likelihood of the given project area or Area of Interest (AOI) being urbanized by the year 2060. A ToU score of zero indicates the AOI is already urbanized. A ToU score of one indicates that there is absolutely no threat of urbanization. A ToU score of greater than zero to one indicates the predicted likelihood of threat in decreasing order.
-5. **Composition of Natural Lands -** Composition of Natural Lands (CoNL) represents the amount of natural lands contained within the given AOI. Natural lands are undeveloped and important ecosystem types that are currently not used for resource extraction and currently not protected. See Tier 1 and Tier 2 Land Cover types Table. 
-6. **303(d) - Impaired Watershed Area -**  Impaired Watershed Area (IWA) indicates the proportion of impaired/polluted HUC12 level watershed contained within the AOI.  Any watershed containing a US Environmental Protection Agency 303(d) listed (between the years 2010-2018) impaired waterbody is considered to be impaired.
-7. **Stream Abundance -** Stream Abundance indicates the total length of streams and rivers contained within the AOI. The streams and rivers listed in the National Hydrological Dataset (NHD) are considered.
-8. **Biodiversity Index -** Biodiversity Index is on a continuous zero-to-ten range representing prioritized species richness for more than 1200 endemic mammals, birds, amphibians, reptiles, freshwater fish, and trees in the US. An index of 0 indicates the lowest under-protected (vulnerable) biodiversity. An index of 10 indicates the highest under protected biodiversity. [^1]
-9. **Threatened & Endangered Species - Critical Habitat  -** Threatened and Endangered Species - Critical Habitat (TESH) is a representation of cumulative percentage area of designated critical habitat mapped by the US Fish and Wildlife Service for any threatened or endangered species within the AOI. 
-10. **Threatened & Endangered Species - Number of Species -** Threatened & Endangered Species - Number of Species (TESH) is a representation of the number of threatened or endangered species (proposed and listed) whose ranges overlap within the AOI. The range map managed by the US Fish and Wildlife Service is considered. 
-11. **Light Pollution Index -** Light Pollution Index (LPI) indicates the average radiance composite of nighttime data in the AOI. The LPI ranges from zero-to-one. A score of zero indicates the sky above the AOI has highest pollution(bright) and a score of one indicate absolute dark sky. Scores between 0+ to one indicates light pollution in decreasing order. 
-12. **National Registry of Historic Places -** The National Register of Historic Places (NRHP) represents the total the number of places worthy of preservation within the AOI. An index of 0 indicates no places are present in the project area and 1 indicates more than 3 places are within the AOI. See NRHP threshold table for more details.
-13. **National Heritage Area -** The National Heritage Area (NHR) represent the percentage of heritage area contained within the AOI. 
-14. **Social Vulnerability to Sea Level Rise -** Community Vulnerability to Sea Level Rise (SVSLR) represent the social vulnerability of population due to the sea level rise of 0.3m (by the year 2060). A score of 0 indicates no threat by sea level rise, and a score of 1 indicates high vulnerability. A score between 0+ to 1 indicates the vulnerability to sea level rise in increasing order. 
-15. **Social Vulnerability to Flooding -** Social Vulnerability to Flooding (SVF) represent the social vulnerability of population to inundation as mapped by the NOAA coastal flood frequency map. A score of 0 indicates no threat by inundation, and a score of 1 indicates high vulnerability. A score between 0+ to 1 indicates the vulnerability to inundation in increasing order.
-16. **Working Lands -** Working Lands represents the percentage of the AOI which is pine, cropland, rangelands, and pasture/hay classes, excluding the areas that are already protected.
-17. **Commercial Fisheries Reliance -** The Commercial Fisheries Reliance Index (CFRI) is on a discrete one-to-four range that measures the presence of commercial fishing, shown through fishing permits and vessel landings, in relation to the population of a community.  An index value of one represents low engagement and an index value of 4 represents the highest engagement.
-18. **Recreational Fisheries Engagement -** The Recreational Fishing Engagement Index (RFEI) is on a discrete one-to-four range that measures the presence of recreational fishing through fishing activity estimates. An index value of one represents low engagement and an index value of 4 represents the highest engagement.
+[^1]: U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United State (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
+[^2]: sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.
+[^3]: databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.
+[^4]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
 
-
-[^1]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
-
+## **References Cited**
