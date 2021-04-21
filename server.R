@@ -147,8 +147,11 @@ function(input, output, session) {
       addEsriBasemapLayer(esriBasemapLayers$Imagery,group="ESRI World Imagery", autoLabels = TRUE)%>%
       addPolygons(data=SCA, fill = F , options = pathOptions(clickable = FALSE))%>%
       addEsriTiledMapLayer(
-        url = "https://gis1.usgs.gov/arcgis/rest/services/PADUS1_4/Category_Fee_Ease_Oth_MPA/MapServer/",
+        url = "https://gis1.usgs.gov/arcgis/rest/services/padus2_1/FeeManagers/MapServer",
         options = providerTileOptions(opacity = 0.15),group = "PAD-US")%>%
+      addEsriDynamicMapLayer(
+        url = "https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer",
+        options = dynamicMapLayerOptions(opacity = 0.15),group = "SECAS")%>%
       addLayersControl(baseGroups=c("ESRI WorldStreetmap","Openstreetmap Topo Layer","ESRI World Imagery"),
                        overlayGroups = c("PAD-US","SECAS"),
                        position="bottomleft")%>%
@@ -4525,7 +4528,7 @@ function(input, output, session) {
                   fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       addEsriFeatureLayer(
         url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/TNC_Alabama_Terrestrial_Priority_Sites_2008/FeatureServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green",group = "AL Conservation Opportunity Areas")%>%
@@ -4550,9 +4553,9 @@ function(input, output, session) {
       hideGroup("AL Conservation Opportunity Areas")%>%
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
-      hideGroup("SECAS Blue#pring")%>%
+      hideGroup("SECAS Blueprint")%>%
       hideGroup("NERR Conservation Areas")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   
@@ -4570,7 +4573,7 @@ function(input, output, session) {
                   fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       #addEsriTiledMapLayer(
       #  url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/Target_Areas_MDEQ/MapServer/",
       #  options = providerTileOptions(opacity = 0.5),group = "MDEQ Target Areas")%>%
@@ -4598,9 +4601,9 @@ function(input, output, session) {
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("SCA Boundary")%>%
-      hideGroup("SECAS Blue#pring")%>%
+      hideGroup("SECAS Blueprint")%>%
       hideGroup("NERR Conservation Areas")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$mapresult6<-renderLeaflet({
@@ -4615,7 +4618,7 @@ function(input, output, session) {
                   fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       addEsriFeatureLayer(
         url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/TNC_Alabama_Terrestrial_Priority_Sites_2008/FeatureServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green",group = "AL Conservation Opportunity Areas")%>%
@@ -4640,8 +4643,8 @@ function(input, output, session) {
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("NERR Conservation Areas")%>%
-      hideGroup("SECAS Blue#pring")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      hideGroup("SECAS Blueprint")%>%
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$mapresult4<-renderLeaflet({
@@ -4687,7 +4690,7 @@ function(input, output, session) {
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("NERR Conservation Areas")%>%
       hideGroup("SECAS Blueprint")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$mapresult_portfolio<-renderLeaflet({
@@ -4717,7 +4720,7 @@ function(input, output, session) {
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "FNAI BOT Conservation Areas")%>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       addPolygons(data= spatial_footprint,fill = F,
                   weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list$hex_merge_final,fillColor = color(ps_list$hex_merge_final$appid),stroke = F,
@@ -4730,8 +4733,8 @@ function(input, output, session) {
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("NERR Conservation Areas")%>%
-      hideGroup("SECAS Blue#pring")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      hideGroup("SECAS Blueprint")%>%
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$report2 <- downloadHandler(
