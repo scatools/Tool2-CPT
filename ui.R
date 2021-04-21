@@ -211,7 +211,7 @@ tagList(
                                                                       actionButton("osconfirmname","Make changes to the names")
                                                                      
                                                             ),
-                                                            tabPanel("Redefine Area of Interest",value = "redefineos",
+                                                            tabPanel("Refine Area of Interest",value = "redefineos",
                                                                      br(),
                                                                      leafletOutput("mapresultos",width = "100%", height = 800)
                                                                      )
