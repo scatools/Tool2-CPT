@@ -2203,10 +2203,7 @@ function(input, output, session) {
     
     
     coln_withicon<-paste0(coln)
-    
-    ##pring(data[1])
-    
-   ##pring(data[3])
+
     data<-result_os$showing_matrix
     data[1]<-format(round(data[1]*247.105,0),scientific = F,trim = T,big.mark = ",")
     data[1]<-paste0(data[1]," acres")
@@ -2550,13 +2547,7 @@ function(input, output, session) {
     #          
     #          )
     
-    
-    
-   
-    
-    
-    
-    
+
     coln_withicon<-paste0(coln)
     goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Gulf Economy","Gulf Economy","Gulf Economy","Gulf Economy") ########1/14/2021
     data<-result$showing_matrix_raw
@@ -2677,7 +2668,7 @@ function(input, output, session) {
   })
   
   
-  output$showing_matrix1<- DT::renderDataTable({
+  output$showing_matrix_scaled<- DT::renderDataTable({
     #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix)
@@ -2699,7 +2690,7 @@ function(input, output, session) {
     #                        'The percentage area of Pine, Cropland and Pasture/Hay classes from NLCD classification map excluding the areas that are already protected (PAD-US). ',
     #                        'Commercial fishing engagement measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings. A high rank indicates more engagement.',
     #                        'Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates. A high rank indicates more engagement.'],
-    #                        firstColumn = $('#showing_matrix1 tr td:first-child');
+    #                        firstColumn = $('#showing_matrix_scaled tr td:first-child');
     #                        for (var i = 0; i < tips.length; i++) {
     #                        $(firstColumn[i]).attr('title', tips[i]);
     #                        }")
@@ -4930,6 +4921,9 @@ function(input, output, session) {
     })
   observeEvent(input$osconfirmname,{
     proplist_os<<- input$osrename1
+    # The row andcolumn names of showing_matrix_os will automatically update after the changes of showing_matrix
+    rownames(result_os$showing_matrix)<-coln
+    colnames(result_os$showing_matrix)<-proplist_os
     updateTabsetPanel(session = session, inputId = "viewdataos", "osdatasummary")
   })
   
@@ -4938,9 +4932,13 @@ function(input, output, session) {
     for(i in 1:length(ps_list$result)){
       proplist[i]<<-eval(parse(text = paste0("input$txtrename",i)))
     }
-    
+    print(proplist)
+    # The column names of showing_matrix will automatically update after the changes of showing_matrix_raw
+    # and column names of showing_matrix_scaled will automatically update after the changes of showing_matrix
+    colnames(result$showing_matrix_raw)<-proplist[1:ncol(result$showing_matrix_raw)]
     colnames(result$showing_matrix)<-proplist[1:ncol(result$showing_matrix)]
     colnames(result$matrix)<-proplist[1:ncol(result$matrix)]
+    updateTabsetPanel(session = session, inputId = "viewdata", "rawdata")
   })
   
  

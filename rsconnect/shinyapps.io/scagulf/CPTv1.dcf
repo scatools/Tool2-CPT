@@ -1,0 +1,13 @@
+name: CPTv1
+title: CPTv1
+username:
+account: scagulf
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4008840
+bundleId: 4501665
+url: https://scagulf.shinyapps.io/CPTv1/
+when: 1619034310.64383
+lastSyncTime: 1619034310.64383
+asMultiple: FALSE
+asStatic: FALSE
