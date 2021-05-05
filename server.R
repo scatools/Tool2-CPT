@@ -8,17 +8,17 @@ function(input, output, session) {
   #                   3. colorlist1 (color for central weights)
   #                   4. proplist (default names for proposals)
   showModal(div(id="ModalDiv123", modalDialog(
-    title = "Welcome to the Gulf State's Land Conservation Prioritization Tool",
+    title = "Welcome to the SCA Conservation Prioritization Tool",
     HTML(c("<div align='left'>
-             &nbsp; &nbsp;Using this tool, you can create a custom report on your areas of interest (up to 10), with our catalog of over 15 metrics and address particular conservation and restoration questions.<br/>
+             &nbsp; &nbsp;Using this tool, you can create a custom report on your areas of interest (up to 10), with our catalog of over 20 metrics and address particular conservation and restoration questions.<br/>
              Some key features:</br>
              <ul>
              <li>Quickly create custom prioritization maps</li>
              <li>HTML and CSV outputs</li>
-             <li>Over 15 metrics</li>
+             <li>Over 20 metrics</li>
              </ul>
              <b>Intended Use</b></br>
-             &nbsp; &nbsp; The Gulf Conservation Prioritization Tool (CPT) is <b>not</b> intended to be prescriptive. Instead this tool was designed to provide data to <b>support</b> conservation planning efforts across the Gulf Coast Region. All users acknowledge that the CPT model is intended to <b>explore</b> ecological and socioeconomic co-benefits of proposed areas of land conservation, and should <B>not</b> be used in a decision making context.<br/>
+             &nbsp; &nbsp; The Conservation Prioritization Tool (CPT) is <b>not</b> intended to be prescriptive. Instead this tool was designed to provide data to <b>support</b> conservation planning efforts across the Gulf Coast Region. All users acknowledge that the CPT model is intended to <b>explore</b> ecological and socioeconomic co-benefits of proposed areas of land conservation, and should <B>not</b> be used in a decision making context.<br/>
              &nbsp; &nbsp; The flexibility of this tool enables a user to evaluate conservation alternatives using either a multi-criteria decision analysis (MCDA) framework, or user-defined values.</div>")),
     footer = tagList(
                      actionButton("oneprojectmode", "Single project mode"),
@@ -29,7 +29,7 @@ function(input, output, session) {
   
 
   #source("./reporttesting/report_table.R")
-  criteria_labels = c('Habitat','W.Quality','LCMR','Comm.Res','Economy')
+  criteria_labels = c('Habitat','Water Quality & Quantity','Living Coastal & Marine Resources','Community Resilience','Gulf Economy')
   colorlist=c("orange1","lightsteelblue2","indianred1","darkorange1","royalblue3","paleturquoise1","firebrick2","darkorchid2","palegreen2","lightpink2")
   collist_rgb<-c("rgb(255,165,0)","rgb(188,210,238)","rgb(255,106,106)","rgb(255,127,0)","rgb(58,95,205)","rgb(187,255,255)",
                  "rgb(238,44,44)","rgb(178,58,238)","rgb(144,238,144)","rgb(238,162,173)")
@@ -69,8 +69,8 @@ function(input, output, session) {
     shinyjs::hide("gotoutility")
     shinyjs::hide("addweight")
     shinyjs::hide("renameproject")
-    shinyjs::hide("downloadData")
-    shinyjs::hide("download2")
+    # shinyjs::hide("downloadData")
+    # shinyjs::hide("download2")
     shinyjs::hide("numMCDA")
     shinyjs::hide("adjustmcdanumbers")
     shinyjs::hide("advancedoptions")
@@ -147,8 +147,11 @@ function(input, output, session) {
       addEsriBasemapLayer(esriBasemapLayers$Imagery,group="ESRI World Imagery", autoLabels = TRUE)%>%
       addPolygons(data=SCA, fill = F , options = pathOptions(clickable = FALSE))%>%
       addEsriTiledMapLayer(
-        url = "https://gis1.usgs.gov/arcgis/rest/services/PADUS1_4/Category_Fee_Ease_Oth_MPA/MapServer/",
+        url = "https://gis1.usgs.gov/arcgis/rest/services/padus2_1/FeeManagers/MapServer",
         options = providerTileOptions(opacity = 0.15),group = "PAD-US")%>%
+      addEsriDynamicMapLayer(
+        url = "https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer",
+        options = dynamicMapLayerOptions(opacity = 0.15),group = "SECAS")%>%
       addLayersControl(baseGroups=c("ESRI WorldStreetmap","Openstreetmap Topo Layer","ESRI World Imagery"),
                        overlayGroups = c("PAD-US","SECAS"),
                        position="bottomleft")%>%
@@ -340,7 +343,7 @@ function(input, output, session) {
   observeEvent(input$map_shape_click,{
     value1$clickid<-input$map_shape_click$id
     value1$clickid<-as.character(value1$clickid)
-    #pring(value1$mode1 =="wsb2")
+    #print(value1$mode1 =="wsb2")
     if(value1$mode1 =="wsb1"){
      if(value1$HU12color[HU12$OBJECTID==value1$clickid]=="blue"){
       value1$HU12color[HU12$OBJECTID==value1$clickid]<-"red"
@@ -594,12 +597,12 @@ function(input, output, session) {
           incProgress(0.2, detail = paste("Connecting database"))
           dir <- file.path(".", "hex_details2","geojson")  ### #
           
-          #pring(length(ps_list_os$hex_final))
+          #print(length(ps_list_os$hex_final))
           for(i in 1:length(ps_list_os$hex_final)){
             temp<-paste(c(as.character(ps_list_os$hex_final[[i]]),".geojson"),collapse ="")
             temp1<- st_read(dsn = file.path(dir,temp))
             temp1<- st_transform(temp1, crs=4326 )
-            #pring(length(temp1$OBJECTID))
+            #print(length(temp1$OBJECTID))
             ps_list_os$hex_merge<- rbind(ps_list_os$hex_merge,temp1)
             ps_list_os$hex_merge<-ps_list_os$hex_merge[match(unique(ps_list_os$hex_merge$OBJECTID),ps_list_os$hex_merge$OBJECTID),]
             
@@ -610,13 +613,13 @@ function(input, output, session) {
           data2<-st_join(ps_list_os$hex_merge,data1,join=st_intersects,left=F)
           print(data2)  ### #
           names(data2)[1]<-paste("OBJECTID")
-          #pring(as.numeric(st_area(data1)/1000000))
-          #pring(1-max(data2$Sleuth_v2))
+          #print(as.numeric(st_area(data1)/1000000))
+          #print(1-max(data2$Sleuth_v2))
           result_os$datatable<-c(as.numeric(st_area(data1)/1000000),max(data2$PADUS2),sum(data2$area_conne),(1-max(data2$Sleuth_v2)),sum(data2$conl_index),sum(data2$area_12_13),mean(data2$wq3),(sum(data2$wq4)/length(data2$wq4))*100,mean(data2[data2$wq5>-1,]$wq5)*100,mean(data2[data2$wq6>-1,]$wq6),max(data2$Index_cpt_),sum(data2$PA1),max(as.numeric(as.character(data2$statuscoun))),min(data2$area_light),max(as.numeric(as.character(data2$Join_Cou_2))),sum(data2$area_nha),max(data2$SOVInew),max(data2$THREATINDE),sum(data2$WORKINGLAN),max(data2$ComEng_ct),max(data2$RecEng_ct),max(data2$AR_boat)) ### #
-          #pring(result_os$datatable)
+          #print(result_os$datatable)
           result_os$datatable_context<-c(sum(data2$metal_cuzo),min(data2$X303d_desig),length(data2$area_conne))
-          ##pring("testing")
-          ##pring(result_os$datatable_context)
+          ##print("testing")
+          ##print(result_os$datatable_context)
           tmpworking<-workingland3[which(workingland3$OBJECTID %in% data2$OBJECTID),]
           tmpte<-TE_index[which(TE_index$OBJECTID %in% data2$OBJECTID),]
           tmplanduse<-landuse[which(landuse$objectid %in% data2$OBJECTID),]
@@ -629,7 +632,7 @@ function(input, output, session) {
             tmpte<-unique(tmpte)
             tmpte<-TE_Code_Name[which(TE_Code_Name$SPCODE %in% tmpte),]
             tmpte<-paste0(tmpte$COMNAME,collapse = ",")
-            #pring(tmpte)
+            #print(tmpte)
           }
           if(length(tmpworking$OBJECTID)==0){
             tmpworkingsum<-0
@@ -662,8 +665,8 @@ function(input, output, session) {
             #put the averages in a vector
             vector_avg<-paste0(avg_evergreen,",",avg_cropland,",",avg_pasture)
             sum_avg<-avg_evergreen + avg_cropland + avg_pasture
-            #pring(vector_avg)
-            #pring(sum_avg)
+            #print(vector_avg)
+            #print(sum_avg)
             if(sum(tmpworking$p1)==0){
               tmpworkingclass<-tmpworkingclass-1
             }
@@ -706,7 +709,7 @@ function(input, output, session) {
           
           incProgress(0.2, detail = paste("Finished"))
         })
-        #pring(result_os$matrix)
+        #print(result_os$matrix)
         value1$test17<-0
       }
     })
@@ -795,7 +798,7 @@ function(input, output, session) {
           result$matrix[4,i]<-result$matrix[4,i]
           #2. Connectivity with PAD-US
           result$matrix[2,i]<-result$matrix[2,i]
-          #3. Structural Connectivity 
+          #3. Connectivity of Natural Lands 
           result$matrix[3,i]<-result$matrix[3,i]/100
           #4. Proposed Area of Conservation
           result$matrix[1,i]<-ifelse(result$matrix[1,i]==0,0,
@@ -821,7 +824,7 @@ function(input, output, session) {
           result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
                                       ifelse(result$matrix[12,i]<=20,.75,
                                              ifelse(result$matrix[12,i]<=60,.9,1)))
-          #13. T&E Species Counts
+          #13. T&E Number of Species
           result$matrix[13,i]<-ifelse(result$matrix[13,i]==0,0,
                                       ifelse(result$matrix[13,i]==1,.9,
                                              ifelse(result$matrix[1,i]==2,.95,1)))
@@ -902,10 +905,10 @@ function(input, output, session) {
         colnames(result$showing_matrix_raw)<-proplist[1:ncol(result$showing_matrix_raw)]
         result$rankaccept_altlist<-proplist[1:ncol(result$showing_matrix)]
         
-        ##pring(result$showing_matrix)
-        ##pring(class(result$rankaccept_altlist))
+        ##print(result$showing_matrix)
+        ##print(class(result$rankaccept_altlist))
         incProgress(0.2, detail = paste("Finished."))
-        ##pring(result$matrix)
+        ##print(result$matrix)
       })
       value1$test12<-0
       value1$lastinput<-1
@@ -926,7 +929,7 @@ function(input, output, session) {
         ps_list$hex_merge<-st_read("./hex_details2/geojson/1.geojson")
         ps_list$hex_merge<-st_transform(ps_list$hex_merge, crs=4326)
         dir <- file.path(".", "hex_details2","geojson")
-        #pring(length(ps_list$hex_final))
+        #print(length(ps_list$hex_final))
         for(i in 1:length(ps_list$hex_final)){
           temp<-paste(c(as.character(ps_list$hex_final[i]),".geojson"),collapse ="")
           temp1<- st_read(dsn = file.path(dir,temp))
@@ -958,8 +961,8 @@ function(input, output, session) {
           
         }
         result$matrix_portfolio_raw<-result$matrix_portfolio
-        #pring('check here')
-        #pring(result$matrix_portfolio_raw)
+        #print('check here')
+        #print(result$matrix_portfolio_raw)
         ConservArea<-result$matrix_portfolio[4,]
         incProgress(0.2, detail = paste("Calculating matrix "))
         #Maximum area of 303D, 
@@ -970,7 +973,7 @@ function(input, output, session) {
           result$matrix_portfolio[4,i]<-result$matrix_portfolio[4,i]
           #2. Connectivity with PAD-US
           result$matrix_portfolio[2,i]<-result$matrix_portfolio[2,i]
-          #3. Structural Connectivity 
+          #3. Connectivity of Natural Lands 
           result$matrix_portfolio[3,i]<-result$matrix_portfolio[3,i]/100
           #4. Proposed Area of Conservation
           result$matrix_portfolio[1,i]<-ifelse(result$matrix_portfolio[1,i]==0,0,
@@ -996,7 +999,7 @@ function(input, output, session) {
           result$matrix_portfolio[12,i]<-ifelse(result$matrix_portfolio[12,i]<=0.001,0,
                                       ifelse(result$matrix_portfolio[12,i]<=20,.75,
                                              ifelse(result$matrix_portfolio[12,i]<=60,.9,1)))
-          #13. T&E Species Counts
+          #13. T&E Number of Species
           result$matrix_portfolio[13,i]<-ifelse(result$matrix_portfolio[13,i]==0,0,
                                       ifelse(result$matrix_portfolio[13,i]==1,.9,
                                              ifelse(result$matrix_portfolio[1,i]==2,.95,1)))
@@ -1080,10 +1083,10 @@ function(input, output, session) {
         colnames(result$showing_matrix_portfolio_raw)<-proplist[1:ncol(result$showing_matrix_portfolio_raw)]
         result$rankaccept_altlist<-proplist[1:ncol(result$showing_matrix_portfolio)]
         
-        ##pring(result$showing_matrix)
-        ##pring(class(result$rankaccept_altlist))
+        ##print(result$showing_matrix)
+        ##print(class(result$rankaccept_altlist))
         incProgress(0.2, detail = paste("Finished."))
-        ##pring(result$matrix_portfolio)
+        ##print(result$matrix_portfolio)
       })
       value1$test_portfolio3<-0
     }
@@ -1113,7 +1116,7 @@ function(input, output, session) {
       if (!is.null(inFile))
       { 
         traildirectory<-"./input"
-        ##pring(traildirectory)
+        ##print(traildirectory)
         file.copy(inFile$datapath,overwrite=TRUE, file.path(traildirectory, inFile$name))
         unzip(inFile$datapath,exdir = traildirectory)
         
@@ -1131,11 +1134,11 @@ function(input, output, session) {
         
         
         if(length(listfile)!=0){
-          #pring(paste0(traildirectory,"/",listfile))
+          #print(paste0(traildirectory,"/",listfile))
           Newspdata <- st_read(dsn = paste0(traildirectory,"/",listfile)
                              #, layer = substr(listfile,1,nchar(listfile)-4)
                              )
-          #pring(Newspdata)
+          #print(Newspdata)
           Newspdata.wgs84<- st_transform(Newspdata, crs = 4326)
         if((length(Newspdata.wgs84$geometry)+value1$imported)>10){
           showModal(div(id="ModalDiv", modalDialog(
@@ -1159,13 +1162,13 @@ function(input, output, session) {
           Newspdata.wgs84<-Newspdata.wgs84[,c("Name","geometry")]
         }
         value1$imported<-value1$imported+length(Newspdata.wgs84$geometry)
-        #pring(ps_list_import$result)
+        #print(ps_list_import$result)
         ps_list_import$result<-rbind(ps_list_import$result,Newspdata.wgs84)
         leafletProxy("map")%>%
           fitBounds(as.numeric(boundary$xmin), as.numeric(boundary$ymin), as.numeric(boundary$xmax), as.numeric(boundary$ymax))%>%
           addPolygons(data = Newspdata.wgs84,color = "#e87f17", weight = 1)
-        ##pring(length(ps_list_import$result$geometry))
-        #pring(ps_list_import$result)
+        ##print(length(ps_list_import$result$geometry))
+        #print(ps_list_import$result)
         unlink(traildirectory, recursive = T)
         }
       }}
@@ -1184,12 +1187,12 @@ function(input, output, session) {
       if (!is.null(inFile))
       { 
         traildirectory<-"./input"
-        ##pring(traildirectory)
+        ##print(traildirectory)
         file.copy(inFile$datapath,overwrite=TRUE, file.path(traildirectory, inFile$name))
         unzip(inFile$datapath,exdir = traildirectory)
-        ##pring(list.files(traildirectory, pattern = "*.shp$"))
+        ##print(list.files(traildirectory, pattern = "*.shp$"))
         listfile<-list.files(traildirectory)
-        #pring(listfile)
+        #print(listfile)
         listfile<-grep('shp', listfile, value=TRUE)
         if(length(listfile)==0){
           listfile<-list.files(traildirectory)
@@ -1201,12 +1204,12 @@ function(input, output, session) {
           listfile<-grep('shp', listfile, value=TRUE)
         }
         
-        #pring(listfile)
+        #print(listfile)
         if(length(listfile)!=0){
         Newspdata <- st_read(dsn = paste0(traildirectory,"/",listfile)
                              #, layer = substr(listfile,1,nchar(listfile)-4)
                              )
-        #pring(Newspdata)
+        #print(Newspdata)
         Newspdata.wgs84<- st_transform(Newspdata, crs = 4326)
         if((length(Newspdata.wgs84$geometry)+value1$imported)>10){
           showModal(div(id="ModalDiv", modalDialog(
@@ -1235,7 +1238,7 @@ function(input, output, session) {
           leafletProxy("map")%>%
             fitBounds(as.numeric(boundary$xmin), as.numeric(boundary$ymin), as.numeric(boundary$xmax), as.numeric(boundary$ymax))%>%
             addPolygons(data = Newspdata.wgs84,color = "#e87f17", weight = 1)
-          ##pring(length(ps_list_import$result$geometry))
+          ##print(length(ps_list_import$result$geometry))
           unlink(traildirectory, recursive = T)
         }}
         
@@ -1306,54 +1309,54 @@ function(input, output, session) {
         #ps_list_import$result_1<-st_zm(ps_list_import$result_1,drop= TRUE, what = "ZM")
         ps_list$result<-ps_list_import$result_1
         incProgress(0.2, detail = paste("Saving spatial data"))  
-        ##pring(ps_list_import$result_1)
-        ##pring(class(ps_list_import$result_1))
+        ##print(ps_list_import$result_1)
+        ##print(class(ps_list_import$result_1))
         for(i in 1:length(ps_list_import$result_1)){
           data1<- ps_list_import$result_1[[i]]
-          ##pring(data1)
-          ##pring(class(data1))
+          ##print(data1)
+          ##print(class(data1))
           join_result<-st_join(data1, Hex_tile, join = st_intersects)
           ps_list$hex[[i]]<- join_result$Id-1
-          ##pring(join_result$Id)
+          ##print(join_result$Id)
           ps_list$hex_final<-c(ps_list$hex_final,ps_list$hex[[i]])
           leafletProxy("map",data = data1)%>%
             addPolygons(color = "#66ff66", weight = 1)
         }
-        ##pring(length(ps_list$hex_final))
+        ##print(length(ps_list$hex_final))
         ps_list$hex_merge<-st_read("./hex_details2/geojson/1.geojson")
         ps_list$hex_merge<-st_transform(ps_list$hex_merge, crs=4326)
-        ##pring("Hexmerge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        ##pring(ps_list$hex_merge[[1]])
+        ##print("Hexmerge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        ##print(ps_list$hex_merge[[1]])
         incProgress(0.2, detail = paste("Connecting database"))
         dir <- file.path(".", "hex_details2","geojson")
-        ##pring(ps_list$hex_final)
+        ##print(ps_list$hex_final)
         for(i in 1:length(ps_list$hex_final)){
           temp<-paste(c(as.character(ps_list$hex_final[i]),".geojson"),collapse ="")
           temp1<- st_read(dsn = file.path(dir,temp))
           temp1<- st_transform(temp1, crs=4326 )
-          ##pring(length(temp1$OBJECTID))
+          ##print(length(temp1$OBJECTID))
           ps_list$hex_merge<- rbind(ps_list$hex_merge,temp1)
-          ##pring(length(ps_list$hex_merge$OBJECTID))
+          ##print(length(ps_list$hex_merge$OBJECTID))
           ps_list$hex_merge<-ps_list$hex_merge[match(unique(ps_list$hex_merge$OBJECTID),ps_list$hex_merge$OBJECTID),]
           
         }
-        ##pring(ps_list$hex_merge)
+        ##print(ps_list$hex_merge)
         #plot(st_geometry(ps_list$hex_merge))
-        ##pring("hey,hex_merge_finish")
+        ##print("hey,hex_merge_finish")
         incProgress(0.2, detail = paste("Performing spatial analysis"))
         for(i in 1:length(ps_list_import$result_1)){
           data1<- ps_list_import$result_1[[i]]
-          ##pring(data1)
-          ##pring("ps_list$hex_merge")
-          ##pring(ps_list$hex_merge)
+          ##print(data1)
+          ##print("ps_list$hex_merge")
+          ##print(ps_list$hex_merge)
           data2<-st_join(ps_list$hex_merge,data1,join=st_intersects,left=F)
           names(data2)[1]<-paste("OBJECTID")
-          ##pring(length(data2))
+          ##print(length(data2))
           
           data2$appid<-i
           result$datatable[[i]]<-c(as.numeric(st_area(data1)/1000000),max(data2$PADUS2),sum(data2$area_conne),1-max(data2$Sleuth_v2),sum(data2$conl_index),sum(data2$area_12_13),mean(data2$wq3),(sum(data2$wq4)/length(data2$wq4))*100,mean(data2[data2$wq5>-1,]$wq5)*100,mean(data2[data2$wq6>-1,]$wq6),max(data2$Index_cpt_),sum(data2$PA1),max(as.numeric(as.character(data2$statuscoun))),min(data2$area_light),max(as.numeric(as.character(data2$Join_Cou_2))),sum(data2$area_nha),max(data2$SOVInew),max(data2$THREATINDE),sum(data2$WORKINGLAN),max(data2$ComEng_ct),max(data2$RecEng_ct),max(data2$AR_boat))
-          ##pring(result$datatable[[i]])
-          ##pring(class(result$datatable[[i]]))
+          ##print(result$datatable[[i]])
+          ##print(class(result$datatable[[i]]))
           result$datatable_context[[i]]<-c(length(data2$area_conne))
           result$datatable[[i]][3]<-result$datatable[[i]][3]/result$datatable_context[[i]][1]*100
           result$datatable[[i]][5]<-result$datatable[[i]][5]/result$datatable_context[[i]][1]*100 
@@ -1361,13 +1364,13 @@ function(input, output, session) {
           result$datatable[[i]][12]<-result$datatable[[i]][12]/result$datatable_context[[i]][1]*100 
           result$datatable[[i]][16]<-result$datatable[[i]][16]/result$datatable_context[[i]][1]*100 
           result$datatable[[i]][19]<-result$datatable[[i]][19]/result$datatable_context[[i]][1]*100 
-          ##pring(max(result$datatable[[i]]))
-          ##pring(result$datatable[[i]]/max(result$datatable[[i]]))
+          ##print(max(result$datatable[[i]]))
+          ##print(result$datatable[[i]]/max(result$datatable[[i]]))
           if(is.null(ps_list$hex_merge_final)){
             ps_list$hex_merge_final<- data2
           }else{ps_list$hex_merge_final<-rbind(ps_list$hex_merge_final,data2)}
-          ##pring("ps_list$hex_merge_final")
-          ##pring(ps_list$hex_merge_final)
+          ##print("ps_list$hex_merge_final")
+          ##print(ps_list$hex_merge_final)
           if(is.null(result$matrix)){result$matrix<-result$datatable[[i]]}
           else{result$matrix<-cbind(result$matrix,result$datatable[[i]])}
           
@@ -1385,7 +1388,7 @@ function(input, output, session) {
           result$matrix[4,i]<-result$matrix[4,i]
           #2. Connectivity with PAD-US
           result$matrix[2,i]<-result$matrix[2,i]
-          #3. Structural Connectivity 
+          #3. Connectivity of Natural Lands 
           result$matrix[3,i]<-result$matrix[3,i]/100
           #4. Proposed Area of Conservation
           result$matrix[1,i]<-ifelse(result$matrix[1,i]==0,0,
@@ -1411,7 +1414,7 @@ function(input, output, session) {
           result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
                                       ifelse(result$matrix[12,i]<=20,.75,
                                              ifelse(result$matrix[12,i]<=60,.9,1)))
-          #13. T&E Species Counts
+          #13. T&E Number of Species
           result$matrix[13,i]<-ifelse(result$matrix[13,i]==0,0,
                                       ifelse(result$matrix[13,i]==1,.9,
                                              ifelse(result$matrix[1,i]==2,.95,1)))
@@ -1484,8 +1487,8 @@ function(input, output, session) {
         
         rownames(result$matrix) <- coln[1:nrow(result$matrix)]
         result$showing_matrix<-round(result$matrix,2)
-        #pring(result$showing_matrix)
-        #pring("result$showing_matrix")
+        #print(result$showing_matrix)
+        #print("result$showing_matrix")
         rownames(result$matrix_raw)<-coln[1:nrow(result$matrix_raw)]
         result$showing_matrix_raw<-round(result$matrix_raw,2)
         colnames(result$showing_matrix)<-proplist[1:ncol(result$showing_matrix)]
@@ -1505,56 +1508,56 @@ function(input, output, session) {
       withProgress(message = 'Processing...', value = 0, {
         ps_list_portfolio$result<-ps_list_portfolio_import$result_1
         incProgress(0.2, detail = paste("Saving spatial data"))  
-        ##pring(ps_list_portfolio_import$result_1)
-        ##pring(class(ps_list_portfolio_import$result_1))
+        ##print(ps_list_portfolio_import$result_1)
+        ##print(class(ps_list_portfolio_import$result_1))
         for(i in 1:length(ps_list_portfolio_import$result_1)){
           data1<- ps_list_portfolio_import$result_1[[i]]
-          ##pring(data1)
-          ##pring(class(data1))
+          ##print(data1)
+          ##print(class(data1))
           join_result<-st_join(data1, Hex_tile, join = st_intersects)
           ps_list$hex[[i]]<- join_result$Id-1
-          ##pring(join_result$Id)
+          ##print(join_result$Id)
           ps_list$hex_final<-c(ps_list$hex_final,ps_list$hex[[i]])
           leafletProxy("map",data = data1)%>%
             addPolygons(color = "#66ff66", weight = 1)
         }
-        ##pring(length(ps_list$hex_final))
+        ##print(length(ps_list$hex_final))
         ps_list$hex_merge<-st_read("./hex_details2/geojson/1.geojson")
         ps_list$hex_merge<-st_transform(ps_list$hex_merge, crs=4326)
-        ##pring("Hexmerge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        ##pring(ps_list$hex_merge[[1]])
+        ##print("Hexmerge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        ##print(ps_list$hex_merge[[1]])
         incProgress(0.2, detail = paste("Connecting database"))
         dir <- file.path(".", "hex_details2","geojson")
-        ##pring(ps_list$hex_final)
+        ##print(ps_list$hex_final)
         for(i in 1:length(ps_list$hex_final)){
           temp<-paste(c(as.character(ps_list$hex_final[i]),".geojson"),collapse ="")
           temp1<- st_read(dsn = file.path(dir,temp))
           temp1<- st_transform(temp1, crs=4326 )
-          ##pring(length(temp1$OBJECTID))
+          ##print(length(temp1$OBJECTID))
           ps_list$hex_merge<- rbind(ps_list$hex_merge,temp1)
-          ##pring(length(ps_list$hex_merge$OBJECTID))
+          ##print(length(ps_list$hex_merge$OBJECTID))
           ps_list$hex_merge<-ps_list$hex_merge[match(unique(ps_list$hex_merge$OBJECTID),ps_list$hex_merge$OBJECTID),]
           
         }
-        #pring(ps_list$hex_merge)
-        #pring("ps_list_portfolio_import$result_1[[1]]")
-        ##pring(ps_list$hex_merge)
+        #print(ps_list$hex_merge)
+        #print("ps_list_portfolio_import$result_1[[1]]")
+        ##print(ps_list$hex_merge)
         #plot(st_geometry(ps_list$hex_merge))
-        ##pring("hey,hex_merge_finish")
+        ##print("hey,hex_merge_finish")
         incProgress(0.2, detail = paste("Performing spatial analysis"))
         for(i in 1:length(ps_list_portfolio_import$result_1)){
           data1<- ps_list_portfolio_import$result_1[[i]]
-          ##pring(data1)
-          ##pring("ps_list$hex_merge")
-          ##pring(ps_list$hex_merge)
+          ##print(data1)
+          ##print("ps_list$hex_merge")
+          ##print(ps_list$hex_merge)
           data2<-st_join(ps_list$hex_merge,data1,join=st_intersects,left=F)
           names(data2)[1]<-paste("OBJECTID")
-          ##pring(length(data2))
+          ##print(length(data2))
           
           data2$appid<-i
           result$datatable_portfolio[[i]]<-c(as.numeric(st_area(data1)/1000000),max(data2$PADUS2),sum(data2$area_conne),1-max(data2$Sleuth_v2),sum(data2$conl_index),sum(data2$area_12_13),mean(data2$wq3),(sum(data2$wq4)/length(data2$wq4))*100,mean(data2[data2$wq5>-1,]$wq5)*100,mean(data2[data2$wq6>-1,]$wq6),max(data2$Index_cpt_),sum(data2$PA1),max(as.numeric(as.character(data2$statuscoun))),min(data2$area_light),max(as.numeric(as.character(data2$Join_Cou_2))),sum(data2$area_nha),max(data2$SOVInew),max(data2$THREATINDE),sum(data2$WORKINGLAN),max(data2$ComEng_ct),max(data2$RecEng_ct),max(data2$AR_boat))
-          ##pring(result$datatable[[i]])
-          ##pring(class(result$datatable[[i]]))
+          ##print(result$datatable[[i]])
+          ##print(class(result$datatable[[i]]))
           result$datatable_portfolio_context[[i]]<-c(length(data2$area_conne))
           result$datatable_portfolio[[i]][3]<-result$datatable_portfolio[[i]][3]/result$datatable_portfolio_context[[i]][1]*result$datatable_portfolio[[i]][4]
           result$datatable_portfolio[[i]][5]<-result$datatable_portfolio[[i]][5]/result$datatable_portfolio_context[[i]][1]*result$datatable_portfolio[[i]][4]
@@ -1563,19 +1566,19 @@ function(input, output, session) {
           result$datatable_portfolio[[i]][16]<-result$datatable_portfolio[[i]][16]/result$datatable_portfolio_context[[i]][1]*result$datatable_portfolio[[i]][4]
           result$datatable_portfolio[[i]][19]<-result$datatable_portfolio[[i]][19]/result$datatable_portfolio_context[[i]][1]*result$datatable_portfolio[[i]][4]
           
-          #pring(result$datatable_portfolio)
-          ##pring(result$datatable[[i]]/max(result$datatable[[i]]))
+          #print(result$datatable_portfolio)
+          ##print(result$datatable[[i]]/max(result$datatable[[i]]))
           if(is.null(ps_list$hex_merge_final)){
             ps_list$hex_merge_final<- data2
           }else{ps_list$hex_merge_final<-rbind(ps_list$hex_merge_final,data2)}
-          ##pring("ps_list$hex_merge_final")
-          ##pring(ps_list$hex_merge_final)
+          ##print("ps_list$hex_merge_final")
+          ##print(ps_list$hex_merge_final)
           if(is.null(result$matrix_portfolio)){result$matrix_portfolio<-result$datatable_portfolio[[i]]}
           else{result$matrix_portfolio<-cbind(result$matrix_portfolio,result$datatable_portfolio[[i]])}
           
         }
         result$matrix_portfolio_raw<-result$matrix_portfolio
-        #pring(result$matrix_portfolio_raw)
+        #print(result$matrix_portfolio_raw)
         ConservArea<-result$matrix_portfolio[1,]
         incProgress(0.2, detail = paste("Calculating matrix "))
         #Maximum area of 303D, 
@@ -1588,7 +1591,7 @@ function(input, output, session) {
           result$matrix_portfolio[4,i]<-result$matrix_portfolio[4,i]
           #2. Connectivity with PAD-US
           result$matrix_portfolio[2,i]<-result$matrix_portfolio[2,i]
-          #3. Structural Connectivity 
+          #3. Connectivity of Natural Lands 
           result$matrix_portfolio[3,i]<-result$matrix_portfolio[3,i]/100
           #4. Proposed Area of Conservation
           result$matrix_portfolio[1,i]<-ifelse(result$matrix_portfolio[1,i]==0,0,
@@ -1614,7 +1617,7 @@ function(input, output, session) {
           result$matrix_portfolio[12,i]<-ifelse(result$matrix_portfolio[12,i]<=0.001,0,
                                       ifelse(result$matrix_portfolio[12,i]<=20,.75,
                                              ifelse(result$matrix_portfolio[12,i]<=60,.9,1)))
-          #13. T&E Species Counts
+          #13. T&E Number of Species
           result$matrix_portfolio[13,i]<-ifelse(result$matrix_portfolio[13,i]==0,0,
                                       ifelse(result$matrix_portfolio[13,i]==1,.9,
                                              ifelse(result$matrix_portfolio[1,i]==2,.95,1)))
@@ -1687,8 +1690,8 @@ function(input, output, session) {
         result$matrix_portfolio[7,]<-result$matrix_portfolio[7,]/max7
         
         
-        #pring("result$matrix_portfolio")
-        #pring(result$matrix_portfolio)
+        #print("result$matrix_portfolio")
+        #print(result$matrix_portfolio)
         
         result$showing_matrix_portfolio<-round(result$matrix_portfolio,2)
         rownames(result$matrix_portfolio_raw)<-coln[1:nrow(result$matrix_portfolio_raw)]
@@ -1747,7 +1750,7 @@ function(input, output, session) {
     }
     }
     else{
-      #pring(nrow(HU12[which(value1$HU12color_mcda =="red"),c(1,2,3,8)]))
+      #print(nrow(HU12[which(value1$HU12color_mcda =="red"),c(1,2,3,8)]))
       showModal(modalDialog(
         title = "Incorrect number of area of interests found",footer = modalButton("Ok"),
         "Please adjust the number of watersheds selected."
@@ -1762,56 +1765,56 @@ function(input, output, session) {
         #ps_list_import$result_1<-st_zm(ps_list_import$result_1, drop= TRUE, what = "ZM")
         ps_list$result<-ps_list_select$result_1
         incProgress(0.2, detail = paste("Saving spatial data"))  
-        ##pring(ps_list_import$result_1)
-        ##pring(class(ps_list_import$result_1))
+        ##print(ps_list_import$result_1)
+        ##print(class(ps_list_import$result_1))
         for(i in 1:length(ps_list_select$result_1)){
           data1<- ps_list_select$result_1[[i]]
-          ##pring(data1)
-          ##pring(class(data1))
+          ##print(data1)
+          ##print(class(data1))
           join_result<-st_join(data1, Hex_tile, join = st_intersects)
           ps_list$hex[[i]]<- join_result$Id-1
-          ##pring(join_result$Id)
+          ##print(join_result$Id)
           ps_list$hex_final<-c(ps_list$hex_final,ps_list$hex[[i]])
           leafletProxy("map",data = data1)%>%
             addPolygons(color = "#66ff66", weight = 1)
         }
-        ##pring(length(ps_list$hex_final))
+        ##print(length(ps_list$hex_final))
         ps_list$hex_merge<-st_read("./hex_details2/geojson/1.geojson")
         ps_list$hex_merge<-st_transform(ps_list$hex_merge, crs=4326)
-        ##pring("Hexmerge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        ##pring(ps_list$hex_merge[[1]])
+        ##print("Hexmerge!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        ##print(ps_list$hex_merge[[1]])
         incProgress(0.2, detail = paste("Connecting database"))
         dir <- file.path(".", "hex_details2","geojson")
-        ##pring(ps_list$hex_final)
+        ##print(ps_list$hex_final)
         for(i in 1:length(ps_list$hex_final)){
           temp<-paste(c(as.character(ps_list$hex_final[i]),".geojson"),collapse ="")
           temp1<- st_read(dsn = file.path(dir,temp))
           temp1<- st_transform(temp1, crs=4326 )
-          ##pring(length(temp1$OBJECTID))
+          ##print(length(temp1$OBJECTID))
           ps_list$hex_merge<- rbind(ps_list$hex_merge,temp1)
-          ##pring(length(ps_list$hex_merge$OBJECTID))
+          ##print(length(ps_list$hex_merge$OBJECTID))
           ps_list$hex_merge<-ps_list$hex_merge[match(unique(ps_list$hex_merge$OBJECTID),ps_list$hex_merge$OBJECTID),]
           
         }
-        ##pring(ps_list$hex_merge)
+        ##print(ps_list$hex_merge)
         #plot(st_geometry(ps_list$hex_merge))
-        ##pring("hey,hex_merge_finish")
+        ##print("hey,hex_merge_finish")
         incProgress(0.2, detail = paste("Performing spatial analysis"))
         for(i in 1:length(ps_list_select$result_1)){
           data1<- ps_list_select$result_1[[i]]
-          ##pring(data1)
-          ##pring("ps_list$hex_merge")
-          ##pring(ps_list$hex_merge)
+          ##print(data1)
+          ##print("ps_list$hex_merge")
+          ##print(ps_list$hex_merge)
           data2<-st_join(ps_list$hex_merge,data1,join=st_intersects,left=F)
           names(data2)[1]<-paste("OBJECTID")
-          ##pring(length(data2))
+          ##print(length(data2))
           
           data2$appid<-i
           result$datatable[[i]]<-c(as.numeric(st_area(data1)/1000000),max(data2$PADUS2),sum(data2$area_conne),1-max(data2$Sleuth_v2),sum(data2$conl_index),sum(data2$area_12_13),mean(data2$wq3),(sum(data2$wq4)/length(data2$wq4))*100,mean(data2[data2$wq5>-1,]$wq5)*100,mean(data2[data2$wq6>-1,]$wq6),max(data2$Index_cpt_),sum(data2$PA1),max(as.numeric(as.character(data2$statuscoun))),min(data2$area_light),max(as.numeric(as.character(data2$Join_Cou_2))),sum(data2$area_nha),max(data2$SOVInew),max(data2$THREATINDE),sum(data2$WORKINGLAN),max(data2$ComEng_ct),max(data2$RecEng_ct),max(data2$AR_boat))
-          ##pring(result$datatable[[i]])
-          ##pring(class(result$datatable[[i]]))
-          ##pring(max(result$datatable[[i]]))
-          ##pring(result$datatable[[i]]/max(result$datatable[[i]]))
+          ##print(result$datatable[[i]])
+          ##print(class(result$datatable[[i]]))
+          ##print(max(result$datatable[[i]]))
+          ##print(result$datatable[[i]]/max(result$datatable[[i]]))
           result$datatable_context[[i]]<-c(length(data2$area_conne))
           result$datatable[[i]][3]<-result$datatable[[i]][3]/result$datatable_context[[i]][1]*100
           result$datatable[[i]][5]<-result$datatable[[i]][5]/result$datatable_context[[i]][1]*100
@@ -1822,8 +1825,8 @@ function(input, output, session) {
           if(is.null(ps_list$hex_merge_final)){
             ps_list$hex_merge_final<- data2
           }else{ps_list$hex_merge_final<-rbind(ps_list$hex_merge_final,data2)}
-          ##pring("ps_list$hex_merge_final")
-          ##pring(ps_list$hex_merge_final)
+          ##print("ps_list$hex_merge_final")
+          ##print(ps_list$hex_merge_final)
           if(is.null(result$matrix)){result$matrix<-result$datatable[[i]]}
           else{result$matrix<-cbind(result$matrix,result$datatable[[i]])}
           
@@ -1844,7 +1847,7 @@ function(input, output, session) {
           result$matrix[4,i]<-result$matrix[4,i]
           #2. Connectivity with PAD-US
           result$matrix[2,i]<-result$matrix[2,i]
-          #3. Structural Connectivity 
+          #3. Connectivity of Natural Lands 
           result$matrix[3,i]<-result$matrix[3,i]/100
           #4. Proposed Area of Conservation
           result$matrix[1,i]<-ifelse(result$matrix[1,i]==0,0,
@@ -1870,7 +1873,7 @@ function(input, output, session) {
           result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
                                       ifelse(result$matrix[12,i]<=20,.75,
                                              ifelse(result$matrix[12,i]<=60,.9,1)))
-          #13. T&E Species Counts
+          #13. T&E Number of Species
           result$matrix[13,i]<-ifelse(result$matrix[13,i]==0,0,
                                       ifelse(result$matrix[13,i]==1,.9,
                                              ifelse(result$matrix[1,i]==2,.95,1)))
@@ -1968,10 +1971,10 @@ function(input, output, session) {
       if (!is.null(inFile))
       { 
         traildirectory<-"./input"
-        #pring(traildirectory)
+        #print(traildirectory)
         file.copy(inFile$datapath,overwrite=TRUE, file.path(traildirectory, inFile$name))
         unzip(inFile$datapath,exdir = traildirectory)
-        #pring(list.files(traildirectory, pattern = "*.shp$"))
+        #print(list.files(traildirectory, pattern = "*.shp$"))
         listfile<-list.files(traildirectory)
         listfile<-grep('shp', listfile, value=TRUE)
         if(length(listfile)==0){
@@ -1989,7 +1992,7 @@ function(input, output, session) {
         Newspdata <- st_read(dsn = paste0(traildirectory,"/",listfile)
                              #, layer = substr(listfile,1,nchar(listfile)-4)
                              )
-        #pring(Newspdata)
+        #print(Newspdata)
         Newspdata.wgs84<- st_transform(Newspdata, crs = 4326)
         if(length(Newspdata.wgs84$geometry)!=1){
           showModal(div(id="ModalDiv", modalDialog(
@@ -1999,7 +2002,7 @@ function(input, output, session) {
           )))
         }
         else{
-        ##pring(class(Newspdata.wgs84))
+        ##print(class(Newspdata.wgs84))
         boundary<-st_bbox(Newspdata.wgs84)
         if(length(Newspdata.wgs84$Name)>0 &length(Newspdata.wgs84$Name)<=10){
           proplist_os <<-as.character(Newspdata.wgs84$Name[1])
@@ -2008,12 +2011,12 @@ function(input, output, session) {
           proplist_os<<-"area of interest 1"
         }
         ps_list_os$import_result<-Newspdata.wgs84[1,]
-        ##pring(ps_list_os$import_result)
+        ##print(ps_list_os$import_result)
         leafletProxy("map")%>%
           fitBounds(as.numeric(boundary$xmin), as.numeric(boundary$ymin), as.numeric(boundary$xmax), as.numeric(boundary$ymax))%>%
           addPolygons(data = Newspdata.wgs84[1,],color = "#e87f17", weight = 1)
-        ##pring(length(ps_list_import$result$geometry))
-        ##pring(ps_list_import$result[1,])
+        ##print(length(ps_list_import$result$geometry))
+        ##print(ps_list_import$result[1,])
         unlink(traildirectory, recursive = T)
         }
       }}
@@ -2087,7 +2090,7 @@ function(input, output, session) {
           temp<-paste(c(as.character(ps_list_os$hex_final[[i]]),".geojson"),collapse ="")
           temp1<- st_read(dsn = file.path(dir,temp))
           temp1<- st_transform(temp1, crs=4326 )
-          #pring(length(temp1$OBJECTID))
+          #print(length(temp1$OBJECTID))
           ps_list_os$hex_merge<- rbind(ps_list_os$hex_merge,temp1)
           ps_list_os$hex_merge<-ps_list_os$hex_merge[match(unique(ps_list_os$hex_merge$OBJECTID),ps_list_os$hex_merge$OBJECTID),]
           
@@ -2113,7 +2116,7 @@ function(input, output, session) {
             tmpte<-TE_Code_Name[which(TE_Code_Name$SPCODE %in% tmpte),]
             tmpte<-paste0(tmpte$COMNAME,collapse = ",") 
             #tmpte<-c(tmpte$COMNAME)
-            #pring(tmpte)
+            #print(tmpte)
           }
           if(length(tmpworking$OBJECTID)==0){
             tmpworkingsum<-0
@@ -2143,8 +2146,8 @@ function(input, output, session) {
             #put the averages in a vector
             vector_avg<-paste0(avg_evergreen,",",avg_cropland,",",avg_pasture)
             sum_avg<-avg_evergreen + avg_cropland + avg_pasture
-            #pring(vector_avg)
-            #pring(sum_avg)
+            #print(vector_avg)
+            #print(sum_avg)
             if(sum(tmpworking$p1)==0){
               tmpworkingclass<-tmpworkingclass-1
             }
@@ -2168,8 +2171,8 @@ function(input, output, session) {
           }
           
           result_os$datatable_additional<-c(tmpworkingsum,tmpte,tmpworkingclass,tmplanduse,vector_avg,sum_avg)
-          ##pring(result_os$datatable_context[3])
-          ##pring("result_os$datatable_context")
+          ##print(result_os$datatable_context[3])
+          ##print("result_os$datatable_context")
           result_os$matrix_context<-as.matrix(result_os$datatable_context)
             ps_list_os$hex_merge_final<- data2
 
@@ -2200,10 +2203,7 @@ function(input, output, session) {
     
     
     coln_withicon<-paste0(coln)
-    
-    ##pring(data[1])
-    
-   ##pring(data[3])
+
     data<-result_os$showing_matrix
     data[1]<-format(round(data[1]*247.105,0),scientific = F,trim = T,big.mark = ",")
     data[1]<-paste0(data[1]," acres")
@@ -2351,11 +2351,11 @@ function(input, output, session) {
   
   
   output$showing_matrix_portfolio<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Structural Connectivity Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Species Counts ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "Working Lands ","Commercial Fishery Index ", "Recreational Fishery Index ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
-    ##pring(data)
+    ##print(data)
     #datatable(data,escape = FALSE,options = list(searching = FALSE,paging = FALSE),
     #          callback = JS("       var tips = ['Threat of Conversion indicates the likelihood of the proposed conservation area to be urbanized by the year 2060',
     #                        'Connectivity to PAD-US indicates of the proposed conservation area is close to an area classified as protected by PAD-US data. A binary attribute which represents the spatial relationship between Hexagon and PAD-US. Any Hexagon directly intersects or within 1 Hex (1 km<sup>2</sup>) distance would be count as 1, otherwise, 0.',
@@ -2381,7 +2381,7 @@ function(input, output, session) {
     
     
     coln_withicon<-paste0(coln)
-    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality","Water Quality","Water Quality","Water Quality","Water Quality","LCMR","LCMR","LCMR","LCMR","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Economy","Economy","Economy","Economy")
+    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Gulf Economy","Gulf Economy","Gulf Economy","Gulf Economy")
     data<-result$showing_matrix_portfolio_raw
     
     data[1,]<-round(data[1,]*247.105,0)
@@ -2394,7 +2394,7 @@ function(input, output, session) {
     data<-cbind('Desscprition'=descript,data)
     
     unitattr<-c("Acres","Index", "Percentage","Index","Percentage","Percentage","Index","Percentage","Percentage","Index","Index","Percentage","Count","0-1 Index","Count","Percentage","Index","Index","Percentage","Index","Index","Count")                      
-    #pring(data)
+    #print(data)
     datatable(
       cbind(' ' = paste0(rownames(data),'&#9432;',"  (",unitattr,")"), data), escape = -2,
       options = list(searching = FALSE,paging = FALSE,
@@ -2424,11 +2424,11 @@ function(input, output, session) {
   }, server = FALSE)
   
   output$showing_matrix_portfolio_goal<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Structural Connectivity Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Species Counts ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "Working Lands ","Commercial Fishery Index ", "Recreational Fishery Index ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
-    ##pring(data)
+    ##print(data)
     #datatable(data,escape = FALSE,options = list(searching = FALSE,paging = FALSE),
     #          callback = JS("       var tips = ['Threat of Conversion indicates the likelihood of the proposed conservation area to be urbanized by the year 2060',
     #                        'Connectivity to PAD-US indicates of the proposed conservation area is close to an area classified as protected by PAD-US data. A binary attribute which represents the spatial relationship between Hexagon and PAD-US. Any Hexagon directly intersects or within 1 Hex (1 km<sup>2</sup>) distance would be count as 1, otherwise, 0.',
@@ -2454,10 +2454,10 @@ function(input, output, session) {
    
     
     
-    coln_withicon<-paste0(c("Habitat", "Water Quality","Living Coastal Marine Resources","Community Resilience","Gulf Economy"))
+    coln_withicon<-paste0(c("Habitat", "Water Quality & Quantity","Living Coastal Marine Resources","Community Resilience","Gulf Economy"))
     data<-result$showing_matrix_portfolio
-    #pring("showing_matrix_portfolio")
-    #pring(result$showing_matrix_portfolio)
+    #print("showing_matrix_portfolio")
+    #print(result$showing_matrix_portfolio)
     habitat<-colSums(data[1:5,])/5  ## 
     WaterQuality<-colSums(data[6:10,])/5
     LCMR<-colSums(data[11:14,])/4
@@ -2466,7 +2466,7 @@ function(input, output, session) {
     data<-rbind(habitat,WaterQuality,LCMR,CL,Economy)
     data_rank<-NULL
     data_index<-NULL
-    #pring(data)
+    #print(data)
     for (i in 1:ncol(data)) {
       x<-data[,i]
       tmp<-c(0,0,0,0,0)
@@ -2500,7 +2500,7 @@ function(input, output, session) {
         backgroundColor = styleEqual(c(1,2), c('yellow', 'green'))
       )%>%
       formatStyle(
-         "Water Quality", 'r2',
+         "Water Quality & Quantity", 'r2',
         backgroundColor = styleEqual(c(1,2), c('yellow', 'green'))
       )%>%
       formatStyle(
@@ -2519,11 +2519,11 @@ function(input, output, session) {
   }, server = FALSE)
   
   output$showing_matrix<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Structural Connectivity Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Species Counts ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "Working Lands ","Commercial Fishery Index ", "Recreational Fishery Index ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
-    ##pring(data)
+    ##print(data)
     #datatable(data,escape = FALSE,options = list(searching = FALSE,paging = FALSE),
     #          callback = JS("       var tips = ['Threat of Conversion indicates the likelihood of the proposed conservation area to be urbanized by the year 2060',
     #                        'Connectivity to PAD-US indicates of the proposed conservation area is close to an area classified as protected by PAD-US data. A binary attribute which represents the spatial relationship between Hexagon and PAD-US. Any Hexagon directly intersects or within 1 Hex (1 km<sup>2</sup>) distance would be count as 1, otherwise, 0.',
@@ -2547,15 +2547,9 @@ function(input, output, session) {
     #          
     #          )
     
-    
-    
-   
-    
-    
-    
-    
+
     coln_withicon<-paste0(coln)
-    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality","Water Quality","Water Quality","Water Quality","Water Quality","LCMR","LCMR","LCMR","LCMR","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Economy","Economy","Economy","Economy") ########1/14/2021
+    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Gulf Economy","Gulf Economy","Gulf Economy","Gulf Economy") ########1/14/2021
     data<-result$showing_matrix_raw
     data[1,]<-round(data[1,]*247.105,0)
     data <-as.data.frame(data)
@@ -2602,12 +2596,12 @@ function(input, output, session) {
     
     #EC<-rep(0,ncol(result$matrix))
     HA_hf<-result$matrix[1:5,]*(2/3)
-    #pring(class(HA_hf))
+    #print(class(HA_hf))
     WQ_hf<-result$matrix[6:10,]*(2/3)
     LC_hf<-result$matrix[11:14,]*(2/3) 
     CL_hf<-result$matrix[15:18,]*(2/3)
     EC_hf<-result$matrix[19:22,]*(2/3)
-    ##pring(HA_hf)
+    ##print(HA_hf)
     if(value2$newaddedweight>0){
       result$newaddattr_weight<-result$newaddattr[,-(1:2)]
       for(i in 1:nrow(result$newaddattr_weight)){
@@ -2646,9 +2640,9 @@ function(input, output, session) {
     result$default_rank_test1<-cbind(result$default_rank_test1,c(5,5,4,4,4,22))
     
     colnames(result$default_rank_test)<- proplist[1:ncol(result$default_rank_test)]
-    rownames(result$default_rank_test)<- c("Habitat","Water Quality","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
+    rownames(result$default_rank_test)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
     colnames(result$default_rank_test1)<- c(proplist[1:ncol(result$default_rank_test)],"Total possible score")
-    rownames(result$default_rank_test1)<- c("Habitat","Water Quality","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
+    rownames(result$default_rank_test1)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
     
     result$default_rank_test_1<-colSums(result$default_rank_test)
     #End test request
@@ -2659,12 +2653,12 @@ function(input, output, session) {
     result$default_rank1<-cbind(result$default_rank1,c(20,20,20,20,20,100)/100)
     
     colnames(result$default_rank)<- proplist[1:ncol(result$default_rank)]
-    rownames(result$default_rank)<- c("Habitat","Water Quality","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
+    rownames(result$default_rank)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
     colnames(result$default_rank1)<- c(proplist[1:ncol(result$default_rank)],"Weights")
-    rownames(result$default_rank1)<- c("Habitat","Water Quality","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
-    ##pring(colSums(WQ_hf))
-    ##pring(rbind(colSums(HA_hf),colSums(WQ_hf),colSums(WQ_hf),colSums(LC_hf),colSums(CL_hf),EC))
-    ##pring(result$final_rank)
+    rownames(result$default_rank1)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
+    ##print(colSums(WQ_hf))
+    ##print(rbind(colSums(HA_hf),colSums(WQ_hf),colSums(WQ_hf),colSums(LC_hf),colSums(CL_hf),EC))
+    ##print(result$final_rank)
     result$default_rank_1<-colSums(result$default_rank)
     
     show(selector = "#nav li a[data-value=Result]")
@@ -2674,12 +2668,12 @@ function(input, output, session) {
   })
   
   
-  output$showing_matrix1<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Structural Connectivity Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Species Counts ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "Working Lands ","Commercial Fishery Index ", "Recreational Fishery Index ")
+  output$showing_matrix_scaled<- DT::renderDataTable({
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix)
     #row.names(data)<-coln_withicon
-    ##pring(data)
+    ##print(data)
     #datatable(data,escape = FALSE,options = list(searching = FALSE,paging = FALSE),
     #          callback = JS("       var tips = ['A score of zero indicates the hexagon is already urban and score of 0+ to one indicates the predicted likelihood of threat in decreasing order. A score of one indicates absolutely no threat of conversion based on SLEUTH 2060 urbanization model.',
     #                        'Connectivity to PAD-US indicates of the proposed conservation area is close to an area classified as protected by PAD-US data. A binary attribute which represents the spatial relationship between Hexagon and PAD-US. Any Hexagon directly intersects or within 1 Hex (1 km<sup>2</sup>) distance would be count as 1, otherwise, 0.',
@@ -2696,7 +2690,7 @@ function(input, output, session) {
     #                        'The percentage area of Pine, Cropland and Pasture/Hay classes from NLCD classification map excluding the areas that are already protected (PAD-US). ',
     #                        'Commercial fishing engagement measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings. A high rank indicates more engagement.',
     #                        'Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates. A high rank indicates more engagement.'],
-    #                        firstColumn = $('#showing_matrix1 tr td:first-child');
+    #                        firstColumn = $('#showing_matrix_scaled tr td:first-child');
     #                        for (var i = 0; i < tips.length; i++) {
     #                        $(firstColumn[i]).attr('title', tips[i]);
     #                        }")
@@ -2705,7 +2699,7 @@ function(input, output, session) {
     
     
     coln_withicon<-paste0(coln)
-    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality","Water Quality","Water Quality","Water Quality","Water Quality","LCMR","LCMR","LCMR","LCMR","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Economy","Economy","Economy","Economy")
+    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Gulf Economy","Gulf Economy","Gulf Economy","Gulf Economy")
     data<-result$showing_matrix
     data <-as.data.frame(data)
     rownames(data)<-coln_withicon
@@ -2785,7 +2779,7 @@ function(input, output, session) {
   
   #observeEvent(input$updateutility,{
   #  session$sendCustomMessage('unbind-DT', 'showing_matrix2')
-  #    #pring(result$matrix[1,])
+  #    #print(result$matrix[1,])
   #    if(result$utility_num[1]==2){
   #      result$matrix[1,]<-1-result$matrix[1,]
   #      result$showing_matrix[1,]<-1-result$showing_matrix[1,]
@@ -2796,7 +2790,7 @@ function(input, output, session) {
   #    if(result$utility_num[3]==2){
   #      result$matrix[10,]<-1-result$matrix[10,]
   #    }
-  #    #pring(result$matrix[1,])
+  #    #print(result$matrix[1,])
     
   #})
   
@@ -2809,7 +2803,7 @@ function(input, output, session) {
     #setcolor("showdefault","#0000FF") {
     #  document.getElementById(id).style.color = color;
     #}
-    ##pring(changecolor)
+    ##print(changecolor)
     #js$pageCol(input$showdefault,"#0000FF")
   })
   
@@ -2981,7 +2975,7 @@ function(input, output, session) {
   GWtable<-reactive({
     tmpsum<-sum(value1$habitat,value1$water,value1$species,value1$resilience,value1$economy)
     weight$tmpsum<-tmpsum
-    tmp<-data.frame("Goal"=c("Habitat","Water Quality",
+    tmp<-data.frame("Goal"=c("Habitat","Water Quality & Quantity",
                              "Living Coastal & Marine Resources", "Community Resilience",
                              "Gulf Economy","Total"),
                     "Weight"=c(value1$habitat,value1$water,value1$species,value1$resilience,value1$economy,tmpsum))
@@ -3022,7 +3016,7 @@ function(input, output, session) {
     ))
   
   
-  #Water Quality datatable with selectbox
+  #Water Quality & Quantity datatable with selectbox
   output$wq_PA_measures_Table = DT::renderDataTable({
     data.frame(wq_PA_Table,Weight=shinyInput(selectInput,5,"select_wq",
                                              choices=c("Zero","Low","Medium","High"),width="100px",selected = "Medium"))
@@ -3080,7 +3074,7 @@ function(input, output, session) {
     tmp<-data.frame(useradded_PA_Table,Weight=shinyInput(selectInput,length(result$newaddattr$Goals),"select_ua",
                                               choices=c("Zero","Low","Medium","High"),width="100px",selected = "Medium")
     )
-    #pring(tmp)
+    #print(tmp)
     tmp
   }, selection='none',server = FALSE, escape = F, options=list(
     paging=F,
@@ -3105,7 +3099,7 @@ function(input, output, session) {
     
     
     coln_withicon<-paste0(coln)
-    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality","Water Quality","Water Quality","Water Quality","Water Quality","LCMR","LCMR","LCMR","LCMR","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Economy","Economy","Economy","Economy")
+    goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Gulf Economy","Gulf Economy","Gulf Economy","Gulf Economy")
     
     
     weights<-c(as.character(weight$HA),as.character(weight$WQ),as.character(weight$LC),as.character(weight$CL),as.character(weight$EC))
@@ -3234,7 +3228,7 @@ function(input, output, session) {
         matrix<-rbind(HA,WQ,LC,CL,EC)
         
         result$final_matrix<- matrix
-        ##pring(result$final_matrix)
+        ##print(result$final_matrix)
         showModal(modalDialog(
           title = "Simulation has begun",footer = modalButton("Ok"),
           "Please wait for the results"
@@ -3282,9 +3276,9 @@ function(input, output, session) {
         pos<-c(1,1,1,1,1)
         
         rankaccept = matrix(0,alt,alt)
-        #pring(rankaccept)
+        #print(rankaccept)
         central = matrix(0,alt,m)
-        #pring(central)
+        #print(central)
         confidence = matrix(0,1,alt)
         incProgress(0.1,detail = paste("Simulation starts."))
         # Compute rank acceptability indices + central weight vectors
@@ -3337,7 +3331,7 @@ function(input, output, session) {
         }
           
         
-        #pring(result$mcda)
+        #print(result$mcda)
         # Compute SMAA descriptive measures
         for(a in 1:alt){
           if(rankaccept[a,1]>0){for(c in 1:m){central[a,c] = central[a,c]/rankaccept[a,1]}}
@@ -3351,8 +3345,8 @@ function(input, output, session) {
         result$showing_central<-result$central
         result$showing_central<- result$showing_central*100 #11/02/18 Makes C. Weight to range 0-100
         
-        #pring(result$showing_rankaccept)
-        #pring(result$showing_central)
+        #print(result$showing_rankaccept)
+        #print(result$showing_central)
         value1$txtbackend<-10
         
         #for(i in 1:length(ps_list$result)){
@@ -3388,7 +3382,7 @@ function(input, output, session) {
   
   observeEvent(input$goaldone, {
     
-    ##pring(weight$goal)
+    ##print(weight$goal)
     if(weight$tmpsum != 100){
       showModal(modalDialog(
         title = "The weights should sum up to 100.",footer = modalButton("Ok"),
@@ -3469,33 +3463,33 @@ function(input, output, session) {
   observeEvent(input$HAmove, {
     
     #session$sendCustomMessage('unbind-DT', 'hab_PA_measures_Table')
-    ##pring(weight$HA)
-    ##pring(as.numeric(weight$HA))
+    ##print(weight$HA)
+    ##print(as.numeric(weight$HA))
     updateTabsetPanel(session = session, inputId = "tabsPA", selected = "WQ")
     
   })
   
   observeEvent(input$WQmove, {
-    ##pring(as.numeric(weight$WQ))
+    ##print(as.numeric(weight$WQ))
     #session$sendCustomMessage('unbind-DT', 'wq_PA_measures_Table')
     updateTabsetPanel(session = session, inputId = "tabsPA", selected = "LC")
   })
   
   
   observeEvent(input$LCmove, {
-    ##pring(as.numeric(weight$LC))
+    ##print(as.numeric(weight$LC))
     #session$sendCustomMessage('unbind-DT', 'lcmr_PA_measures_Table')
     updateTabsetPanel(session = session, inputId = "tabsPA", selected = "CL")
   })
   
   observeEvent(input$CLmove, {
-    ##pring(as.numeric(weight$CL))
+    ##print(as.numeric(weight$CL))
     #session$sendCustomMessage('unbind-DT', 'commres_PA_measures_Table')
     updateTabsetPanel(session = session, inputId = "tabsPA", selected = "EC")
   })
   
   observeEvent(input$ECmove, {
-    ##pring(as.numeric(weight$EC))
+    ##print(as.numeric(weight$EC))
     #session$sendCustomMessage('unbind-DT', 'gulfecon_PA_measures_Table')
     if(value2$newaddedweight>0){
       updateTabsetPanel(session = session, inputId = "tabsPA", selected = "UA")
@@ -3506,7 +3500,7 @@ function(input, output, session) {
   })
   
   observeEvent(input$UAmove, {
-    ##pring(as.numeric(weight$CL))
+    ##print(as.numeric(weight$CL))
     #session$sendCustomMessage('unbind-DT', 'UserAdded_PA_measures_Table')
     updateTabsetPanel(session = session, inputId = "tabsPA", selected = "Weights Reivew")
   })
@@ -3514,12 +3508,12 @@ function(input, output, session) {
   observeEvent(input$Weightsdone, {
     #EC<-rep(0,ncol(result$matrix))
     HA_hf<-result$matrix[1:5,]*((as.numeric(weight$HA)-1)/3)
-    #pring(class(HA_hf))
+    #print(class(HA_hf))
     WQ_hf<-result$matrix[6:10,]*((as.numeric(weight$WQ)-1)/3)
     LC_hf<-result$matrix[11:14,]*((as.numeric(weight$LC)-1)/3) 
     CL_hf<-result$matrix[15:18,]*((as.numeric(weight$CL)-1)/3)
     EC_hf<-result$matrix[19:22,]*((as.numeric(weight$EC)-1)/3)
-    ##pring(HA_hf)
+    ##print(HA_hf)
     if(value2$newaddedweight>0){
       result$newaddattr_weight<-result$newaddattr[,-(1:2)]
       for(i in 1:nrow(result$newaddattr_weight)){
@@ -3552,15 +3546,15 @@ function(input, output, session) {
     result$final_rank1<-cbind(result$final_rank1,c(weight$goal,100)/100)
     
     colnames(result$final_rank)<- proplist[1:ncol(result$final_rank)]
-    rownames(result$final_rank)<- c("Habitat","Water Quality","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
+    rownames(result$final_rank)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
     colnames(result$final_rank1)<- c(proplist[1:ncol(result$final_rank)],"Weights")
-    rownames(result$final_rank1)<- c("Habitat","Water Quality","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
-    ##pring(colSums(WQ_hf))
-    ##pring(rbind(colSums(HA_hf),colSums(WQ_hf),colSums(WQ_hf),colSums(LC_hf),colSums(CL_hf),EC))
-    ##pring(result$final_rank)
+    rownames(result$final_rank1)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
+    ##print(colSums(WQ_hf))
+    ##print(rbind(colSums(HA_hf),colSums(WQ_hf),colSums(WQ_hf),colSums(LC_hf),colSums(CL_hf),EC))
+    ##print(result$final_rank)
     result$final_rank_1<-colSums(result$final_rank*(weight$goal))/100
-    ##pring(result$final_rank_1)
-    ##pring(class(result$final_rank_1))
+    ##print(result$final_rank_1)
+    ##print(class(result$final_rank_1))
     show(selector = "#nav li a[data-value=Result]")
     updateTabsetPanel(session = session, inputId = "nav", "Result")
     show(selector = "#tabsResult li a[data-value=Weights_result]")
@@ -3643,24 +3637,24 @@ function(input, output, session) {
   output$barportfolio<-renderPlotly({
     data<-result$showing_matrix_portfolio
     
-    coln_withicon<-paste0(c("Habitat", "Water Quality","Living Coastal Marine Resources","Community Resilience","Gulf Economy"))
+    coln_withicon<-paste0(c("Habitat", "Water Quality & Quantity","Living Coastal Marine Resources","Community Resilience","Gulf Economy"))
     data<-result$showing_matrix_portfolio
-    #pring("showing_matrix_portfolio")
-    #pring(result$showing_matrix_portfolio)
+    #print("showing_matrix_portfolio")
+    #print(result$showing_matrix_portfolio)
     habitat<-colSums(data[1:5,])/5
     WaterQuality<-colSums(data[6:10,])/5
     LCMR<-colSums(data[11:14,])/4
     CL<-colSums(data[15:18,])/4
     Economy<-colSums(data[19:22,])/4
     data<-rbind(habitat,WaterQuality,LCMR,CL,Economy)
-    #pring(data)
+    #print(data)
     
     
     data<-t(data)
     data<-colSums(data)
-    #pring(data)
+    #print(data)
     p<-plot_ly(
-      x = c("Habitat", "WQ","LCMR","Resilience", "Gulf Economy"),
+      x = c("Habitat", "Water Quality & Quantity","Living Coastal & Marine Resources","Community Resilience", "Gulf Economy"),
       y = data,
       name = "Summary Report",
       type = "bar"
@@ -3685,7 +3679,7 @@ function(input, output, session) {
   output$showingpie<-renderPlotly({
     ranking<-c("Rank 1","Rank 2","Rank 3","Rank 4","Rank 5","Rank 6","Rank 7","Rank 8","Rank 9","Rank 10")
     data<-result$showing_rankaccept[match(input$selectproposal,proplist),]
-    #pring(data)
+    #print(data)
     p <- plot_ly(labels = ranking[1:nrow(result$showing_central)], values = data, type = 'pie',
                  marker = list(colors = collist_rgb[1:nrow(result$showing_central)],
                                line = list(color = '#FFFFFF', width = 1))
@@ -3701,8 +3695,8 @@ function(input, output, session) {
   
   
   #output$showing_plot<-renderPlot({
-  #  #pring(result$showing_rankaccept)
-  #  #pring(class(result$showing_rankaccept))
+  #  #print(result$showing_rankaccept)
+  #  #print(class(result$showing_rankaccept))
   #  ranking<-c("Rank 1","Rank 2","Rank 3","Rank 4","Rank 5","Rank 6","Rank 7","Rank 8","Rank 9","Rank 10")
   #  barplot(result$showing_rankaccept,main="Rank Acceptability", xlim = c(0, ncol(result$showing_rankaccept) + 1),
   #          xlab="",names=result$rankaccept_altlist,ylab="%",
@@ -3771,7 +3765,7 @@ function(input, output, session) {
   
   
   output$showing_plot2<-renderPlot({
-    #pring(result$showing_central)
+    #print(result$showing_central)
     ylabel<-c(0,10,20,30,40,50,60,70,80,90,100)
     plot(result$showing_central[1,],type='b',ylim=c(0,100),col="green",lwd=2,
          main="Central Weights",ylab="Goal Weights (%)",
@@ -3915,7 +3909,7 @@ function(input, output, session) {
                                "plan_TEcrithabnum"= 100,               #Number of T&E Species with critical habitat in proposed area / NOT AVAILABLE RIGHT NOW
                                "plan_TEperc"= 500,                     #% of critical habitat within proposed area for a T&E species / IN APP, but not for ind. species
                                "plan_HPCperc"=round(result_os$showing_matrix[5],0),                 #% of proposed area comprised of High Priority Habitat / IN APP
-                               "plan_Worklandsperc"= round(result_os$showing_matrix[19],0),              #% of proposed area comprised of Working Lands / IN APP
+                               "plan_Worklandsperc"= round(result_os$showing_matrix[19],0),              #% of proposed area comprised of High Priority Working Lands / IN APP
                                "plan_ImpairedWS"=round(result_os$showing_matrix[6],0),                #Acres of proposed area comprised of impaired watershed / IN APP             #% of proposed area comprised of impaired watershed / IN APP
                                "plan_QpChange"= ifelse(result_os$showing_matrix[7]>=1,"no change or a decline",
                                                        ifelse(result_os$showing_matrix[7]>=0.75,"minimal (0-1% increase)",
@@ -3956,7 +3950,7 @@ function(input, output, session) {
                                "plan_historic_check"=ifelse(result_os$showing_matrix[13]>0,1,0),              #is there historic place within AOI?
                                "plan_heritage_check"=ifelse(result_os$showing_matrix[14]>0,1,0))              #is there heritage area within AOI?
       ##For elements with multiple items, read in separately with list(c())
-      ##pring(report_table)
+      ##print(report_table)
       #T&E NAMES / NEED TO CHECK
       report_table$plan_TEname<-list(c("Gulf Sturgeon","Gopher Tortoise")) 
       
@@ -4014,7 +4008,7 @@ function(input, output, session) {
                                                 "with ",report_table$WL_list," comprising roughly ",report_table$WL_perc," percent of the landscape",sep=""),
                                           "This area of interest provides no protection of working lands"))
       
-      #Statement for water quality
+      #Statement for Water Quality & Quantity
       #WQ_list<-ifelse(length(report_table$plan_Impairedwbodyname[[1]])>2,
       #                paste(implode(report_table$plan_Impairedwbodyname[[1]][-length(report_table$plan_Impairedwbodyname[[1]])],sep=", "),
       #                      report_table$plan_Impairedwbodyname[[1]][length(report_table$plan_Impairedwbodyname[[1]])],sep = ", and "),
@@ -4114,13 +4108,13 @@ function(input, output, session) {
       Pasture<-ifelse(WL_split[[1]][3]!=0,paste0("Pasture (",WL_split[[1]][3],"%)"),paste0(""))
       WL_full<-c(Evergreen,Cropland,Pasture)
       WL_final<-WL_full[WL_full != ""]
-      #pring(WL_final)
+      #print(WL_final)
       ##Conditional Statements
       dat_1_1<-paste0("This report evaluates the ","**",report_table_1$AOI_Name,"**"," area of interest") 
       dat_2_1<-paste0(", approximately ","**",report_table_1$AOI_Area,"**"," acres of land") 
       dat_3_1<-paste0(", that is within 1 km of currently protected land, according to the PAD-US layer. ") 
       dat_3_2<-paste0(", that is not within 1 km of currently protected land. ")
-      dat_4_1<-paste0(report_table_1$AOI_Name," also supports structural connectivity, as ",
+      dat_4_1<-paste0(report_table_1$AOI_Name," also supports Connectivity of Natural Lands, as ",
                       report_table_1$Connectivity," percent of the area is classified as a hub or corridor by the EPA National Ecological Framework (NEF). ")
       dat_4_2<-paste0(report_table_1$AOI_Name," does not have any land classified as a hub or corridor by the EPA National Ecological Framework (NEF). ")
       dat_5_1<-paste0(report_table_1$AOI_Name," is expected to have a ",report_table_1$SLEUTH," threat of development by the year 2060, according to the SLEUTH urbanization model. ")
@@ -4150,9 +4144,9 @@ function(input, output, session) {
       dat_15_3<-paste0("")
       dat_16_1<-paste0(". ",report_table_1$AOI_Name," has a ",report_table_1$Light_Pollut," level of light pollution.")
       dat_16_2<-paste0(". There is no light pollution in the area of interest.")
-      dat_17_1<-paste0(" The National Registry of Historic Places indicates that there are ",report_table_1$Historic," historic places within or around the area of interest. ")
-      dat_17_2<-paste0(" The National Registry of Historic Places indicates that there is ",report_table_1$Historic," historic place within or around the area of interest. ")
-      dat_17_3<-paste0(" No places listed under the National Registry of Historic Places are known to exist within or around the area of interest. ")
+      dat_17_1<-paste0(" The National Register of Historic Places indicates that there are ",report_table_1$Historic," historic places within or around the area of interest. ")
+      dat_17_2<-paste0(" The National Register of Historic Places indicates that there is ",report_table_1$Historic," historic place within or around the area of interest. ")
+      dat_17_3<-paste0(" No places listed under the National Register of Historic Places are known to exist within or around the area of interest. ")
       dat_18_1<-paste0(" About ",report_table_1$Heritage," percent of ",report_table_1$AOI_Name," is within a designated National Heritage Area. ")
       dat_18_2<-paste0(report_table_1$AOI_Name," is not within a designated National Heritage Area. ")
       dat_19_1<-paste0(" According to NOAA's Office for Coastal Management, the area of interest is nearby a community that is socially vulnerable.")
@@ -4269,7 +4263,7 @@ function(input, output, session) {
                                "plan_TEcrithabnum"= 100,               #Number of T&E Species with critical habitat in proposed area / NOT AVAILABLE RIGHT NOW
                                "plan_TEperc"= 500,                     #% of critical habitat within proposed area for a T&E species / IN APP, but not for ind. species
                                "plan_HPCperc"=round(result$showing_matrix[5,]*100,0),                 #% of proposed area comprised of High Priority Habitat / IN APP
-                               "plan_Worklandsperc"= round(result$showing_matrix[19,]*100,0),              #% of proposed area comprised of Working Lands / IN APP
+                               "plan_Worklandsperc"= round(result$showing_matrix[19,]*100,0),              #% of proposed area comprised of High Priority Working Lands / IN APP
                                "plan_ImpairedWS"=round(result$showing_matrix[6,]*100,0),                 #% of proposed area comprised of impaired watershed / IN APP
                                "plan_Urbanthreat"=ifelse(result$showing_matrix[4,]>0.66,"high",
                                                          ifelse(result$showing_matrix[4,]>0.33,"medium",
@@ -4286,7 +4280,7 @@ function(input, output, session) {
       Project_num<-length(report_table$plan_Name)
       
       ##For elements with multiple items, read in separately with list(c())
-      #pring(report_table)
+      #print(report_table)
       for(i in 1:length(report_table$plan_Name)){
         report_table$plan_RSTORE_check[i]=ifelse(length(st_intersects(ps_list$result[[i]],SCA)[[1]])==0,0,1)
       }
@@ -4348,7 +4342,7 @@ function(input, output, session) {
       #                             "with ",WL_list," comprising roughly ",WL_perc," percent of the landscape",sep=""),
       #                       "This area of interest provides no protection of working lands"))
       
-      #Statement for water quality
+      #Statement for Water Quality & Quantity
       #WQ_list<-ifelse(length(report_table$plan_Impairedwbodyname[[1]])>2,
       #                paste(implode(report_table$plan_Impairedwbodyname[[1]][-length(report_table$plan_Impairedwbodyname[[1]])],sep=", "),
       #                      report_table$plan_Impairedwbodyname[[1]][length(report_table$plan_Impairedwbodyname[[1]])],sep = ", and "),
@@ -4434,7 +4428,7 @@ function(input, output, session) {
     labs <- lapply(seq(nrow(ps_list$hex_merge_final)), function(i) {
       paste0("Threat of Urbanization: ", ps_list$hex_merge_final$Sleuth_v2[i], "<br>",
             "Connectivity with PAD-US: ", ps_list$hex_merge_final$PADUS2[i], "<br>",
-            "Structural Connectivity Index: ", ps_list$hex_merge_final$area_conne[i], "<br>",
+            "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final$area_conne[i], "<br>",
             "Proposed Area of Conservation: ", "1", "<br>",
             "Composition of Natural Lands: ", ps_list$hex_merge_final$conl_index[i], "<br>",
             "Imparied Watershed Area: ", ps_list$hex_merge_final$area_12_13[i], "<br>",
@@ -4444,14 +4438,14 @@ function(input, output, session) {
             "Composition of Riparian Zone Lands: ",ps_list$hex_merge_final$wq6[i], "<br>",
             "Biodiversity Index: ", ps_list$hex_merge_final$Index_cpt_[i], "<br>",
             "T&E Species Area: ", ps_list$hex_merge_final$PA1[i], "<br>",
-            "T&E Species Counts: ", ps_list$hex_merge_final$statuscoun[i], "<br>",
+            "T&E Number of Species: ", ps_list$hex_merge_final$statuscoun[i], "<br>",
             "Light Pollution Index: ", ps_list$hex_merge_final$area_light[i], "<br>",
             "National Heritage Area: ", ps_list$hex_merge_final$area_nha[i], "<br>",
             "National Registery of Historic Places: ", ps_list$hex_merge_final$Join_Cou_2[i], "<br>",
-            "Working Lands: ", ps_list$hex_merge_final$WORKINGLAN[i], "<br>",
-            "Commercial Fishery Index: ", ps_list$hex_merge_final$ComEng_ct[i], "<br>",
-            "Recreational Fishery Index: ", ps_list$hex_merge_final$RecEng_ct[i],"<br>",
-            "Access & Recreation: ", ps_list$hex_merge_final$AR_boat[i]
+            "High Priority Working Lands: ", ps_list$hex_merge_final$WORKINGLAN[i], "<br>",
+            "Commercial Fishing Reliance: ", ps_list$hex_merge_final$ComEng_ct[i], "<br>",
+            "Recreational Fishing Engagement: ", ps_list$hex_merge_final$RecEng_ct[i],"<br>",
+            "Access & Recreation: Number of Access Points", ps_list$hex_merge_final$AR_boat[i]
             )
     })
     
@@ -4466,19 +4460,20 @@ function(input, output, session) {
       ) %>%
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
       hideGroup("View Hexagons")%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       addLayersControl(position="topright",overlayGroups=c("Proposal boudaries", "View Hexagons"))
   })
   
   output$mapresultos<-renderLeaflet({
     spatial_footprint<-ps_list_os$result
-    spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
+    spatial_footprint$proposal<-1
     color<-colorNumeric(colorlist,spatial_footprint$proposal)
     labs <- lapply(seq(nrow(ps_list_os$hex_merge_final)), function(i) {
       paste0("Threat of Urbanization: ", ps_list_os$hex_merge_final$Sleuth_v2[i], "<br>",
              "Connectivity with PAD-US: ", ps_list_os$hex_merge_final$PADUS2[i], "<br>",
-             "Structural Connectivity Index: ", ps_list_os$hex_merge_final$area_conne[i], "<br>",
+             "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final$area_conne[i], "<br>",
              "Proposed Area of Conservation: ", "1", "<br>",
              "Composition of Natural Lands: ", ps_list_os$hex_merge_final$conl_index[i], "<br>",
              "Imparied Watershed Area: ", ps_list_os$hex_merge_final$area_12_13[i], "<br>",
@@ -4488,14 +4483,14 @@ function(input, output, session) {
              "Composition of Riparian Zone Lands: ",ps_list_os$hex_merge_final$wq6[i], "<br>",
              "Biodiversity Index: ", ps_list_os$hex_merge_final$Index_cpt_[i], "<br>",
              "T&E Species Area: ", ps_list_os$hex_merge_final$PA1[i], "<br>",
-             "T&E Species Counts: ", ps_list_os$hex_merge_final$statuscoun[i], "<br>",
+             "T&E Number of Species: ", ps_list_os$hex_merge_final$statuscoun[i], "<br>",
              "Light Pollution Index: ", ps_list_os$hex_merge_final$area_light[i], "<br>",
              "National Heritage Area: ", ps_list_os$hex_merge_final$area_nha[i], "<br>",
              "National Registery of Historic Places: ", ps_list_os$hex_merge_final$Join_Cou_2[i], "<br>",
-             "Working Lands: ", ps_list_os$hex_merge_final$WORKINGLAN[i], "<br>",
-             "Commercial Fishery Index: ", ps_list_os$hex_merge_final$ComEng_ct[i], "<br>",
-             "Recreational Fishery Index: ", ps_list_os$hex_merge_final$RecEng_ct[i], "<br>",
-             "Access & Recreation: ",ps_list_os$hex_merge_final$AR_boat[i])
+             "High Priority Working Lands: ", ps_list_os$hex_merge_final$WORKINGLAN[i], "<br>",
+             "Commercial Fishing Reliance: ", ps_list_os$hex_merge_final$ComEng_ct[i], "<br>",
+             "Recreational Fishing Engagement: ", ps_list_os$hex_merge_final$RecEng_ct[i], "<br>",
+             "Access & Recreation: Number of Access Points",ps_list_os$hex_merge_final$AR_boat[i])
     })
     leaflet() %>% addProviderTiles(providers$Esri.WorldStreetMap) %>%
       addPolygons(data= spatial_footprint,fillColor = color(spatial_footprint$proposal),
@@ -4508,7 +4503,8 @@ function(input, output, session) {
       ) %>%
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
       hideGroup("View Hexagons")%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist_os,opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       addLayersControl(position="topright",overlayGroups=c("Proposal boudaries", "View Hexagons"))
   })
@@ -4525,7 +4521,7 @@ function(input, output, session) {
                   fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       addEsriFeatureLayer(
         url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/TNC_Alabama_Terrestrial_Priority_Sites_2008/FeatureServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green",group = "AL Conservation Opportunity Areas")%>%
@@ -4543,16 +4539,17 @@ function(input, output, session) {
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "NERR Conservation Areas")%>%
       
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
       hideGroup("AL Conservation Opportunity Areas")%>%
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
-      hideGroup("SECAS Blue#pring")%>%
+      hideGroup("SECAS Blueprint")%>%
       hideGroup("NERR Conservation Areas")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   
@@ -4570,7 +4567,7 @@ function(input, output, session) {
                   fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       #addEsriTiledMapLayer(
       #  url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/Target_Areas_MDEQ/MapServer/",
       #  options = providerTileOptions(opacity = 0.5),group = "MDEQ Target Areas")%>%
@@ -4590,7 +4587,8 @@ function(input, output, session) {
         url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/NERRmerge/FeatureServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "NERR Conservation Areas")%>%
       
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4598,9 +4596,9 @@ function(input, output, session) {
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("SCA Boundary")%>%
-      hideGroup("SECAS Blue#pring")%>%
+      hideGroup("SECAS Blueprint")%>%
       hideGroup("NERR Conservation Areas")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$mapresult6<-renderLeaflet({
@@ -4615,7 +4613,7 @@ function(input, output, session) {
                   fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       addEsriFeatureLayer(
         url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/TNC_Alabama_Terrestrial_Priority_Sites_2008/FeatureServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green",group = "AL Conservation Opportunity Areas")%>%
@@ -4632,7 +4630,8 @@ function(input, output, session) {
       addEsriFeatureLayer(
         url = "https://fnai04.fnai.org:6443/arcgis/rest/services/ConLands/FLMA_FFBOT_AP_Combined/MapServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "FNAI BOT Conservation Areas")%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4640,13 +4639,12 @@ function(input, output, session) {
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("NERR Conservation Areas")%>%
-      hideGroup("SECAS Blue#pring")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      hideGroup("SECAS Blueprint")%>%
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$mapresult4<-renderLeaflet({
     spatial_footprint<-ps_list_os$result
-    
     spatial_footprint$proposal<-1
     color<-colorNumeric(colorlist,spatial_footprint$proposal)
     leaflet() %>% addProviderTiles(providers$Esri.WorldStreetMap) %>% 
@@ -4678,7 +4676,7 @@ function(input, output, session) {
                   weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list_os$hex_merge_final,fillColor = color(spatial_footprint$proposal),stroke = F,
                   fillOpacity = .5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist_os,opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4687,7 +4685,7 @@ function(input, output, session) {
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("NERR Conservation Areas")%>%
       hideGroup("SECAS Blueprint")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$mapresult_portfolio<-renderLeaflet({
@@ -4717,12 +4715,13 @@ function(input, output, session) {
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "FNAI BOT Conservation Areas")%>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
-        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blue#pring")%>%
+        options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       addPolygons(data= spatial_footprint,fill = F,
                   weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list$hex_merge_final,fillColor = color(ps_list$hex_merge_final$appid),stroke = F,
                   fillOpacity = .5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4730,8 +4729,8 @@ function(input, output, session) {
       hideGroup("MS Conservation Opportunity Areas")%>%
       hideGroup("LA Conservation Opportunity Areas")%>%
       hideGroup("NERR Conservation Areas")%>%
-      hideGroup("SECAS Blue#pring")%>%
-      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blue#pring"))
+      hideGroup("SECAS Blueprint")%>%
+      addLayersControl(position="topright",overlayGroups=c("NERR Conservation Areas","FNAI BOT Conservation Areas","AL Conservation Opportunity Areas","MS Conservation Opportunity Areas","LA Conservation Opportunity Areas","SECAS Blueprint"))
   })
   
   output$report2 <- downloadHandler(
@@ -4744,7 +4743,7 @@ function(input, output, session) {
       spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
       st_write(spatial_footprint,paste0(c(temp_shp,"Spatial_footprint.shp"),collapse ="/"),delete_layer = T)
       files <- list.files(temp_shp, "Spatial_footprint",recursive=TRUE) 
-      #pring(files)
+      #print(files)
       zip(zipfile = file, files=paste(temp_shp), recurse = TRUE)
     },contentType = "application/zip"
   )
@@ -4759,7 +4758,7 @@ function(input, output, session) {
       spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
       st_write(spatial_footprint,paste0(c(temp_shp,"Spatial_footprint.shp"),collapse ="/"),delete_layer = T)
       files <- list.files(temp_shp, "Spatial_footprint",recursive=TRUE) 
-      ##pring(files)
+      ##print(files)
       zip(zipfile = file, files=paste(temp_shp), recurse = TRUE)
     },contentType = "application/zip"
   )
@@ -4774,7 +4773,7 @@ function(input, output, session) {
       spatial_footprint$proposal<-1
       st_write(spatial_footprint,paste0(c(temp_shp,"Spatial_footprint.shp"),collapse ="/"),delete_layer = T)
       files <- list.files(temp_shp, "Spatial_footprint",recursive=TRUE) 
-      #pring(files)
+      #print(files)
       zip(zipfile = file, files=paste(temp_shp), recurse = TRUE)
     },contentType = "application/zip"
   )
@@ -4789,7 +4788,7 @@ function(input, output, session) {
       spatial_footprint$proposal<-1
       st_write(spatial_footprint,paste0(c(temp_shp,"Spatial_footprint.shp"),collapse ="/"),delete_layer = T)
       files <- list.files(temp_shp, "Spatial_footprint",recursive=TRUE) 
-      #pring(files)
+      #print(files)
       zip(zipfile = file, files=paste(temp_shp), recurse = TRUE)
     },contentType = "application/zip"
   )
@@ -4921,13 +4920,28 @@ function(input, output, session) {
   })
   
   observeEvent(input$numMCDA,{
-    #pring(input$numMCDA)
+    #print(input$numMCDA)
     value1$mcdarun<-as.numeric(input$numMCDA)
   
     })
   observeEvent(input$osconfirmname,{
     proplist_os<<- input$osrename1
+    # The row andcolumn names of showing_matrix_os will automatically update after the changes of showing_matrix
+    rownames(result_os$showing_matrix)<-coln
+    colnames(result_os$showing_matrix)<-proplist_os
     updateTabsetPanel(session = session, inputId = "viewdataos", "osdatasummary")
+
+    spatial_footprint<-ps_list_os$result
+    spatial_footprint$proposal<-1
+    color<-colorNumeric(colorlist,spatial_footprint$proposal)
+    # Rename the legend labels of the small map at the bottom right
+    leafletProxy("mapresult4")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")
+    # Rename the legend labels of the large map for refining area
+    leafletProxy("mapresultos")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")
   })
   
   
@@ -4935,9 +4949,27 @@ function(input, output, session) {
     for(i in 1:length(ps_list$result)){
       proplist[i]<<-eval(parse(text = paste0("input$txtrename",i)))
     }
-    
+    # print(proplist)
+    # The column names of showing_matrix will automatically update after the changes of showing_matrix_raw
+    # and column names of showing_matrix_scaled will automatically update after the changes of showing_matrix
+    colnames(result$showing_matrix_raw)<-proplist[1:ncol(result$showing_matrix_raw)]
     colnames(result$showing_matrix)<-proplist[1:ncol(result$showing_matrix)]
     colnames(result$matrix)<-proplist[1:ncol(result$matrix)]
+    updateTabsetPanel(session = session, inputId = "viewdata", "rawdata")
+
+    spatial_footprint<-do.call(rbind,ps_list$result)
+    spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
+    color<-colorNumeric(colorlist,spatial_footprint$proposal)
+    # Rename the legend labels of the small map at the bottom right
+    leafletProxy("mapresult5")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")
+    # Rename the legend labels of the large map for refining area
+    leafletProxy("mapresult")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")
   })
   
  
@@ -4954,7 +4986,7 @@ function(input, output, session) {
     names(addattrtmp)<-c("Attribute name","Goals",proplist[1:length(ps_list$result)])
     result$newaddattr<-rbind(result$newaddattr,addattrtmp)
     value2$newaddedweight<-value2$newaddedweight+1
-    #pring(result$newaddattr)
+    #print(result$newaddattr)
   })
   observeEvent(input$removeaddweight,{
     if(!is.null(input$addattrtable_rows_selected)){
@@ -4970,13 +5002,13 @@ function(input, output, session) {
     value2$clickedMarker <- input$mapresultos_shape_click
     hex_id<-value2$clickedMarker$id
     hex_id<-as.character(hex_id)
-    #pring(hex_id)
-    #pring(class(hex_id))
-    #pring(is.null(ps_list_os$hex_select))
-    #pring(class(ps_list_os$hex_merge_final))
-    #pring(as.character(hex_id)%in% ps_list_os$hex_select$OBJECTID)
-    #pring(hex_id %in% ps_list$hex_merge_final$OBJECTID)
-    #pring(colnames(ps_list_os$hex_merge_final))
+    #print(hex_id)
+    #print(class(hex_id))
+    #print(is.null(ps_list_os$hex_select))
+    #print(class(ps_list_os$hex_merge_final))
+    #print(as.character(hex_id)%in% ps_list_os$hex_select$OBJECTID)
+    #print(hex_id %in% ps_list$hex_merge_final$OBJECTID)
+    #print(colnames(ps_list_os$hex_merge_final))
     #df_Rshortdatage$data[df_Rshortdatage$data$Geo.Extent==hex_id,]
     if(is.null(ps_list_os$hex_select) && hex_id %in% ps_list_os$hex_merge_final$OBJECTID){
       ps_list_os$hex_select<-ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]
@@ -4986,7 +5018,7 @@ function(input, output, session) {
                     fillColor = "gray",weight=0.4,group="View Hexagons",
                     label= HTML(paste0("Threat of Urbanization: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Sleuth_v2, "<br>",
                            "Connectivity with PAD-US: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
-                           "Structural Connectivity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
+                           "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                            "Proposed Area of Conservation: ", "1", "<br>",
                            "Composition of Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                            "Imparied Watershed Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
@@ -4996,13 +5028,13 @@ function(input, output, session) {
                            "Composition of Riparian Zone Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
                            "Biodiversity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                            "T&E Species Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
-                           "T&E Species Counts: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
+                           "T&E Number of Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                            "Light Pollution Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
                            "National Heritage Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_nha, "<br>",
                            "National Registery of Historic Places: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Join_Cou_2, "<br>",
-                           "Working Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
-                           "Commercial Fishery Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
-                           "Recreational Fishery Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
+                           "High Priority Working Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
+                           "Commercial Fishing Reliance: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
+                           "Recreational Fishing Engagement: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
                     highlightOptions = highlightOptions(color = "red", weight = 2,bringToFront = TRUE,fillColor = "gray",fillOpacity = 0.5),
                     labelOptions = labelOptions(textsize = "15px")
                     )
@@ -5017,7 +5049,7 @@ function(input, output, session) {
                     fillColor = "blue",weight=0.4,group="View Hexagons",
                     label= HTML(paste0("Threat of Urbanization: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Sleuth_v2, "<br>",
                                        "Connectivity with PAD-US: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
-                                       "Structural Connectivity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
+                                       "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
                                        "Composition of Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
@@ -5027,13 +5059,13 @@ function(input, output, session) {
                                        "Composition of Riparian Zone Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
                                        "Biodiversity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
-                                       "T&E Species Counts: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
+                                       "T&E Number of Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
                                        "National Heritage Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_nha, "<br>",
                                        "National Registery of Historic Places: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Join_Cou_2, "<br>",
-                                       "Working Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
-                                       "Commercial Fishery Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
-                                       "Recreational Fishery Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
+                                       "High Priority Working Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
+                                       "Commercial Fishing Reliance: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
+                                       "Recreational Fishing Engagement: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
                     highlightOptions = highlightOptions(color = "red", weight = 2,bringToFront = TRUE,fillColor = "gray",fillOpacity = 0.5),
                     labelOptions = labelOptions(textsize = "15px")
         )
@@ -5049,7 +5081,7 @@ function(input, output, session) {
                     fillColor = "gray",weight=0.4,group="View Hexagons",
                     label= HTML(paste0("Threat of Urbanization: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Sleuth_v2, "<br>",
                                        "Connectivity with PAD-US: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
-                                       "Structural Connectivity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
+                                       "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
                                        "Composition of Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
@@ -5059,13 +5091,13 @@ function(input, output, session) {
                                        "Composition of Riparian Zone Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
                                        "Biodiversity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
-                                       "T&E Species Counts: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
+                                       "T&E Number of Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
                                        "National Heritage Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_nha, "<br>",
                                        "National Registery of Historic Places: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Join_Cou_2, "<br>",
-                                       "Working Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
-                                       "Commercial Fishery Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
-                                       "Recreational Fishery Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
+                                       "High Priority Working Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
+                                       "Commercial Fishing Reliance: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
+                                       "Recreational Fishing Engagement: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
                     highlightOptions = highlightOptions(color = "red", weight = 2,bringToFront = TRUE,fillColor = "gray",fillOpacity = 0.5),
                     labelOptions = labelOptions(textsize = "15px")
         )
@@ -5075,8 +5107,8 @@ function(input, output, session) {
   observeEvent(input$mapresult_shape_click, { 
     value2$clickedMarker <- input$mapresult_shape_click
     hex_id<-value2$clickedMarker$id
-    ##pring(hex_id)
-    ##pring(class(hex_id))
+    ##print(hex_id)
+    ##print(class(hex_id))
     #df_Rshortdatage$data[df_Rshortdatage$data$Geo.Extent==hex_id,]
     if(is.null(ps_list$hex_select) && hex_id %in% ps_list$hex_merge_final$OBJECTID){
       ps_list$hex_select<-ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]
@@ -5086,7 +5118,7 @@ function(input, output, session) {
                     fillColor = "gray",weight=0.4,group="View Hexagons",
                     label= HTML(paste0("Threat of Urbanization: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Sleuth_v2, "<br>",
                                        "Connectivity with PAD-US: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
-                                       "Structural Connectivity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
+                                       "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
                                        "Composition of Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
@@ -5096,13 +5128,13 @@ function(input, output, session) {
                                        "Composition of Riparian Zone Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
                                        "Biodiversity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
-                                       "T&E Species Counts: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
+                                       "T&E Number of Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
                                        "National Heritage Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_nha, "<br>",
                                        "National Registery of Historic Places: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Join_Cou_2, "<br>",
-                                       "Working Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
-                                       "Commercial Fishery Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
-                                       "Recreational Fishery Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
+                                       "High Priority Working Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
+                                       "Commercial Fishing Reliance: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
+                                       "Recreational Fishing Engagement: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
                     highlightOptions = highlightOptions(color = "red", weight = 2,bringToFront = TRUE,fillColor = "gray",fillOpacity = 0.5),
                     labelOptions = labelOptions(textsize = "15px")
         )
@@ -5116,7 +5148,7 @@ function(input, output, session) {
                     fillColor = "blue",weight=0.4,group="View Hexagons",
                     label= HTML(paste0("Threat of Urbanization: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Sleuth_v2, "<br>",
                                        "Connectivity with PAD-US: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
-                                       "Structural Connectivity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
+                                       "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
                                        "Composition of Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
@@ -5126,13 +5158,13 @@ function(input, output, session) {
                                        "Composition of Riparian Zone Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
                                        "Biodiversity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
-                                       "T&E Species Counts: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
+                                       "T&E Number of Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
                                        "National Heritage Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_nha, "<br>",
                                        "National Registery of Historic Places: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Join_Cou_2, "<br>",
-                                       "Working Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
-                                       "Commercial Fishery Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
-                                       "Recreational Fishery Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
+                                       "High Priority Working Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
+                                       "Commercial Fishing Reliance: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
+                                       "Recreational Fishing Engagement: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
                     highlightOptions = highlightOptions(color = "red", weight = 2,bringToFront = TRUE,fillColor = "white",fillOpacity = 0.1),
                     labelOptions = labelOptions(textsize = "15px")
         )
@@ -5147,7 +5179,7 @@ function(input, output, session) {
                     fillColor = "gray",weight=0.4,group="View Hexagons",
                     label= HTML(paste0("Threat of Urbanization: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Sleuth_v2, "<br>",
                                        "Connectivity with PAD-US: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
-                                       "Structural Connectivity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
+                                       "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
                                        "Composition of Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
@@ -5157,13 +5189,13 @@ function(input, output, session) {
                                        "Composition of Riparian Zone Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
                                        "Biodiversity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
-                                       "T&E Species Counts: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
+                                       "T&E Number of Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
                                        "National Heritage Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_nha, "<br>",
                                        "National Registery of Historic Places: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Join_Cou_2, "<br>",
-                                       "Working Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
-                                       "Commercial Fishery Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
-                                       "Recreational Fishery Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
+                                       "High Priority Working Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$WORKINGLAN, "<br>",
+                                       "Commercial Fishing Reliance: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$ComEng_ct, "<br>",
+                                       "Recreational Fishing Engagement: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$RecEng_ct)),
                     highlightOptions = highlightOptions(color = "red", weight = 2,bringToFront = TRUE,fillColor = "gray",fillOpacity = 0.5),
                     labelOptions = labelOptions(textsize = "15px")
         )
@@ -5171,25 +5203,25 @@ function(input, output, session) {
   })
   
   observeEvent(input$updatetable,{
-    ##pring(length(ps_list$hex_merge_final$OBJECTID))
+    ##print(length(ps_list$hex_merge_final$OBJECTID))
     ps_list$hex_merge_final<-subset(ps_list$hex_merge_final, !(ps_list$hex_merge_final$OBJECTID %in% ps_list$hex_select$OBJECTID))
-    ##pring(length(ps_list$hex_merge_final$OBJECTID))
+    ##print(length(ps_list$hex_merge_final$OBJECTID))
     ps_list$hex_merge<-ps_list$hex_merge_final[match(unique(ps_list$hex_merge_final$OBJECTID),ps_list$hex_merge_final$OBJECTID),]
     
-    ##pring(result$matrix_raw)
+    ##print(result$matrix_raw)
     result$matrix<-NULL
-    ##pring("result$matrix")
-    ##pring(result$matrix)
+    ##print("result$matrix")
+    ##print(result$matrix)
     for(i in 1:length(ps_list$result)){
       data1<- ps_list$result[[i]]
-      ##pring(data1)
-      ##pring(ps_list$hex_merge)
+      ##print(data1)
+      ##print(ps_list$hex_merge)
       data2<-st_join(ps_list$hex_merge,data1,join=st_intersects,left=F)
       
       data2$appid<-i
-      ##pring(length(data2))
+      ##print(length(data2))
       result$datatable[[i]]<-c(as.numeric(as.numeric(st_area(data1)/1000000)),max(data2$PADUS2),sum(data2$area_conne),1-max(data2$Sleuth_v2),sum(data2$conl_index),sum(data2$area_12_13),mean(data2$wq3),(sum(data2$wq4)/length(data2$wq4))*100,mean(data2[data2$wq5>-1,]$wq5)*100,mean(data2[data2$wq6>-1,]$wq6),max(data2$Index_cpt_),sum(data2$PA1),max(as.numeric(as.character(data2$statuscoun))),min(data2$area_light),max(as.numeric(as.character(data2$Join_Cou_2))),sum(data2$area_nha),max(data2$SOVInew),max(data2$THREATINDE),sum(data2$WORKINGLAN),max(data2$ComEng_ct),max(data2$RecEng_ct),max(data2$AR_boat))
-      ##pring(result$datatable[[i]])
+      ##print(result$datatable[[i]])
       result$datatable[[i]][3]<-result$datatable[[i]][3]/result$datatable_context[[i]][1]*100
       result$datatable[[i]][5]<-result$datatable[[i]][5]/result$datatable_context[[i]][1]*100 
       result$datatable[[i]][6]<-result$datatable[[i]][6]/result$datatable_context[[i]][1]*100 
@@ -5210,7 +5242,7 @@ function(input, output, session) {
       result$matrix[4,i]<-result$matrix[4,i]
       #2. Connectivity with PAD-US
       result$matrix[2,i]<-result$matrix[2,i]
-      #3. Structural Connectivity 
+      #3. Connectivity of Natural Lands 
       result$matrix[3,i]<-result$matrix[3,i]/100
       #4. Proposed Area of Conservation
       result$matrix[1,i]<-ifelse(result$matrix[1,i]==0,0,
@@ -5236,7 +5268,7 @@ function(input, output, session) {
       result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
                                   ifelse(result$matrix[12,i]<=20,.75,
                                          ifelse(result$matrix[12,i]<=60,.9,1)))
-      #13. T&E Species Counts
+      #13. T&E Number of Species
       result$matrix[13,i]<-ifelse(result$matrix[13,i]==0,0,
                                   ifelse(result$matrix[13,i]==1,.9,
                                          ifelse(result$matrix[1,i]==2,.95,1)))
@@ -5317,35 +5349,35 @@ function(input, output, session) {
     colnames(result$showing_matrix)<-proplist[1:ncol(result$showing_matrix)]
     colnames(result$showing_matrix_raw)<-proplist[1:ncol(result$showing_matrix_raw)]
     result$rankaccept_altlist<-proplist[1:ncol(result$showing_matrix)]
-    ##pring("result$matrix_raw")
-    ##pring(result$matrix_raw)
+    ##print("result$matrix_raw")
+    ##print(result$matrix_raw)
   })
   
   
   
   
   observeEvent(input$osupdatetable,{
-    ##pring(length(ps_list$hex_merge_final$OBJECTID))
+    ##print(length(ps_list$hex_merge_final$OBJECTID))
     ps_list_os$hex_merge_final<-subset(ps_list_os$hex_merge_final, !(ps_list_os$hex_merge_final$OBJECTID %in% ps_list_os$hex_select$OBJECTID))
-    ##pring(length(ps_list_os$hex_merge_final$OBJECTID))
+    ##print(length(ps_list_os$hex_merge_final$OBJECTID))
     ps_list_os$hex_merge<-ps_list_os$hex_merge_final[match(unique(ps_list_os$hex_merge_final$OBJECTID),ps_list_os$hex_merge_final$OBJECTID),]
     
-    ##pring(result$matrix_raw)
+    ##print(result$matrix_raw)
     result$matrix<-NULL
-    ##pring("result$matrix")
-    ##pring(result$matrix)
+    ##print("result$matrix")
+    ##print(result$matrix)
    
       data1<- ps_list_os$result
-      ##pring(data1)
-      ##pring(ps_list$hex_merge)
+      ##print(data1)
+      ##print(ps_list$hex_merge)
       data2<-st_join(ps_list_os$hex_merge,data1,join=st_intersects,left=F)
-      ##pring(length(data2))
+      ##print(length(data2))
       result_os$datatable<-c(as.numeric(as.numeric(st_area(data1)/1000000)),max(data2$PADUS2),sum(data2$area_conne),1-max(data2$Sleuth_v2),sum(data2$conl_index),sum(data2$area_12_13),mean(data2$wq3),(sum(data2$wq4)/length(data2$wq4))*100,mean(data2[data2$wq5>-1,]$wq5)*100,mean(data2[data2$wq6>-1,]$wq6),max(data2$Index_cpt_),sum(data2$PA1),max(as.numeric(as.character(data2$statuscoun))),min(data2$area_light),max(as.numeric(as.character(data2$Join_Cou_2))),sum(data2$area_nha),max(data2$SOVInew),max(data2$THREATINDE),sum(data2$WORKINGLAN),max(data2$ComEng_ct),max(data2$RecEng_ct),max(data2$AR_boat))
-      ##pring(result$datatable[[i]])
-      #pring(result_os$datatable)
+      ##print(result$datatable[[i]])
+      #print(result_os$datatable)
       result_os$datatable_context<-c(sum(data2$metal_cuzo),min(data2$X303d_desig),length(data2$area_conne))
-      ##pring("testing")
-      ##pring(result_os$datatable_context)
+      ##print("testing")
+      ##print(result_os$datatable_context)
       
       result_os$matrix_context<-as.matrix(result_os$datatable_context)
       result_os$matrix<-as.matrix(result_os$datatable)
@@ -5362,7 +5394,7 @@ function(input, output, session) {
       result_os$showing_matrix[16]<-round(result_os$showing_matrix[16]/result_os$datatable_context[3]*100,0)
       result_os$showing_matrix[19]<-round(result_os$showing_matrix[19]/result_os$datatable_context[3]*100,0)
       colnames(result_os$showing_matrix)<-proplist_os
-      #pring(result_os$showing_matrix)
+      #print(result_os$showing_matrix)
   })
   
   observeEvent(input$advance,{
@@ -5370,8 +5402,8 @@ function(input, output, session) {
     shinyjs::show("gotodeselect")
     shinyjs::show("gotoutility")
     shinyjs::show("addweight")
-    shinyjs::show("downloadData")
     shinyjs::show("renameproject")
+    shinyjs::show("downloadData")
     shinyjs::show("download2")
     shinyjs::show("adjustmcdanumbers")
     shinyjs::show("advancedoptions")

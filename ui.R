@@ -205,13 +205,13 @@ tagList(
                                                               
                                                             ),
                                                             tabPanel("Rename Area of Interest",value = "renameos",
-                                                                     
+                                                                      br(),
                                                                       #textInput("osrename",value = proplist_os,label = proplist_os),
                                                                       uiOutput("osnamechange"),
                                                                       actionButton("osconfirmname","Make changes to the names")
                                                                      
                                                             ),
-                                                            tabPanel("Redefine Area of Interest",value = "redefineos",
+                                                            tabPanel("Refine Area of Interest",value = "redefineos",
                                                                      br(),
                                                                      leafletOutput("mapresultos",width = "100%", height = 800)
                                                                      )
@@ -269,7 +269,6 @@ tagList(
                                                           br(),
                                                           #downloadButton("portfoliodownload","Report"),
                                                           downloadButton("portfoliospdownload","Spatial footprint"),
-                                                          #downloadButton("portfoliospdownload","Spatial footprint"),
                                                           br(),
                                                           hr(),
                                                           plotlyOutput("barportfolio"),
@@ -285,13 +284,13 @@ tagList(
                                                    column(9,
                                                           tabsetPanel(id="viewdata",
                                                             tabPanel("Raw Data",value = "rawdata",
-                                                                  hr(),           
+                                                                  # hr(),           
                                                                   DT::dataTableOutput("showing_matrix") ,
                                               
                                                             ),
                                                             tabPanel("Scaled Data",value = "scaledata",
                                                                      
-                                                                  DT::dataTableOutput("showing_matrix1") 
+                                                                  DT::dataTableOutput("showing_matrix_scaled") 
                                                             ),
                                                             tabPanel("Deselect Hexagons",value = "deselect",
                                                                      br(),
@@ -316,6 +315,7 @@ tagList(
                                                                      
                                                             ),
                                                             tabPanel("Rename Area of Interest",value = "rename",
+                                                                     br(),
                                                                      fluidRow(
                                                                        column(6,
                                                                               
@@ -385,13 +385,14 @@ tagList(
                                                           br(),
                                                           actionButton("showsupportlayer","Turn on all the supporting layers"),
                                                           br(),
-                                                          br()
-                                                          ),
                                                           hr(),
+                                                          ),
                                                           downloadButton("download2","Detailed Report V3"),
+                                                          br(),
                                                           br(),
                                                           downloadButton("downloadData","Export Raw Datatable"),
                                                           br(),
+                                                          hr(),
                                                           leafletOutput("mapresult5",height = 250) 
                                                    ))
                                         ),
