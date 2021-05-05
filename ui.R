@@ -385,13 +385,14 @@ tagList(
                                                           br(),
                                                           actionButton("showsupportlayer","Turn on all the supporting layers"),
                                                           br(),
-                                                          br()
-                                                          ),
                                                           hr(),
+                                                          ),
                                                           downloadButton("download2","Detailed Report V3"),
+                                                          br(),
                                                           br(),
                                                           downloadButton("downloadData","Export Raw Datatable"),
                                                           br(),
+                                                          hr(),
                                                           leafletOutput("mapresult5",height = 250) 
                                                    ))
                                         ),

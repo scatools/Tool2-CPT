@@ -69,8 +69,8 @@ function(input, output, session) {
     shinyjs::hide("gotoutility")
     shinyjs::hide("addweight")
     shinyjs::hide("renameproject")
-    shinyjs::hide("downloadData")
-    shinyjs::hide("download2")
+    # shinyjs::hide("downloadData")
+    # shinyjs::hide("download2")
     shinyjs::hide("numMCDA")
     shinyjs::hide("adjustmcdanumbers")
     shinyjs::hide("advancedoptions")
@@ -4460,14 +4460,15 @@ function(input, output, session) {
       ) %>%
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
       hideGroup("View Hexagons")%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       addLayersControl(position="topright",overlayGroups=c("Proposal boudaries", "View Hexagons"))
   })
   
   output$mapresultos<-renderLeaflet({
     spatial_footprint<-ps_list_os$result
-    spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
+    spatial_footprint$proposal<-1
     color<-colorNumeric(colorlist,spatial_footprint$proposal)
     labs <- lapply(seq(nrow(ps_list_os$hex_merge_final)), function(i) {
       paste0("Threat of Urbanization: ", ps_list_os$hex_merge_final$Sleuth_v2[i], "<br>",
@@ -4502,7 +4503,8 @@ function(input, output, session) {
       ) %>%
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
       hideGroup("View Hexagons")%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist_os,opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       addLayersControl(position="topright",overlayGroups=c("Proposal boudaries", "View Hexagons"))
   })
@@ -4537,7 +4539,8 @@ function(input, output, session) {
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "NERR Conservation Areas")%>%
       
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4584,7 +4587,8 @@ function(input, output, session) {
         url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/NERRmerge/FeatureServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "NERR Conservation Areas")%>%
       
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4626,7 +4630,8 @@ function(input, output, session) {
       addEsriFeatureLayer(
         url = "https://fnai04.fnai.org:6443/arcgis/rest/services/ConLands/FLMA_FFBOT_AP_Combined/MapServer/0",
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "FNAI BOT Conservation Areas")%>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4640,7 +4645,6 @@ function(input, output, session) {
   
   output$mapresult4<-renderLeaflet({
     spatial_footprint<-ps_list_os$result
-    
     spatial_footprint$proposal<-1
     color<-colorNumeric(colorlist,spatial_footprint$proposal)
     leaflet() %>% addProviderTiles(providers$Esri.WorldStreetMap) %>% 
@@ -4672,7 +4676,7 @@ function(input, output, session) {
                   weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list_os$hex_merge_final,fillColor = color(spatial_footprint$proposal),stroke = F,
                   fillOpacity = .5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist_os,opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4716,7 +4720,8 @@ function(input, output, session) {
                   weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list$hex_merge_final,fillColor = color(ps_list$hex_merge_final$appid),stroke = F,
                   fillOpacity = .5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
-      addLegend(position ="bottomright", colors=color(spatial_footprint$proposal),labels=proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
       hideGroup("FNAI BOT Conservation Areas")%>%
@@ -4925,6 +4930,18 @@ function(input, output, session) {
     rownames(result_os$showing_matrix)<-coln
     colnames(result_os$showing_matrix)<-proplist_os
     updateTabsetPanel(session = session, inputId = "viewdataos", "osdatasummary")
+
+    spatial_footprint<-ps_list_os$result
+    spatial_footprint$proposal<-1
+    color<-colorNumeric(colorlist,spatial_footprint$proposal)
+    # Rename the legend labels of the small map at the bottom right
+    leafletProxy("mapresult4")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")
+    # Rename the legend labels of the large map for refining area
+    leafletProxy("mapresultos")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")
   })
   
   
@@ -4932,13 +4949,27 @@ function(input, output, session) {
     for(i in 1:length(ps_list$result)){
       proplist[i]<<-eval(parse(text = paste0("input$txtrename",i)))
     }
-    print(proplist)
+    # print(proplist)
     # The column names of showing_matrix will automatically update after the changes of showing_matrix_raw
     # and column names of showing_matrix_scaled will automatically update after the changes of showing_matrix
     colnames(result$showing_matrix_raw)<-proplist[1:ncol(result$showing_matrix_raw)]
     colnames(result$showing_matrix)<-proplist[1:ncol(result$showing_matrix)]
     colnames(result$matrix)<-proplist[1:ncol(result$matrix)]
     updateTabsetPanel(session = session, inputId = "viewdata", "rawdata")
+
+    spatial_footprint<-do.call(rbind,ps_list$result)
+    spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
+    color<-colorNumeric(colorlist,spatial_footprint$proposal)
+    # Rename the legend labels of the small map at the bottom right
+    leafletProxy("mapresult5")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")
+    # Rename the legend labels of the large map for refining area
+    leafletProxy("mapresult")%>%
+      removeControl("legend") %>%
+      addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
+                labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")
   })
   
  
@@ -5371,8 +5402,8 @@ function(input, output, session) {
     shinyjs::show("gotodeselect")
     shinyjs::show("gotoutility")
     shinyjs::show("addweight")
-    shinyjs::show("downloadData")
     shinyjs::show("renameproject")
+    shinyjs::show("downloadData")
     shinyjs::show("download2")
     shinyjs::show("adjustmcdanumbers")
     shinyjs::show("advancedoptions")
