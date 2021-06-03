@@ -818,7 +818,7 @@ function(input, output, session) {
           #10. Composition of Riparian Zone Lands
           result$matrix[10,i]<-result$matrix[10,i]
           
-          #11. Biodiversity Index
+          #11. Vulnerable Areas of Terrestrial Endemic Species
           result$matrix[11,i]<-result$matrix[11,i]/10
           #12. T&E Species Area
           result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
@@ -993,7 +993,7 @@ function(input, output, session) {
           #10. Composition of Riparian Zone Lands
           result$matrix_portfolio[10,i]<-result$matrix_portfolio[10,i]
           
-          #11. Biodiversity Index
+          #11. Vulnerable Areas of Terrestrial Endemic Species
           result$matrix_portfolio[11,i]<-result$matrix_portfolio[11,i]/10
           #12. T&E Species Area
           result$matrix_portfolio[12,i]<-ifelse(result$matrix_portfolio[12,i]<=0.001,0,
@@ -1408,7 +1408,7 @@ function(input, output, session) {
           #10. Composition of Riparian Zone Lands
           result$matrix[10,i]<-result$matrix[10,i]
           
-          #11. Biodiversity Index
+          #11. Vulnerable Areas of Terrestrial Endemic Species
           result$matrix[11,i]<-result$matrix[11,i]/10
           #12. T&E Species Area
           result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
@@ -1611,7 +1611,7 @@ function(input, output, session) {
           #10. Composition of Riparian Zone Lands
           result$matrix_portfolio[10,i]<-result$matrix_portfolio[10,i]
           
-          #11. Biodiversity Index
+          #11. Vulnerable Areas of Terrestrial Endemic Species
           result$matrix_portfolio[11,i]<-result$matrix_portfolio[11,i]/10
           #12. T&E Species Area
           result$matrix_portfolio[12,i]<-ifelse(result$matrix_portfolio[12,i]<=0.001,0,
@@ -1867,7 +1867,7 @@ function(input, output, session) {
           #10. Composition of Riparian Zone Lands
           result$matrix[10,i]<-result$matrix[10,i]
           
-          #11. Biodiversity Index
+          #11. Vulnerable Areas of Terrestrial Endemic Species
           result$matrix[11,i]<-result$matrix[11,i]/10
           #12. T&E Species Area
           result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
@@ -2351,7 +2351,7 @@ function(input, output, session) {
   
   
   output$showing_matrix_portfolio<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
@@ -2363,7 +2363,7 @@ function(input, output, session) {
     #                        'The area of the proposed plan in square kilometers',
     #                        'The total percentage area of identified top priority land cover (Tier 1) classes within a hexagon created from NCLD, CCAP, and GAP landcover classification maps. ',
     #                        'A percent attribute which stands for the proportion of impaired watershed within each Hexagon. The watershed data is analyzed based on HUC12 level. Any HUC12 watershed contains 303D Impaired streams would be considered as impaired.', 
-    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Biodiversity index were classified into 10 groups based on the same method proposed in Jenkins paper.', 
+    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Vulnerable Areas of Terrestrial Endemic Species were classified into 10 groups based on the same method proposed in Jenkins paper.', 
     #                        'The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.  The value in each hexagon is the cumulative % area of critical habitats for all T&E species.',
     #                        'A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.',
     #                        'A score of zero indicates the sky above the hexagon is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.',
@@ -2424,7 +2424,7 @@ function(input, output, session) {
   }, server = FALSE)
   
   output$showing_matrix_portfolio_goal<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
@@ -2436,7 +2436,7 @@ function(input, output, session) {
     #                        'The area of the proposed plan in square kilometers',
     #                        'The total percentage area of identified top priority land cover (Tier 1) classes within a hexagon created from NCLD, CCAP, and GAP landcover classification maps. ',
     #                        'A percent attribute which stands for the proportion of impaired watershed within each Hexagon. The watershed data is analyzed based on HUC12 level. Any HUC12 watershed contains 303D Impaired streams would be considered as impaired.', 
-    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Biodiversity index were classified into 10 groups based on the same method proposed in Jenkins paper.', 
+    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Vulnerable Areas of Terrestrial Endemic Species were classified into 10 groups based on the same method proposed in Jenkins paper.', 
     #                        'The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.  The value in each hexagon is the cumulative % area of critical habitats for all T&E species.',
     #                        'A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.',
     #                        'A score of zero indicates the sky above the hexagon is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.',
@@ -2519,7 +2519,7 @@ function(input, output, session) {
   }, server = FALSE)
   
   output$showing_matrix<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
@@ -2531,7 +2531,7 @@ function(input, output, session) {
     #                        'The area of the proposed plan in square kilometers',
     #                        'The total percentage area of identified top priority land cover (Tier 1) classes within a hexagon created from NCLD, CCAP, and GAP landcover classification maps. ',
     #                        'A percent attribute which stands for the proportion of impaired watershed within each Hexagon. The watershed data is analyzed based on HUC12 level. Any HUC12 watershed contains 303D Impaired streams would be considered as impaired.', 
-    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Biodiversity index were classified into 10 groups based on the same method proposed in Jenkins paper.', 
+    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Vulnerable Areas of Terrestrial Endemic Species were classified into 10 groups based on the same method proposed in Jenkins paper.', 
     #                        'The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.  The value in each hexagon is the cumulative % area of critical habitats for all T&E species.',
     #                        'A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.',
     #                        'A score of zero indicates the sky above the hexagon is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.',
@@ -2669,7 +2669,7 @@ function(input, output, session) {
   
   
   output$showing_matrix_scaled<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Biodiversity Index ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix)
     #row.names(data)<-coln_withicon
@@ -2681,7 +2681,7 @@ function(input, output, session) {
     #                        'The area of the proposed plan in square kilometers',
     #                        'The total percentage area of identified top priority land cover (Tier 1) classes within a hexagon created from NCLD, CCAP, and GAP landcover classification maps. ',
     #                        'A percent attribute which stands for the proportion of impaired watershed within each Hexagon. The watershed data is analyzed based on HUC12 level. Any HUC12 watershed contains 303D Impaired streams would be considered as impaired.',
-    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Biodiversity index were classified into 10 groups based on the same method proposed in Jenkins paper.',
+    #                        'A score of zero indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region. Vulnerable Areas of Terrestrial Endemic Species were classified into 10 groups based on the same method proposed in Jenkins paper.',
     #                        'The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.  The value in each hexagon is the cumulative % area of critical habitats for all T&E species.',
     #                        'A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.',
     #                        'A score of zero indicates the sky above the hexagon is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.',
@@ -4132,7 +4132,7 @@ function(input, output, session) {
       dat_11_1<-paste0("Land-use change in ",report_table_1$AOI_Name," has resulted in ",report_table_1$Qp_Change," in hydrologic response to a standard rainfall event for this region. ")
       dat_11_2<-paste0("Land-use change in ",report_table_1$AOI_Name," has resulted in a ",report_table_1$Qp_Change," hydrologic response to a standard rainfall event for this region. ")
       dat_11_3<-paste0("There is insufficient data to determine the hydrologic response of ",report_table_1$AOI_Name," to land-use change.")
-      dat_12_1<-paste0("The landscape of ",report_table_1$AOI_Name," has a ",report_table_1$Biodiversity," biodiversity index, in accordance with the methods used by Jenkins et. al, 2015. ")
+      dat_12_1<-paste0("The landscape of ",report_table_1$AOI_Name," has a ",report_table_1$Biodiversity," Vulnerable Areas of Terrestrial Endemic Species, in accordance with the methods used by Jenkins et. al, 2015. ")
       dat_12_2<-paste0("")
       dat_13_1<-paste0("Lands within ",report_table_1$AOI_Name," support roughly ",report_table_1$TE_Perc," of the critical habitat ranges for federally listed species. ")
       dat_13_2<-paste0("Lands within ",report_table_1$AOI_Name," are not known to support critical habitats for any federally listed species. ")
@@ -4436,7 +4436,7 @@ function(input, output, session) {
             "Percent Irrigated Agriculture: ",ps_list$hex_merge_final$wq4[i], "<br>",
             "Lateral Connectivity of Floodplain: ",ps_list$hex_merge_final$wq5[i], "<br>",
             "Composition of Riparian Zone Lands: ",ps_list$hex_merge_final$wq6[i], "<br>",
-            "Biodiversity Index: ", ps_list$hex_merge_final$Index_cpt_[i], "<br>",
+            "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list$hex_merge_final$Index_cpt_[i], "<br>",
             "T&E Species Area: ", ps_list$hex_merge_final$PA1[i], "<br>",
             "T&E Number of Species: ", ps_list$hex_merge_final$statuscoun[i], "<br>",
             "Light Pollution Index: ", ps_list$hex_merge_final$area_light[i], "<br>",
@@ -4481,7 +4481,7 @@ function(input, output, session) {
              "Percent Irrigated Agriculture: ",ps_list_os$hex_merge_final$wq4[i], "<br>",
              "Lateral Connectivity of Floodplain: ",ps_list_os$hex_merge_final$wq5[i], "<br>",
              "Composition of Riparian Zone Lands: ",ps_list_os$hex_merge_final$wq6[i], "<br>",
-             "Biodiversity Index: ", ps_list_os$hex_merge_final$Index_cpt_[i], "<br>",
+             "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list_os$hex_merge_final$Index_cpt_[i], "<br>",
              "T&E Species Area: ", ps_list_os$hex_merge_final$PA1[i], "<br>",
              "T&E Number of Species: ", ps_list_os$hex_merge_final$statuscoun[i], "<br>",
              "Light Pollution Index: ", ps_list_os$hex_merge_final$area_light[i], "<br>",
@@ -5026,7 +5026,7 @@ function(input, output, session) {
                            "Percent Irrigated Agriculture: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
                            "Lateral Connectivity of Floodplain: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq5, "<br>",
                            "Composition of Riparian Zone Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
-                           "Biodiversity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
+                           "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                            "T&E Species Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
                            "T&E Number of Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                            "Light Pollution Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
@@ -5057,7 +5057,7 @@ function(input, output, session) {
                                        "Percent Irrigated Agriculture: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
                                        "Lateral Connectivity of Floodplain: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq5, "<br>",
                                        "Composition of Riparian Zone Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
-                                       "Biodiversity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
+                                       "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
                                        "T&E Number of Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
@@ -5089,7 +5089,7 @@ function(input, output, session) {
                                        "Percent Irrigated Agriculture: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
                                        "Lateral Connectivity of Floodplain: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq5, "<br>",
                                        "Composition of Riparian Zone Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
-                                       "Biodiversity Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
+                                       "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
                                        "T&E Number of Species: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
@@ -5126,7 +5126,7 @@ function(input, output, session) {
                                        "Percent Irrigated Agriculture: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
                                        "Lateral Connectivity of Floodplain: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq5, "<br>",
                                        "Composition of Riparian Zone Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
-                                       "Biodiversity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
+                                       "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
                                        "T&E Number of Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
@@ -5156,7 +5156,7 @@ function(input, output, session) {
                                        "Percent Irrigated Agriculture: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
                                        "Lateral Connectivity of Floodplain: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq5, "<br>",
                                        "Composition of Riparian Zone Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
-                                       "Biodiversity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
+                                       "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
                                        "T&E Number of Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
@@ -5187,7 +5187,7 @@ function(input, output, session) {
                                        "Percent Irrigated Agriculture: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
                                        "Lateral Connectivity of Floodplain: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq5, "<br>",
                                        "Composition of Riparian Zone Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq6, "<br>",
-                                       "Biodiversity Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
+                                       "Vulnerable Areas of Terrestrial Endemic Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$Index_cpt_, "<br>",
                                        "T&E Species Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$PA1, "<br>",
                                        "T&E Number of Species: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$statuscoun, "<br>",
                                        "Light Pollution Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_light, "<br>",
@@ -5262,7 +5262,7 @@ function(input, output, session) {
       #10. Composition of Riparian Zone Lands
       result$matrix[10,i]<-result$matrix[10,i]
       
-      #11. Biodiversity Index
+      #11. Vulnerable Areas of Terrestrial Endemic Species
       result$matrix[11,i]<-result$matrix[11,i]/10
       #12. T&E Species Area
       result$matrix[12,i]<-ifelse(result$matrix[12,i]<=0.001,0,
