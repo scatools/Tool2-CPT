@@ -331,7 +331,9 @@ tagList(
                                                                               textInput("namenewadded","Name of the attributes",
                                                                                           value = "New attribute 1"),
                                                                               selectInput("goalnewadded", "Pick a RESTORE goal:",
-                                                                                          c("Habitat" = "HA","Water Quality" = "WQ","LCMR" = "LCMR", "Community Resilience" = "CL","Economy" = "EC")),
+                                                                                          c("Habitat" = "HA","Water Quality & Quantity" = "WQ",
+                                                                                          "Living Coastal & Marine Resources" = "LCMR", 
+                                                                                          "Community Resilience" = "CL","Gulf Economy" = "EC")),
                                                                               actionButton("finishaddweight","Add this attribute"),
                                                                               actionButton("removeaddweight","Remove selected attribute")
                                                                               
@@ -412,11 +414,11 @@ tagList(
                                                             numericInput("habitat1"," ", min = 0, max = 100, value = 20,step = 5,width = '40%')
                                                           ),
                                                           splitLayout( 
-                                                            sliderInput("water", "Water Quality: ",  min = 0, max = 100, value = 20,post ="%",step = 5,width = '100%'),
+                                                            sliderInput("water", "Water Quality & Quantity: ",  min = 0, max = 100, value = 20,post ="%",step = 5,width = '100%'),
                                                             numericInput("water1", " ", min = 0, max = 100, value = 20,step = 5,width = '40%')
                                                           ),
                                                           splitLayout( 
-                                                            sliderInput("species", "Coastal Marine Resources: ", min = 0, max = 100, value = 20,post ="%",step = 5,width = '100%'),
+                                                            sliderInput("species", "Living Coastal & Marine Resources: ", min = 0, max = 100, value = 20,post ="%",step = 5,width = '100%'),
                                                             numericInput("species1"," ", min = 0, max = 100, value = 20,step = 5,width = '40%')
                                                           ),
                                                           splitLayout( 
@@ -424,7 +426,7 @@ tagList(
                                                             numericInput("resilience1"," ", min = 0, max = 100, value = 20,step = 5,width = '40%')
                                                           ),
                                                           splitLayout( 
-                                                            sliderInput("economy", "Economy: ", min = 0, max = 100, value = 20,post ="%",step = 5,width = '100%'),
+                                                            sliderInput("economy", "Gulf Economy: ", min = 0, max = 100, value = 20,post ="%",step = 5,width = '100%'),
                                                             numericInput("economy1"," ", min = 0, max = 100, value = 20,step = 5,width = '40%')
                                                           )
                                                    )
@@ -459,7 +461,7 @@ tagList(
                                                                         column(6,
                                                                                br(),
                                                                                actionButton("HAmove", "Next")))),
-                                                             tabPanel("Water Quality",
+                                                             tabPanel("Water Quality & Quantity",
                                                                       value = "WQ",
                                                                       fluidRow(
                                                                         column(6,
