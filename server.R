@@ -147,7 +147,9 @@ function(input, output, session) {
       addEsriBasemapLayer(esriBasemapLayers$Imagery,group="ESRI World Imagery", autoLabels = TRUE)%>%
       addPolygons(data=SCA, fill = F , options = pathOptions(clickable = FALSE))%>%
       addEsriTiledMapLayer(
-        url = "https://gis1.usgs.gov/arcgis/rest/services/padus2_1/FeeManagers/MapServer",
+        # Use our own PADUS tile layer service instead of the original one from USGS
+        # url = "https://gis1.usgs.gov/arcgis/rest/services/padus2_1/FeeManagers/MapServer",
+        url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/PADUS2_Fee_Easement_Designation/MapServer",
         options = providerTileOptions(opacity = 0.15),group = "PAD-US")%>%
       addEsriDynamicMapLayer(
         url = "https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer",
