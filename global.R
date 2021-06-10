@@ -85,7 +85,13 @@ scr <- tags$script(HTML(
   "
 ))
 
-coln<-c("Project Area ", "Connectivity to Existing Protected Area ","Structural Connectivity Index ","Threat of Urbanization ","Land Cover - Composition of Natural Lands ","Impaired Watershed Area -- EPA '303(d)' list ","Hydrologic Response to Land-Use Change ","Percent Irrigated Agriculture","Lateral Connectivity of Floodplain","Composition of Riparian Zone Lands","Vulnerable Areas of Terrestrial Endemic Species ", "Threatened and Endangered Species - Critical Habitat Area ","Threatened and Endangered Species - Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ","Social Vulnerability Index ","Community Threat Index ", "Working Lands ","Commercial Fishery Index ", "Recreational Fishery Index ","Access & Recreation")
+coln<-c("Project Area ", "Connectivity to Existing Protected Area ","Connectivity of Natural Lands ","Threat of Urbanization ",
+        "Land Cover - Composition of Natural Lands ","303D: Impaired Watershed Area ","Hydrologic Response to Land-Use Change ",
+        "Percent Irrigated Agriculture ","Lateral Connectivity of Floodplain ","Composition of Riparian Zone Lands ",
+        "Vulnerable Areas of Terrestrial Endemic Species ", "Threatened and Endangered Species - Critical Habitat Area ",
+        "Threatened and Endangered Species - Number of Species ","Light Pollution Index ","National Register of Historic Places ",
+        "National Heritage Area ","Proximity to Socially Vulnerable Communities ","Community Threat Index ", "Working Lands ",
+        "Commercial Fishing Reliance ", "Recreational Fishing Engagement ","Access & Recreation: Number of Access Points")
 
 
 #changecolor <- "shinyjs.pageCol = function(id,color) {
