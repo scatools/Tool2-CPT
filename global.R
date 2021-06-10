@@ -122,18 +122,18 @@ SCA<- st_transform(SCA, crs= 4326)
 #padus<- st_transform(padus, crs= 4326)
 
 #HABITAT Priority Attributes and Measures
-hab_PA_Table = data.frame("Measures"= c("Project Area", "Connectivity to Existing Protected Area","Connectivity of Natural Lands","Threat of Urbanization","Composition of Natural Lands"))
+hab_PA_Table = data.frame("Measures"= c("Project Area", "Connectivity to Existing Protected Area ","Structural Connectivity Index","Threat of Urbanization","Land Cover - Composition of Natural Lands"))
 
 #WATER QUALITY Priority Attributes and Measures
-wq_PA_Table = data.frame( "Measures"= c("303D: Impaired Watershed Area","Hydrologic Response to Land-Use Change","Percent Irrigated Agriculture","Lateral Connectivity of Floodplain","Composition of Riparian Zone Lands"))
+wq_PA_Table = data.frame( "Measures"= c("Impaired Watershed Area -- EPA '303(d)' list ","Hydrologic Response to Land-Use Change","Percent Irrigated Agriculture","Lateral Connectivity of Floodplain","Composition of Riparian Zone Lands"))
 
 #LCMR Priority Attributes and Measures
 lcmr_PA_Table = data.frame(  "Measures"= c("Vulnerable Areas of Terrestrial Endemic Species", "Threatened and Endangered Species - Critical Habitat Area ","Threatened and Endangered Species - Number of Species","Light Pollution Index"))
 
 #COMMUNITY RESILIENCE Priority Attributes and Measures
-commres_PA_Table = data.frame("Measures"= c("National Register of Historic Places ","National Heritage Area","Proximity to Socially Vulnerable Communities","Community Threat Index"))
+commres_PA_Table = data.frame("Measures"= c("National Register of Historic Places ","National Heritage Area","Social Vulnerability Index","Community Threat Index"))
 
 
 #GULF ECONOMY Priority Attributes and Measures
-gulfecon_PA_Table = data.frame("Measures"= c( "High Priority Working Lands","Commercial Fishing Reliance", "Recreational Fishing Engagement","Access & Recreation: Number of Access Points"))
+gulfecon_PA_Table = data.frame("Measures"= c( "Working Lands","Commercial Fishery Index", "Recreational Fishery Index","Access & Recreation"))
 
