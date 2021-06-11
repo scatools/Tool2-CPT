@@ -1,5 +1,5 @@
 ---
-title: "Conservation Prioritization Tool - Report alpha"
+title: "Conservation Prioritization Tool - Report"
 author: "Strategic Conservation Assessment Project"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
@@ -74,4 +74,3 @@ DT::datatable(params$rawdata)
 17. **Commercial Fishing Reliance-** Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. A high rank indicates more reliance.
 18. **Recreational Fishing Engagement-** Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure. A high rank indicates more engagement.
 19. **Access and Recreation - Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
-

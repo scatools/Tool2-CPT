@@ -1,5 +1,5 @@
 ---
-title: "Conservation Prioritization Tool - Report alpha"
+title: "Conservation Prioritization Tool Detailed Report"
 author: "Strategic Conservation Assessment Project"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
@@ -15,6 +15,7 @@ params:
   scorebygoal: NA
   finalscore: NA
   table: NA
+  useraddedtable: NA
   weightstable: NA
 always_allow_html: yes
 ---
@@ -24,7 +25,7 @@ always_allow_html: yes
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Spatial footprint of Area of Interest
+## Spatial Footprint of Area of Interest
 
 
 ```{r include=FALSE}
@@ -52,7 +53,7 @@ This report evaluates `r length(params$footprint$proposal)` conservation plans
 ##### The conservation plans were evaluated based on how well they achieved each goal of the RESTORE Council, with scores for each plan displayed in the following table. The user-provided weights, which indicate the relative importance of each goal in the analysis, are shown in the right column.   
 
 ## Summary
-### Data measures selected
+### Data Measures Selected
 ##### The following table shows the scores that each conservation plan achieved for the priority attributes, with user-provided weights for priority attributes displayed in the right column.
 
 ```{r echo=FALSE}
@@ -62,8 +63,16 @@ DT::datatable(params$table,
                 searching = FALSE,paging = FALSE
               ))
 ```
+### User Defined Attributes
+```{r echo=FALSE}
+DT::datatable(params$useraddedtable,
+              options = list(
+                pageLength = 20,
+                searching = FALSE,paging = FALSE
+              ))
+```
 
-### RESTORE Goal weights summary
+### RESTORE Goal Weights Summary
 ##### The following table shows the RESTORE Goal weights selected for this report
 ```{r echo=FALSE}
 DT::datatable(params$weightstable,
@@ -72,7 +81,6 @@ DT::datatable(params$weightstable,
                 searching = FALSE,paging = FALSE
               ))
 ```
-
 
 ### Result 
 #### This graph shows the overall scores for each conservation plan 
@@ -122,10 +130,9 @@ DT::datatable(data,options = list(
 18. **Recreational Fishing Engagement-** Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure. A high rank indicates more engagement.
 19. **Access and Recreation - Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
 
-[^1]: U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United State (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
-[^2]: sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.
-[^3]: databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.
-[^4]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
-
 ## References Cited
 
+[^1]: U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United State (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
+[^2]: https://sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.
+[^3]: https://databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.
+[^4]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.

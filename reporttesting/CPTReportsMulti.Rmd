@@ -139,6 +139,6 @@ my_map
 18. **Recreational Fisheries Engagement -** The Recreational Fishing Engagement Index (RFEI) is on a discrete one-to-four range that measures the presence of recreational fishing through fishing activity estimates. An index value of one represents low engagement and an index value of 4 represents the highest engagement.
 19. **Access and Recreation - Number of Access Points -** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
 
+## References Cited
 
 [^1]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
-

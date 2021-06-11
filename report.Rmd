@@ -1,5 +1,5 @@
 ---
-title: "Conservation Prioritization Tool - Report alpha"
+title: "Conservation Prioritization Tool Detailed Report"
 author: "Strategic Conservation Assessment Project"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 runtime: shiny
@@ -143,9 +143,9 @@ legend("topleft",legend=params$rankalt[1:length(params$rankalt)],
 18. **Recreational Fishing Engagement-** Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure. A high rank indicates more engagement.
 19. **Access and Recreation - Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
 
-[^1]: U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United State (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
-[^2]: sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.
-[^3]: databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.
-[^4]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
-
 ## References Cited
+
+[^1]: U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United State (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
+[^2]: https://sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.
+[^3]: https://databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.
+[^4]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.

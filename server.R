@@ -3834,11 +3834,13 @@ function(input, output, session) {
       
       params <- list(#n = input$threshold, 
         #r= result$final_rank_1, 
-        footprint=spatial_footprint,
-        scorebygoal=result$final_rank,
-        finalscore=result$final_rank_1,
-        table=tmp,
+        footprint = spatial_footprint,
+        scorebygoal = result$final_rank,
+        finalscore = result$final_rank_1,
+        table = tmp,
+        useraddedtable = WRtableua(),
         weightstable =  GWtable()
+        
       )
       
       # Knit the document, passing in the `params` list, and eval it in a
