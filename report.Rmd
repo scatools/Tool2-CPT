@@ -1,5 +1,5 @@
 ---
-title: "Conservation Prioritization Tool - Report alpha"
+title: "Conservation Prioritization Tool Detailed Report"
 author: "Strategic Conservation Assessment Project"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 runtime: shiny
@@ -127,26 +127,25 @@ legend("topleft",legend=params$rankalt[1:length(params$rankalt)],
 2. **Composition of Natural Lands-** Represents the amount of natural lands contained within the given area of interest (AOI). Natural lands are undeveloped and important ecosystem types that are not currently protected or used for resource extraction. 
 3. **Connectivity to Existing Protected Area-** Indicates if the proposed conservation area is within 1 km to an area classified as protected by the Protected Areas Database of the United States (PAD-US) 2.0[^1].
 4. **Threat of Urbanization-** The likelihood of the given project area of area of interest (AOI) being urbanized by the year 2060, according to the SLEUTH model[^2].  
-5. **Structural Connectivity-** A percent attribute which stands for the proportion of area that is classified as a hub or corridor by the National Ecological Framework (NEF)[^3].
-6. **303D-Impaired Watershed Area-** The proportion of impaired watershed within each hexagonal unit.  The watershed data is analyzed based on the HUC-12 level. Any HUC-12 watershed that contains 303D impaired streams is considered impaired.
-7. **Stream Abundance-** The length of streams (km) found within an area of interest, based on the **NEED DATA SOURCE**
-8. **Hydrologic Response to Land-use Change-** The percent change in estimated peak flow of a HUC-12 watershed from a 1" rainfall event between its currently developed state and a hypothetical pre-developed state.
-9. **Biodiversity Index-** Biodiversity index were classified into 10 groups based on the same method proposed in Jenkins (2015)[^4]. A zero score indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region.
-10. **T&E Species Critical Habitat Area-** The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat. The value in each hexagon is the cumulative % area of critical habitats for all T&E species.
-11. **T&E Species Count-** A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.
-12. **Light Pollution Index-** A score of zero indicates the sky above the hex is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.
-13. **National Registry of Historic Places-** A numeric attribute which represents the counts of historical Places within each Hexagon. The data is based on U.S. NPS National Registry of Historic Places.
-14. **National Heritage Area-** A % attribute which stands for the proportion of Heritage area within each Hexagon. The Heritage data is based on the NPS National Heritage Area layer.
-15. **Social Vulnerability Index-** Social vulnerability hotspots.  Possibly proximity to a social vulnerability hotspot?  Put this down along with other definitions of question.
-16. **Community Threat Index-** The Community Threat Index (CTI) includes datasets that show coastal flood and severe storm hazards on the landscape. The Threat Index is a raster-based model (30x30 meters) with a cumulative scoring of inputs, which include:  Storm surge scenarios, Sea level rise scenarios, Flood-prone areas, Soil erodibility, Impermeable soils, Areas of low slope, Geologic stressors (Landslide Susceptibility and Land Subsidence).
-17. **High Priority Working Lands-** The percentage area of Pine, Cropland and Pasture/Hay classes from NLCD classification map excluding the areas that are already protected (PAD-US).
-18. **Commercial Fishing Reliance-** Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. A high rank indicates more reliance.
-19. **Recreational Fishing Engagement-** Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure. A high rank indicates more engagement.
-20. **Access and Recreation - Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
-
-[^1]: U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United State (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
-[^2]: sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.
-[^3]: databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.
-[^4]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
+5. **Connectivity of Natural Lands-** A percent attribute which stands for the proportion of area that is classified as a hub or corridor by the National Ecological Framework (NEF)[^3].
+6. **303D: Impaired Watershed Area-** The proportion of impaired watershed within each hexagonal unit.  The watershed data is analyzed based on the HUC-12 level. Any HUC-12 watershed that contains 303D impaired streams is considered impaired.
+7. **Hydrologic Response to Land-use Change-** The percent change in estimated peak flow of a HUC-12 watershed from a 1" rainfall event between its currently developed state and a hypothetical pre-developed state.
+8. **Vulnerable Areas of Terrestrial Endemic Species-** Vulnerable Areas of Terrestrial Endemic Species were classified into 10 groups based on the same method proposed in Jenkins (2015)[^4]. A zero score indicates the lowest biodiversity and score of 0+ to 10 indicates biodiversity in increasing order. A score of 10 indicates highest biodiversity within Gulf of Mexico region.
+9. **T&E Species Critical Habitat Area-** The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat. The value in each hexagon is the cumulative % area of critical habitats for all T&E species.
+10. **T&E Species Count-** A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.
+11. **Light Pollution Index-** A score of zero indicates the sky above the hex is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.
+12. **National Registry of Historic Places-** A numeric attribute which represents the counts of historical Places within each Hexagon. The data is based on U.S. NPS National Registry of Historic Places.
+13. **National Heritage Area-** A % attribute which stands for the proportion of Heritage area within each Hexagon. The Heritage data is based on the NPS National Heritage Area layer.
+14. **Proximity to Socially Vulnerable Communities-** Social vulnerability hotspots.  Possibly proximity to a social vulnerability hotspot?  Put this down along with other definitions of question.
+15. **Community Threat Index-** The Community Threat Index (CTI) includes datasets that show coastal flood and severe storm hazards on the landscape. The Threat Index is a raster-based model (30x30 meters) with a cumulative scoring of inputs, which include:  Storm surge scenarios, Sea level rise scenarios, Flood-prone areas, Soil erodibility, Impermeable soils, Areas of low slope, Geologic stressors (Landslide Susceptibility and Land Subsidence).
+16. **High Priority Working Lands-** The percentage area of Pine, Cropland and Pasture/Hay classes from NLCD classification map excluding the areas that are already protected (PAD-US).
+17. **Commercial Fishing Reliance-** Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. A high rank indicates more reliance.
+18. **Recreational Fishing Engagement-** Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure. A high rank indicates more engagement.
+19. **Access & Recreation: Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
 
 ## References Cited
+
+[^1]: U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United State (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
+[^2]: https://sciencebase.gov/catalog/item/56290d6de4b0d158f5926cd2.
+[^3]: https://databasin.org/datasets/d0fc5db660524489a0f369e7c3d7e3f1.
+[^4]: Jenkins, CN, KS Van Houtan, SL Pimm, JO Sexton (2015) US protected lands mismatch biodiversity priorities. PNAS 112(16), pp.5081-5086.
