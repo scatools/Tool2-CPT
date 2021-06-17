@@ -64,7 +64,7 @@ my_map
 |**Conservation Checklist**|`r params$report_table$plan_Name`|
 |:------------------------|:-------------:|
 | Within SCA Boundary      |$\`r RESTORE_Cbox`$|
-| PAD-US connectivity      |$\`r PADUS_Cbox`$|  
+| PAD-US Connectivity      |$\`r PADUS_Cbox`$|  
 | Threat of Urbanization   |$\`r URBAN_Cbox`$|
 | Contains Critical Habitat of T&E Sp.|$\`r CRITHAB_Cbox`$|
 | Contains 303(d) Impaired Waterbody|$\`r IMPAIREDWB_Cbox`$|
@@ -105,7 +105,7 @@ my_map
 16. **High Priority Working Lands-** The percentage area of Pine, Cropland and Pasture/Hay classes from NLCD classification map excluding the areas that are already protected (PAD-US).
 17. **Commercial Fishing Reliance-** Commercial fishing reliance measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings relative to the population of a community. A high rank indicates more reliance.
 18. **Recreational Fishing Engagement-** Recreational fishing engagement measures the presence of recreational fishing through fishing activity estimates, including charter fishing pressure, private fishing pressure, and shore fishing pressure. A high rank indicates more engagement.
-19. **Access and Recreation - Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
+19. **Access & Recreation: Number of Access Points-** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
 
 ## **References Cited**
 

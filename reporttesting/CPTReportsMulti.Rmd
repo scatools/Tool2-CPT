@@ -100,7 +100,7 @@ my_map
 |**Conservation Checklist**|**`r plan_Name[1]`**|**`r plan_Name[2]`**|**`r plan_Name[3]`**|**`r plan_Name[4]`**|**`r plan_Name[5]`**|
 |------------------------:|`r Row1`
 | Within SCA Boundary      |$\`r RESTORE_Cbox[1]`$|$\`r RESTORE_Cbox[2]`$|$\`r RESTORE_Cbox[3]`$|$\`r RESTORE_Cbox[4]`$|$\`r RESTORE_Cbox[5]`$|
-| PAD-US connectivity      |$\`r PADUS_Cbox[1]`$|$\`r PADUS_Cbox[2]`$|$\`r PADUS_Cbox[3]`$|$\`r PADUS_Cbox[4]`$|$\`r PADUS_Cbox[5]`$|  
+| PAD-US Connectivity      |$\`r PADUS_Cbox[1]`$|$\`r PADUS_Cbox[2]`$|$\`r PADUS_Cbox[3]`$|$\`r PADUS_Cbox[4]`$|$\`r PADUS_Cbox[5]`$|  
 | Threat of Urbanization   |$\`r URBAN_Cbox[1]`$|$\`r URBAN_Cbox[2]`$|$\`r URBAN_Cbox[3]`$|$\`r URBAN_Cbox[4]`$|$\`r URBAN_Cbox[5]`$|
 | Contains Critical Habitat of T&E Sp.|$\`r CRITHAB_Cbox[1]`$|$\`r CRITHAB_Cbox[2]`$|$\`r CRITHAB_Cbox[3]`$|$\`r CRITHAB_Cbox[4]`$|$\`r CRITHAB_Cbox[5]`$|
 | Contains 303(d) Impaired Waterbody|$\`r IMPAIREDWB_Cbox[1]`$|$\`r IMPAIREDWB_Cbox[2]`$|$\`r IMPAIREDWB_Cbox[3]`$|$\`r IMPAIREDWB_Cbox[4]`$|$\`r IMPAIREDWB_Cbox[5]`$|
@@ -137,7 +137,7 @@ my_map
 16. **High Priority Working Lands -** High Priority Working Lands represents the percentage of the AOI which is pine, cropland, rangelands, and pasture/hay classes, excluding the areas that are already protected.
 17. **Commercial Fisheries Reliance -** The Commercial Fisheries Reliance Index (CFRI) is on a discrete one-to-four range that measures the presence of commercial fishing, shown through fishing permits and vessel landings, in relation to the population of a community.  An index value of one represents low engagement and an index value of 4 represents the highest engagement.
 18. **Recreational Fisheries Engagement -** The Recreational Fishing Engagement Index (RFEI) is on a discrete one-to-four range that measures the presence of recreational fishing through fishing activity estimates. An index value of one represents low engagement and an index value of 4 represents the highest engagement.
-19. **Access and Recreation - Number of Access Points -** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
+19. **Access & Recreation: Number of Access Points -** The number of points within an AOI where the public can access places to engage in outdoor recreation, including boat ramps, and trailheads to parks, wildlife management areas, wildlife refuges, and national estuarine research reserves.
 
 ## References Cited
 
