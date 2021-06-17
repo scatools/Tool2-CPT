@@ -153,10 +153,13 @@ function(input, output, session) {
         options = providerTileOptions(opacity = 0.15),group = "PAD-US")%>%
       addEsriDynamicMapLayer(
         url = "https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer",
-        options = dynamicMapLayerOptions(opacity = 0.15),group = "SECAS")%>%
+        options = dynamicMapLayerOptions(opacity = 0.5),group = "SECAS")%>%
+      addLegend(position = "bottomright",colors = c("#4FAFEE","#0B316B"),
+                labels = c("Medium conservation value","High conservation value"),opacity = 0.5,group = "SECAS")%>%
       addLayersControl(baseGroups=c("ESRI WorldStreetmap","Openstreetmap Topo Layer","ESRI World Imagery"),
                        overlayGroups = c("PAD-US","SECAS"),
                        position="bottomleft")%>%
+      hideGroup("SECAS")%>%
       addDrawToolbar(
         targetGroup='drawn',
         polylineOptions=FALSE,
