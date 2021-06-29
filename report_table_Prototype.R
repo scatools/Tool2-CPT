@@ -97,8 +97,8 @@ dat_15_2<-paste0(" the ",implode(report_table_1$TE_Name[[1]],sep=" and "))
 dat_15_3<-paste0("")
 dat_16_1<-paste0(report_table_1$AOI_Name," has a ",report_table_1$Light_Pollut," level of light pollution.")
 dat_16_2<-paste0("There is no light pollution in the area of interest.")
-dat_17_1<-paste0("The National Registry of Historic Places indicates that there are ",report_table_1$Historic," historic places within or around the area of interest. ")
-dat_17_2<-paste0("No places listed under the National Registry of Historic Places are known to exist within or around the area of interest. ")
+dat_17_1<-paste0("The National Register of Historic Places indicates that there are ",report_table_1$Historic," historic places within or around the area of interest. ")
+dat_17_2<-paste0("No places listed under the National Register of Historic Places are known to exist within or around the area of interest. ")
 dat_18_1<-paste0("About ",report_table_1$Heritage," percent of ",report_table_1$AOI_Name," is within a designated National Heritage Area. ")
 dat_18_2<-paste0(report_table_1$AOI_Name," is not within a designated National Heritage Area. ")
 dat_19_1<-paste0("According to NOAA's Office for Coastal Management, the area of interest is nearby a community that is socially vulnerable.")
@@ -149,8 +149,8 @@ report_table_2$TE_Name<-ifelse(report_table_1$TE_Num>2,paste0("including the ",i
 report_table_2$Light_Pollut<-ifelse(report_table_1$Light_Pollut==0,paste0(report_table_1$AOI_Name," has a high level of light pollution."),
                                     ifelse(report_table_1$Light_Pollut<=.99,paste0(report_table_1$AOI_Name," has a medium level of light pollution."),
                                            paste0("There is no light pollution in the area of interest.")))
-report_table_2$Historic<-ifelse(report_table_1$Historic!=0,paste0("The National Registry of Historic Places indicates that there are ",report_table_1$Historic," historic places within or around the area of interest."),
-                                paste0("No places listed under the National Registry of Historic Places are known to exist within or around the area of interest."))
+report_table_2$Historic<-ifelse(report_table_1$Historic!=0,paste0("The National Register of Historic Places indicates that there are ",report_table_1$Historic," historic places within or around the area of interest."),
+                                paste0("No places listed under the National Register of Historic Places are known to exist within or around the area of interest."))
 report_table_2$Heritage<-ifelse(report_table_1$Heritage!=0,paste0("About ",report_table_1$Heritage," percent of ",report_table_1$AOI_Name," is within a designated National Heritage Area."),
                                 paste0(report_table_1$AOI_Name," is not within a designated National Heritage Area."))
 report_table_2$SOVI<-ifelse(report_table_1$SOVI!=0,paste0("According to NOAA's Sea Level Rise mid-range predictions for 2060 and Social Vulnerability Index (SoVi), ",report_table_1$AOI_Name," is expected to have a ",report_table_1$SOVI_SLR," risk of vulnerability to inundation from sea level rise."),

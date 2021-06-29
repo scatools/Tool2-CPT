@@ -86,7 +86,7 @@ scr <- tags$script(HTML(
 ))
 
 coln<-c("Project Area ", "Connectivity to Existing Protected Area ","Connectivity of Natural Lands ","Threat of Urbanization ",
-        "Composition of Natural Lands ","303D: Impaired Watershed Area ","Hydrologic Response to Land-Use Change ",
+        "Composition of Priority Natural Lands ","303D: Impaired Watershed Area ","Hydrologic Response to Land-Use Change ",
         "Percent Irrigated Agriculture ","Lateral Connectivity of Floodplain ","Composition of Riparian Zone Lands ",
         "Vulnerable Areas of Terrestrial Endemic Species ", "Threatened and Endangered Species - Critical Habitat Area ",
         "Threatened and Endangered Species - Number of Species ","Light Pollution Index ","National Register of Historic Places ",
@@ -122,7 +122,7 @@ SCA<- st_transform(SCA, crs= 4326)
 #padus<- st_transform(padus, crs= 4326)
 
 #HABITAT Priority Attributes and Measures
-hab_PA_Table = data.frame("Measures"= c("Project Area", "Connectivity to Existing Protected Area ","Connectivity of Natural Lands","Threat of Urbanization","Composition of Natural Lands"))
+hab_PA_Table = data.frame("Measures"= c("Project Area", "Connectivity to Existing Protected Area ","Connectivity of Natural Lands","Threat of Urbanization","Composition of Priority Natural Lands"))
 
 #WATER QUALITY Priority Attributes and Measures
 wq_PA_Table = data.frame( "Measures"= c("303D: Impaired Watershed Area","Hydrologic Response to Land-Use Change","Percent Irrigated Agriculture","Lateral Connectivity of Floodplain","Composition of Riparian Zone Lands"))

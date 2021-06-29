@@ -92,7 +92,19 @@ my_map<-leaflet() %>%
   addTiles() %>%
   addPolygons(data= c,fillColor = color(c$proposal),
               fillOpacity = 0.5,weight=0.5 ) %>%
-  addLegend(position ="bottomright", colors=color(c$proposal),labels=params$proplist[1:length(c$geometry)],opacity = 0.5)
+  addLegend(position ="bottomright", colors=color(c$proposal),labels=params$proplist[1:length(c$geometry)],opacity = 0.5)%>%
+  addEsriTiledMapLayer(
+        url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/PADUS2_Fee_Easement_Designation/MapServer",
+        options = providerTileOptions(opacity = 0.25),group = "PAD-US")%>%
+  addEsriDynamicMapLayer(
+        url = "https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer",
+        options = dynamicMapLayerOptions(opacity = 0.25),group = "SECAS")%>%
+  addLegend(position = "bottomright",colors = c("#4FAFEE","#0B316B"),
+            labels = c("Medium conservation value","High conservation value"),opacity = 0.25,group = "SECAS")%>%
+  addLayersControl(overlayGroups = c("PAD-US","SECAS"),
+                   position="bottomleft")%>%
+  hideGroup("PAD-US")%>%
+  hideGroup("SECAS")
 my_map
 ```
 
@@ -123,14 +135,14 @@ my_map
 2. **Connectivity to Existing Protected Area -** Connectivity to Existing Protected Area (CEPA) indicates the nexus of the given AOI being adjacent to an already protected area. A CEPA score of one indicates that the AOI is immediately adjacent to or within the one square kilometer buffer of an existing protected area.  A score of zero indicates that the AOI is not within the one square kilometer buffer of an existing protected area.
 3. **Connectivity of Natural Lands -** Hub and Corridors A percent attribute which stands for the proportion of area, been classified as Hub or Corridor by the raw data source, within each Hexagon. Since the Hexagon unit area is 1 Km2, it also stands for the actual area of Hub within each Hexagon.
 4. **Threat of Urbanization -** Threat of urbanization (ToU) indicates the likelihood of the given project area or Area of Interest (AOI) being urbanized by the year 2060. A ToU score of zero indicates the AOI is already urbanized. A ToU score of one indicates that there is absolutely no threat of urbanization. A ToU score of greater than zero to one indicates the predicted likelihood of threat in decreasing order.
-5. **Composition of Natural Lands -** Composition of Natural Lands (CoNL) represents the amount of natural lands contained within the given AOI. Natural lands are undeveloped and important ecosystem types that are currently not used for resource extraction and currently not protected. See Tier 1 and Tier 2 Land Cover types Table. 
+5. **Composition of Priority Natural Lands -** Composition of Priority Natural Lands (CoPNL) represents the amount of natural lands contained within the given AOI. Natural lands are undeveloped and important ecosystem types that are currently not used for resource extraction and currently not protected. See Tier 1 and Tier 2 Land Cover types Table. 
 6. **303D: Impaired Watershed Area -**  Impaired Watershed Area (IWA) indicates the proportion of impaired/polluted HUC12 level watershed contained within the AOI.  Any watershed containing a US Environmental Protection Agency 303(d) listed (between the years 2010-2018) impaired waterbody is considered to be impaired.
 7. **Hydrologic Response to Land-use Change -** The percent change in estimated peak flow of a HUC-12 watershed from a 1" rainfall event between its currently developed state and a hypothetical pre-developed state.
 8. **Vulnerable Areas of Terrestrial Endemic Species -** Vulnerable Areas of Terrestrial Endemic Species is on a continuous zero-to-ten range representing prioritized species richness for more than 1200 endemic mammals, birds, amphibians, reptiles, freshwater fish, and trees in the US. An index of 0 indicates the lowest under-protected (vulnerable) biodiversity. An index of 10 indicates the highest under protected biodiversity. [^1]
 9. **Threatened & Endangered Species - Critical Habitat  -** Threatened and Endangered Species - Critical Habitat (TESH) is a representation of cumulative percentage area of designated critical habitat mapped by the US Fish and Wildlife Service for any threatened or endangered species within the AOI. 
 10. **Threatened & Endangered Species - Number of Species -** Threatened & Endangered Species - Number of Species (TESH) is a representation of the number of threatened or endangered species (proposed and listed) whose ranges overlap within the AOI. The range map managed by the US Fish and Wildlife Service is considered. 
 11. **Light Pollution Index -** Light Pollution Index (LPI) indicates the average radiance composite of nighttime data in the AOI. The LPI ranges from zero-to-one. A score of zero indicates the sky above the AOI has highest pollution(bright) and a score of one indicate absolute dark sky. Scores between 0+ to one indicates light pollution in decreasing order. 
-12. **National Registry of Historic Places -** The National Register of Historic Places (NRHP) represents the total the number of places worthy of preservation within the AOI. An index of 0 indicates no places are present in the project area and 1 indicates more than 3 places are within the AOI. See NRHP threshold table for more details.
+12. **National Register of Historic Places -** The National Register of Historic Places (NRHP) represents the total the number of places worthy of preservation within the AOI. An index of 0 indicates no places are present in the project area and 1 indicates more than 3 places are within the AOI. See NRHP threshold table for more details.
 13. **National Heritage Area -** The National Heritage Area (NHR) represent the percentage of heritage area contained within the AOI. 
 14. **Social Vulnerability to Sea Level Rise -** Community Vulnerability to Sea Level Rise (SVSLR) represent the social vulnerability of population due to the sea level rise of 0.3m (by the year 2060). A score of 0 indicates no threat by sea level rise, and a score of 1 indicates high vulnerability. A score between 0+ to 1 indicates the vulnerability to sea level rise in increasing order. 
 15. **Social Vulnerability to Flooding -** Social Vulnerability to Flooding (SVF) represent the social vulnerability of population to inundation as mapped by the NOAA coastal flood frequency map. A score of 0 indicates no threat by inundation, and a score of 1 indicates high vulnerability. A score between 0+ to 1 indicates the vulnerability to inundation in increasing order.
