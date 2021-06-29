@@ -123,7 +123,7 @@ DT::datatable(data,options = list(
 
 
 1. **Proposed Area of Conservation-** The area of the proposed plan in square kilometers, or the area within a HUC-12 watershed. 
-2. **Composition of Natural Lands-** Represents the amount of natural lands contained within the given area of interest (AOI). Natural lands are undeveloped and important ecosystem types that are not currently protected or used for resource extraction. 
+2. **Composition of Priority Natural Lands-** Represents the amount of natural lands contained within the given area of interest (AOI). Natural lands are undeveloped and important ecosystem types that are not currently protected or used for resource extraction. 
 3. **Connectivity to Existing Protected Area-** Indicates if the proposed conservation area is within 1 km to an area classified as protected by the Protected Areas Database of the United States (PAD-US) 2.0[^1].
 4. **Threat of Urbanization-** The likelihood of the given project area of area of interest (AOI) being urbanized by the year 2060, according to the SLEUTH model[^2].  
 5. **Connectivity of Natural Lands-** A percent attribute which stands for the proportion of area that is classified as a hub or corridor by the National Ecological Framework (NEF)[^3].
@@ -133,7 +133,7 @@ DT::datatable(data,options = list(
 9. **T&E Species Critical Habitat Area-** The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat. The value in each hexagon is the cumulative % area of critical habitats for all T&E species.
 10. **T&E Species Count-** A numeric attribute which represents the number of T&E Species within each Hexagon. The attribute is based on the U.S. Fish & Wildlife Service designated T&E critical habitat.
 11. **Light Pollution Index-** A score of zero indicates the sky above the hex is already polluted/bright and score of 0+ to one indicates light pollution (LP) in decreasing order.
-12. **National Registry of Historic Places-** A numeric attribute which represents the counts of historical Places within each Hexagon. The data is based on U.S. NPS National Registry of Historic Places.
+12. **National Register of Historic Places-** A numeric attribute which represents the counts of historical Places within each Hexagon. The data is based on U.S. NPS National Register of Historic Places.
 13. **National Heritage Area-** A % attribute which stands for the proportion of Heritage area within each Hexagon. The Heritage data is based on the NPS National Heritage Area layer.
 14. **Proximity to Socially Vulnerable Communities-** Social vulnerability hotspots.  Possibly proximity to a social vulnerability hotspot?  Put this down along with other definitions of question.
 15. **Community Threat Index-** The Community Threat Index (CTI) includes datasets that show coastal flood and severe storm hazards on the landscape. The Threat Index is a raster-based model (30x30 meters) with a cumulative scoring of inputs, which include:  Storm surge scenarios, Sea level rise scenarios, Flood-prone areas, Soil erodibility, Impermeable soils, Areas of low slope, Geologic stressors (Landslide Susceptibility and Land Subsidence).

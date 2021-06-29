@@ -810,7 +810,7 @@ function(input, output, session) {
                                      ifelse(result$matrix[1,i]<=.4,.3,
                                             ifelse(result$matrix[1,i]<=.8,.75,
                                                    ifelse(result$matrix[1,i]<=2,.9,1))))
-          #5. Composition of Natural Lands
+          #5. Composition of Priority Natural Lands
           result$matrix[5,i]<-result$matrix[5,i]/100
           #6. 303D - Impaired watershed area
           result$matrix[6,i]<-(result$matrix[6,i]/100) 
@@ -985,7 +985,7 @@ function(input, output, session) {
                                      ifelse(result$matrix_portfolio[1,i]<=.4,.3,
                                             ifelse(result$matrix_portfolio[1,i]<=.8,.75,
                                                    ifelse(result$matrix_portfolio[1,i]<=2,.9,1))))
-          #5. Composition of Natural Lands
+          #5. Composition of Priority Natural Lands
           result$matrix_portfolio[5,i]<-result$matrix_portfolio[5,i]/100
           #6. 303D - Impaired watershed area
           result$matrix_portfolio[6,i]<-1-(result$matrix_portfolio[6,i]/100) 
@@ -1400,7 +1400,7 @@ function(input, output, session) {
                                      ifelse(result$matrix[1,i]<=.4,.3,
                                             ifelse(result$matrix[1,i]<=.8,.75,
                                                    ifelse(result$matrix[1,i]<=2,.9,1))))
-          #5. Composition of Natural Lands
+          #5. Composition of Priority Natural Lands
           result$matrix[5,i]<-result$matrix[5,i]/100
           #6. 303D - Impaired watershed area
           result$matrix[6,i]<-(result$matrix[6,i]/100) 
@@ -1603,7 +1603,7 @@ function(input, output, session) {
                                                ifelse(result$matrix_portfolio[1,i]<=.4,.3,
                                                       ifelse(result$matrix_portfolio[1,i]<=.8,.75,
                                                              ifelse(result$matrix_portfolio[1,i]<=2,.9,1))))
-          #5. Composition of Natural Lands
+          #5. Composition of Priority Natural Lands
           result$matrix_portfolio[5,i]<-result$matrix_portfolio[5,i]/100
           #6. 303D - Impaired watershed area
           result$matrix_portfolio[6,i]<-result$matrix_portfolio[6,i]/100 
@@ -1859,7 +1859,7 @@ function(input, output, session) {
                                      ifelse(result$matrix[1,i]<=.4,.3,
                                             ifelse(result$matrix[1,i]<=.8,.75,
                                                    ifelse(result$matrix[1,i]<=2,.9,1))))
-          #5. Composition of Natural Lands
+          #5. Composition of Priority Natural Lands
           result$matrix[5,i]<-result$matrix[5,i]/100
           #6. 303D - Impaired watershed area
           result$matrix[6,i]<-(result$matrix[6,i]/100) 
@@ -2356,7 +2356,7 @@ function(input, output, session) {
   
   
   output$showing_matrix_portfolio<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Priority Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
@@ -2429,7 +2429,7 @@ function(input, output, session) {
   }, server = FALSE)
   
   output$showing_matrix_portfolio_goal<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Priority Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
@@ -2524,7 +2524,7 @@ function(input, output, session) {
   }, server = FALSE)
   
   output$showing_matrix<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Priority Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix_raw)
     #row.names(data)<-coln_withicon
@@ -2674,7 +2674,7 @@ function(input, output, session) {
   
   
   output$showing_matrix_scaled<- DT::renderDataTable({
-    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
+    #coln_withicon<-paste0(c("Threat of Urbanization ", "Connectivity with PAD-US ","Connectivity of Natural Lands Index ","Proposed Area of Conservation ","Composition of Priority Natural Lands ","Impaired Watershed Area ","Vulnerable Areas of Terrestrial Endemic Species ", "T&E Species Area ","T&E Number of Species ","Light Pollution Index ","National Register of Historic Places ","National Heritage Area ", "High Priority Working Lands ","Commercial Fishing Reliance ", "Recreational Fishing Engagement ")
     #                      ,as.character(icon("info-sign", lib = "glyphicon")))
     #data <-as.data.frame(result$showing_matrix)
     #row.names(data)<-coln_withicon
@@ -4437,7 +4437,7 @@ function(input, output, session) {
             "Connectivity with PAD-US: ", ps_list$hex_merge_final$PADUS2[i], "<br>",
             "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final$area_conne[i], "<br>",
             "Proposed Area of Conservation: ", "1", "<br>",
-            "Composition of Natural Lands: ", ps_list$hex_merge_final$conl_index[i], "<br>",
+            "Composition of Priority Natural Lands: ", ps_list$hex_merge_final$conl_index[i], "<br>",
             "Imparied Watershed Area: ", ps_list$hex_merge_final$area_12_13[i], "<br>",
             "Hydrologic Response to Land-Use Change: ",ps_list$hex_merge_final$wq3[i], "<br>",
             "Percent Irrigated Agriculture: ",ps_list$hex_merge_final$wq4[i], "<br>",
@@ -4482,7 +4482,7 @@ function(input, output, session) {
              "Connectivity with PAD-US: ", ps_list_os$hex_merge_final$PADUS2[i], "<br>",
              "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final$area_conne[i], "<br>",
              "Proposed Area of Conservation: ", "1", "<br>",
-             "Composition of Natural Lands: ", ps_list_os$hex_merge_final$conl_index[i], "<br>",
+             "Composition of Priority Natural Lands: ", ps_list_os$hex_merge_final$conl_index[i], "<br>",
              "Imparied Watershed Area: ", ps_list_os$hex_merge_final$area_12_13[i], "<br>",
              "Hydrologic Response to Land-Use Change: ",ps_list_os$hex_merge_final$wq3[i], "<br>",
              "Percent Irrigated Agriculture: ",ps_list_os$hex_merge_final$wq4[i], "<br>",
@@ -5027,7 +5027,7 @@ function(input, output, session) {
                            "Connectivity with PAD-US: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
                            "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                            "Proposed Area of Conservation: ", "1", "<br>",
-                           "Composition of Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
+                           "Composition of Priority Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                            "Imparied Watershed Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
                            "Hydrologic Response to Land-Use Change: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq3, "<br>",
                            "Percent Irrigated Agriculture: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
@@ -5058,7 +5058,7 @@ function(input, output, session) {
                                        "Connectivity with PAD-US: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
                                        "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
-                                       "Composition of Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
+                                       "Composition of Priority Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
                                        "Hydrologic Response to Land-Use Change: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq3, "<br>",
                                        "Percent Irrigated Agriculture: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
@@ -5090,7 +5090,7 @@ function(input, output, session) {
                                        "Connectivity with PAD-US: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
                                        "Connectivity of Natural Lands Index: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
-                                       "Composition of Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
+                                       "Composition of Priority Natural Lands: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
                                        "Hydrologic Response to Land-Use Change: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq3, "<br>",
                                        "Percent Irrigated Agriculture: ", ps_list_os$hex_merge_final[ps_list_os$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
@@ -5127,7 +5127,7 @@ function(input, output, session) {
                                        "Connectivity with PAD-US: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
                                        "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
-                                       "Composition of Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
+                                       "Composition of Priority Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
                                        "Hydrologic Response to Land-Use Change: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq3, "<br>",
                                        "Percent Irrigated Agriculture: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
@@ -5157,7 +5157,7 @@ function(input, output, session) {
                                        "Connectivity with PAD-US: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
                                        "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
-                                       "Composition of Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
+                                       "Composition of Priority Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
                                        "Hydrologic Response to Land-Use Change: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq3, "<br>",
                                        "Percent Irrigated Agriculture: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
@@ -5188,7 +5188,7 @@ function(input, output, session) {
                                        "Connectivity with PAD-US: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$padus, "<br>",
                                        "Connectivity of Natural Lands Index: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_conne, "<br>",
                                        "Proposed Area of Conservation: ", "1", "<br>",
-                                       "Composition of Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
+                                       "Composition of Priority Natural Lands: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$conl_index, "<br>",
                                        "Imparied Watershed Area: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$area_12_13, "<br>",
                                        "Hydrologic Response to Land-Use Change: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq3, "<br>",
                                        "Percent Irrigated Agriculture: ", ps_list$hex_merge_final[ps_list$hex_merge_final$OBJECTID==hex_id,]$wq4, "<br>",
@@ -5256,7 +5256,7 @@ function(input, output, session) {
                                  ifelse(result$matrix[1,i]<=.4,.3,
                                         ifelse(result$matrix[1,i]<=.8,.75,
                                                ifelse(result$matrix[1,i]<=2,.9,1))))
-      #5. Composition of Natural Lands
+      #5. Composition of Priority Natural Lands
       result$matrix[5,i]<-result$matrix[5,i]/100
       #6. 303D - Impaired watershed area
       result$matrix[6,i]<-(result$matrix[6,i]/100) 
