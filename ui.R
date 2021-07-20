@@ -606,9 +606,8 @@ tagList(
                                                         uiOutput("resultpresent4")
                                                         ),
                                                  column(5,offset = 1,
-                                                        br(),
                                                         downloadButton("report1", "Generate Detailed report"),
-                                                        br(),
+                                                        br(),br(),
                                                         downloadButton("report3", "Download Spatial Footprint"),
                                                         hr(),
                                                         absolutePanel(

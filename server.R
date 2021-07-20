@@ -1104,7 +1104,7 @@ function(input, output, session) {
   result<-reactiveValues()
   result$showing_rankaccept<-matrix()
   result$showing_central<-matrix()
-  result$final_rank_1<-matrix()
+  result$final_weighted_sum<-matrix()
   result_os<-reactiveValues()
   
   
@@ -3546,20 +3546,17 @@ function(input, output, session) {
     }
     
     result$final_rank<- rbind(colSums(HA_hf),colSums(WQ_hf),colSums(LC_hf),colSums(CL_hf),colSums(EC_hf))
-    
-    result$final_rank1<-rbind(result$final_rank*weight$goal/100,colSums(result$final_rank*weight$goal/100))
-    result$final_rank1<-cbind(result$final_rank1,c(weight$goal,100)/100)
-    
+
+    result$final_weighted_score<-rbind(result$final_rank*weight$goal/100,colSums(result$final_rank*weight$goal/100))
+    result$final_weighted_score<-cbind(result$final_weighted_score,c(weight$goal,100)/100)
+
     colnames(result$final_rank)<- proplist[1:ncol(result$final_rank)]
     rownames(result$final_rank)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
-    colnames(result$final_rank1)<- c(proplist[1:ncol(result$final_rank)],"Weights")
-    rownames(result$final_rank1)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
-    ##print(colSums(WQ_hf))
-    ##print(rbind(colSums(HA_hf),colSums(WQ_hf),colSums(WQ_hf),colSums(LC_hf),colSums(CL_hf),EC))
-    ##print(result$final_rank)
-    result$final_rank_1<-colSums(result$final_rank*(weight$goal))/100
-    ##print(result$final_rank_1)
-    ##print(class(result$final_rank_1))
+    colnames(result$final_weighted_score)<- c(proplist[1:ncol(result$final_rank)],"Weights")
+    rownames(result$final_weighted_score)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
+
+    result$final_weighted_sum<-colSums(result$final_rank*(weight$goal))/100
+
     show(selector = "#nav li a[data-value=Result]")
     updateTabsetPanel(session = session, inputId = "nav", "Result")
     show(selector = "#tabsResult li a[data-value=Weights_result]")
@@ -3618,8 +3615,8 @@ function(input, output, session) {
   #output$showing_rankaccept<-renderTable(expr=result$showing_rankaccept,rownames = T,colnames=T,striped=T)
   #output$showing_central<-renderTable(expr=result$showing_central,rownames = T,colnames = T,striped=T) 
   
-  output$showing_weight_result<-renderDataTable(datatable(result$final_rank1,options = list(searching = FALSE,paging = FALSE))%>%
-                                                  formatRound(proplist[1:ncol(result$final_rank1)-1], 2)%>%
+  output$showing_weight_result<-renderDataTable(datatable(result$final_weighted_score,options = list(searching = FALSE,paging = FALSE))%>%
+                                                  formatRound(proplist[1:ncol(result$final_weighted_score)-1], 2)%>%
                                                   formatPercentage('Weights', 0))
   output$default_weight_result<-renderDataTable(datatable(result$default_rank1,options = list(searching = FALSE,paging = FALSE))%>%
                                                   formatRound(proplist[1:ncol(result$default_rank1)-1], 2)%>%
@@ -3629,10 +3626,10 @@ function(input, output, session) {
   output$showing_plot3<-renderPlotly({
     
     xform <- list(categoryorder = "array",
-                  categoryarray = names(result$final_rank_1))
+                  categoryarray = names(result$final_weighted_sum))
     plot_ly(
-      x = names(result$final_rank_1),
-      y = result$final_rank_1,
+      x = names(result$final_weighted_sum),
+      y = result$final_weighted_sum,
       type = "bar")%>%
       layout(title = "Comparison Considering Goal Weights",xaxis = xform,yaxis = list(title="Consrevation score"),width = 600, autosize=F)%>%
       config(displayModeBar = F)
@@ -3800,7 +3797,7 @@ function(input, output, session) {
       file.copy("report.Rmd", tempReport, overwrite = TRUE)
       
       params <- list(#n = input$threshold, 
-        #r= result$final_rank_1, 
+        #r= result$final_weighted_sum, 
         footprint=spatial_footprint,
         rankmatrix=result$showing_rankaccept,
         rankalt=result$rankaccept_altlist,
@@ -3836,10 +3833,10 @@ function(input, output, session) {
       file.copy("report1.Rmd", tempReport, overwrite = TRUE)
       
       params <- list(#n = input$threshold, 
-        #r= result$final_rank_1, 
+        #r= result$final_weighted_sum, 
         footprint = spatial_footprint,
-        scorebygoal = result$final_rank,
-        finalscore = result$final_rank_1,
+        scorebygoal = result$final_weighted_score,
+        finalscore = result$final_weighted_sum,
         table = tmp,
         useraddedtable = WRtableua(),
         weightstable =  GWtable()
@@ -3869,7 +3866,7 @@ function(input, output, session) {
 #      file.copy("report2.Rmd", tempReport, overwrite = TRUE)
 #      
 #      params <- list(#n = input$threshold, 
-#        #r= result$final_rank_1, 
+#        #r= result$final_weighted_sum, 
 #        footprint=spatial_footprint,
 #        
 #        rawdata= as.data.frame(result_os$showing_matrix)

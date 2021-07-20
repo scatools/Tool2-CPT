@@ -95,14 +95,14 @@ DT::datatable(params$weightstable,
 ```
 
 ### Result 
-#### This graph shows the overall scores for each conservation plan 
+#### This graph shows the overall weighted scores for each conservation plan 
 
 ```{r echo=FALSE}
 barplot(params$finalscore,main="Overall Scores With User-Provided Weights",
                  xlab="",ylab="Index")
 ```
 
-#### This table shows the overall scores for each conservation plan by RESTORE Goal
+#### This table shows the overall weighted scores for each conservation plan by RESTORE Goal
 
 ```{r echo=FALSE}
 data=round(params$scorebygoal,2)
