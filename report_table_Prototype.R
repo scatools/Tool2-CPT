@@ -85,7 +85,7 @@ dat_10_1<-paste0("This area of interest contains roughly ",report_table_1$Stream
 dat_10_2<-paste0("There are not any streams or rivers recognized within the area of interest.")
 dat_11_1<-paste0("Land-use change in ",report_table_1$AOI_Name," has resulted in a ",report_table_1$Qp_Change," hydrologic response to a standard rainfall event for this region.")
 dat_11_2<-paste0("There is insufficient data to determine the hydrologic response of ",report_table_1$AOI_Name," to land-use change.")
-dat_12_1<-paste0("The landscape of ",report_table_1$AOI_Name," has a ",report_table_1$Biodiversity," biodiversity index, in accordance with the methods used by Jenkins et. al, 2015.")
+dat_12_1<-paste0("The landscape of ",report_table_1$AOI_Name," has a ",report_table_1$Biodiversity," value for vulnerable areas of terrestrial endemic species, in accordance with the methods used by Jenkins et. al, 2015.")
 dat_13_1<-paste0("Lands within ",report_table_1$AOI_Name," support roughly ",report_table_1$TE_Perc," of the critical habitat ranges for two or more federally listed species, including the [T&E Spp Names].")
 dat_13_2<-paste0("Lands within ",report_table_1$AOI_Name," support roughly ",report_table_1$TE_Perc," of the critical habitat range for [T&E Species], a federally listed species.")
 dat_13_3<-paste0("Lands within ",report_table_1$AOI_Name," are not known to support critical habitats for any federally listed species.")
@@ -112,7 +112,7 @@ dat_22_2<-paste0("")
 dat_23_1<-paste0("The community in and around ",report_table_1$AOI_Name," has a ",report_table_1$C_Fish," level of commercial fishing reliance. ")
 dat_23_2<-paste0("There is insufficient data to determine the commercial fishing reliance of the communities that ",report_table_1$AOI_Name," is associated with. ")
 dat_24_1<-paste0("The community in and around ",report_table_1$AOI_Name," has a ",report_table_1$R_Fish," level of recreational fishing engagement. ")
-dat_24_2<-paste0("There is insufficient data to determine the level recreational fishing engagement of the community that ",report_table_1$AOI_Name," is associated with.")
+dat_24_2<-paste0("There is insufficient data to determine the recreational fishing engagement of the communities that ",report_table_1$AOI_Name," is associated with.")
 dat_25_1<-paste0("There are ",report_table_1$A_and_R," access points to natural areas within 25 km of ",report_table_1$AOI_Name,".")
 
 #Blank Statement if measure is zero-weighted
@@ -162,9 +162,9 @@ report_table_2$HPWL_Num<-ifelse(report_table_1$HPWL_Num>=1,paste0("Conserving th
 report_table_2$HPWL_Perc<-ifelse(report_table_1$HPWL_Num>=1,paste0("comprising about ",report_table_1$HPWL_Perc," percent of the landscape."),
                                  paste0(""))
 report_table_2$C_Fish<-ifelse(report_table_1$C_Fish!=0,paste0("The community in and around ",report_table_1$AOI_Name," has a ",report_table_1$C_Fish," level of commercial fishing reliance."),
-                              paste0("There is insufficient data to determine the commercial fishing reliance of the community that ",report_table_1$AOI_Name," is associated with."))
+                              paste0("There is insufficient data to determine the commercial fishing reliance of the communities that ",report_table_1$AOI_Name," is associated with."))
 report_table_2$R_Fish<-ifelse(report_table_1$R_Fish!=0,paste0("The community in and around ",report_table_1$AOI_Name," has a ",report_table_1$R_Fish," level of commercial fishing reliance."),
-                              paste0("There is insufficient data to determine the commercial fishing reliance of the community that ",report_table_1$AOI_Name," is associated with."))
+                              paste0("There is insufficient data to determine the recreational fishing engagement of the communities that ",report_table_1$AOI_Name," is associated with."))
 report_table_2$A_and_R<-paste0("There are ",report_table_1$A_and_R," access points to natural areas within 25 km of ",report_table_1$AOI_Name,".")
 
 

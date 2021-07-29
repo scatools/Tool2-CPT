@@ -519,8 +519,9 @@ tagList(
                                                                         #tags$script(HTML("Shiny.addCustomMessageHandler('unbind-DT', function(id) {
                                                                         #                Shiny.unbindAll($('#'+id).find('table').DataTable().table().node());
                                                                         #                })")),
+                                                                        column(6,
                                                                                br(),
-                                                                               actionButton("UAmove", "Next"))),
+                                                                               actionButton("UAmove", "Next")))),
                                                              tabPanel("Weights Review",
                                                                       fluidRow(column(5,
                                                                                       DT::dataTableOutput("weights_review") ),
@@ -606,9 +607,8 @@ tagList(
                                                         uiOutput("resultpresent4")
                                                         ),
                                                  column(5,offset = 1,
-                                                        br(),
                                                         downloadButton("report1", "Generate Detailed report"),
-                                                        br(),
+                                                        br(),br(),
                                                         downloadButton("report3", "Download Spatial Footprint"),
                                                         hr(),
                                                         absolutePanel(

@@ -66,7 +66,7 @@ descript<-c('The area of the proposed projects, or area of interest in Acres. ',
             'This data measures the presence of commercial fishing activity  relation to the population of a community through fishing activity. A high rank indicates more reliance. Scores range from 0 to 4 and reflect recreational fishing activity as an index of: charter fishing pressure, private fishing pressure, and shore fishing pressure. ',
             'Access and recreation')
 
-goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality","Water Quality","Water Quality","Water Quality","Water Quality","LCMR","LCMR","LCMR","LCMR","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Economy","Economy","Economy","Economy")
+goal<-c("Habitat","Habitat","Habitat","Habitat","Habitat","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Water Quality & Quantity","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Living Coastal & Marine Resources","Community Resilience","Community Resilience","Community Resilience","Community Resilience","Gulf Economy","Gulf Economy","Gulf Economy","Gulf Economy")
 
 unitattr<-c("Acres","Index", "Percentage","Index","Percentage","Percentage","Index","Percentage","Percentage","Index","Index","Percentage","Count","0-1 Index","Count","Percentage","Index","Index","Percentage","Index","Index","Count")                      
 
@@ -91,7 +91,7 @@ coln<-c("Project Area ", "Connectivity to Existing Protected Area ","Connectivit
         "Vulnerable Areas of Terrestrial Endemic Species ", "Threatened and Endangered Species - Critical Habitat Area ",
         "Threatened and Endangered Species - Number of Species ","Light Pollution Index ","National Register of Historic Places ",
         "National Heritage Area ","Proximity to Socially Vulnerable Communities ","Community Threat Index ", "High Priority Working Lands ",
-        "Commercial Fishing Reliance ", "Recreational Fishing Engagement ","Access & Recreation: Number of Access Points ")
+        "Commercial Fishing Reliance ", "Recreational Fishing Engagement ","Access & Recreation - Number of Access Points ")
 
 
 #changecolor <- "shinyjs.pageCol = function(id,color) {
@@ -127,7 +127,7 @@ hab_PA_Table = data.frame("Measures"= c("Project Area", "Connectivity to Existin
 #WATER QUALITY Priority Attributes and Measures
 wq_PA_Table = data.frame( "Measures"= c("303D: Impaired Watershed Area","Hydrologic Response to Land-Use Change","Percent Irrigated Agriculture","Lateral Connectivity of Floodplain","Composition of Riparian Zone Lands"))
 
-#LCMR Priority Attributes and Measures
+#Living Coastal & Marine Resources Priority Attributes and Measures
 lcmr_PA_Table = data.frame(  "Measures"= c("Vulnerable Areas of Terrestrial Endemic Species", "Threatened and Endangered Species - Critical Habitat Area","Threatened and Endangered Species - Number of Species","Light Pollution Index"))
 
 #COMMUNITY RESILIENCE Priority Attributes and Measures
@@ -135,5 +135,5 @@ commres_PA_Table = data.frame("Measures"= c("National Register of Historic Place
 
 
 #GULF ECONOMY Priority Attributes and Measures
-gulfecon_PA_Table = data.frame("Measures"= c( "High Priority Working Lands","Commercial Fishing Reliance", "Recreational Fishing Engagement","Access & Recreation: Number of Access Points"))
+gulfecon_PA_Table = data.frame("Measures"= c( "High Priority Working Lands","Commercial Fishing Reliance", "Recreational Fishing Engagement","Access & Recreation - Number of Access Points"))
 
