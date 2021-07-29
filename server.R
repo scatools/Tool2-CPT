@@ -4876,7 +4876,7 @@ function(input, output, session) {
         selector = "#finishaddweight",
         where = "beforeBegin",
         ui = textAreaInput(paste0("txt", "i"),
-                          "Description for the attribute", width = "400px",height = "150px")
+                          "Description for the Attribute", width = "400px",height = "150px")
       )
     }
     value2$test2<-0
@@ -4955,6 +4955,37 @@ function(input, output, session) {
       proplist[i]<<-eval(parse(text = paste0("input$txtrename",i)))
     }
     # print(proplist)
+    
+    # Update Adding Attributes tab panel if it already exists
+    if (value2$test2 == 0) {
+      
+      for(i in 1:length(ps_list$result)){
+        removeUI(
+          # selector = paste0("#txt", i)
+          selector = paste0('.shiny-input-container:has(#txt',i,')')
+        )
+        insertUI(
+          selector = "#finishaddweight",
+          where = "beforeBegin",
+          ui = numericInput(paste0("txt", i), paste0(proplist[i]),0,min = 0,max = 10)
+        )
+      }
+      removeUI(
+        selector ='.shiny-input-container:has(#txti)'
+      )
+      insertUI(
+        selector = "#finishaddweight",
+        where = "beforeBegin",
+        ui = textAreaInput(paste0("txt", "i"), "Description for the Attribute", width = "400px",height = "150px")
+      )
+    }
+
+    value2$test2<-0
+    # hide(selector = "#viewdata li a[data-value=addattr]")
+    colnames(result$newaddattr)<-c(colnames(result$newaddattr)[1:2],proplist[1:(ncol(result$newaddattr)-2)])
+    updateTabsetPanel(session = session, inputId = "viewdata", "addattr")
+
+    # Update Raw Data tab pane
     # The column names of showing_matrix will automatically update after the changes of showing_matrix_raw
     # and column names of showing_matrix_scaled will automatically update after the changes of showing_matrix
     colnames(result$showing_matrix_raw)<-proplist[1:ncol(result$showing_matrix_raw)]
