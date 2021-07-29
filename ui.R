@@ -208,7 +208,7 @@ tagList(
                                                                       br(),
                                                                       #textInput("osrename",value = proplist_os,label = proplist_os),
                                                                       uiOutput("osnamechange"),
-                                                                      actionButton("osconfirmname","Make changes to the names")
+                                                                      actionButton("osconfirmname","Make Changes to the Names")
                                                                      
                                                             ),
                                                             tabPanel("Refine Area of Interest",value = "redefineos",
@@ -256,9 +256,7 @@ tagList(
                                                             tabPanel("Data Summary",
                                                                      
                                                                      value = "portfoliodatasummary",
-                                                                     DT::dataTableOutput("showing_matrix_portfolio_goal") 
-                                                                     
-                                                                     
+                                                                     DT::dataTableOutput("showing_matrix_portfolio_goal")          
                                                            ),
                                                            tabPanel("Detail View",
                                                                     DT::dataTableOutput("showing_matrix_portfolio") 
@@ -285,11 +283,9 @@ tagList(
                                                           tabsetPanel(id="viewdata",
                                                             tabPanel("Raw Data",value = "rawdata",
                                                                   # hr(),           
-                                                                  DT::dataTableOutput("showing_matrix") ,
-                                              
+                                                                  DT::dataTableOutput("showing_matrix") ,                                              
                                                             ),
-                                                            tabPanel("Scaled Data",value = "scaledata",
-                                                                     
+                                                            tabPanel("Scaled Data",value = "scaledata",                                                                     
                                                                   DT::dataTableOutput("showing_matrix_scaled") 
                                                             ),
                                                             tabPanel("Deselect Hexagons",value = "deselect",
@@ -309,41 +305,34 @@ tagList(
                                                                               ),
                                                                        column(9,
                                                                               DT::dataTableOutput("showing_matrix2") 
-                                                                              )
-                                                                     
-                                                                     )
-                                                                     
+                                                                              )                                                                     
+                                                                     )                                                                     
                                                             ),
                                                             tabPanel("Rename Area of Interest",value = "rename",
                                                                      br(),
                                                                      fluidRow(
-                                                                       column(6,
-                                                                              
-                                                                              actionButton("confirmname","Make changes to the names")
-                                                                       )
-                                                                       
-                                                                     )
-                                                                     
+                                                                       column(6,                                                                              
+                                                                              actionButton("confirmname","Make Changes to the Names")
+                                                                       )  
+                                                                     )        
                                                             ),
-                                                            tabPanel("Adding attributes",value = "addattr",
+                                                            tabPanel("Adding Attributes",value = "addattr",
                                                                      fluidRow(
                                                                        column(4,
-                                                                              textInput("namenewadded","Name of the attributes",
+                                                                              textInput("namenewadded","Name of the Attributes",
                                                                                           value = "New attribute 1"),
-                                                                              selectInput("goalnewadded", "Pick a RESTORE goal:",
+                                                                              selectInput("goalnewadded", "Pick a RESTORE Goal:",
                                                                                           c("Habitat" = "HA","Water Quality & Quantity" = "WQ",
                                                                                           "Living Coastal & Marine Resources" = "LCMR", 
                                                                                           "Community Resilience" = "CL","Gulf Economy" = "EC")),
-                                                                              actionButton("finishaddweight","Add this attribute"),
-                                                                              actionButton("removeaddweight","Remove selected attribute")
-                                                                              
+                                                                              actionButton("finishaddweight","Add This Attribute"),
+                                                                              actionButton("removeaddweight","Remove Selected Attribute")                                                                              
                                                                               ),
                                                                        column(8,
                                                                               DT::dataTableOutput("addattrtable"))
                                                                      )
                                                                      )
-                                                          )
-                                                          
+                                                          )                                                          
                                                    ),
                                                    column(3,
                                                           br(),
