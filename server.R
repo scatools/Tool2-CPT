@@ -2459,7 +2459,7 @@ function(input, output, session) {
    
     
     
-    coln_withicon<-paste0(c("Habitat", "Water Quality & Quantity","Living Coastal Marine Resources","Community Resilience","Gulf Economy"))
+    coln_withicon<-paste0(c("Habitat", "Water Quality & Quantity","Living Coastal & Marine Resource","Community Resilience","Gulf Economy"))
     data<-result$showing_matrix_portfolio
     #print("showing_matrix_portfolio")
     #print(result$showing_matrix_portfolio)
@@ -2509,7 +2509,7 @@ function(input, output, session) {
         backgroundColor = styleEqual(c(1,2), c('yellow', 'green'))
       )%>%
       formatStyle(
-        "Living Coastal Marine Resources", 'r3',
+        "Living Coastal & Marine Resource", 'r3',
         backgroundColor = styleEqual(c(1,2), c('yellow', 'green'))
       )%>%
       formatStyle(
@@ -2645,9 +2645,9 @@ function(input, output, session) {
     result$default_rank_test1<-cbind(result$default_rank_test1,c(5,5,4,4,4,22))
     
     colnames(result$default_rank_test)<- proplist[1:ncol(result$default_rank_test)]
-    rownames(result$default_rank_test)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
+    rownames(result$default_rank_test)<- c("Habitat","Water Quality & Quantity","Living Coastal & Marine Resource", "Community Resilience","Gulf Economy") 
     colnames(result$default_rank_test1)<- c(proplist[1:ncol(result$default_rank_test)],"Total possible score")
-    rownames(result$default_rank_test1)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
+    rownames(result$default_rank_test1)<- c("Habitat","Water Quality & Quantity","Living Coastal & Marine Resource", "Community Resilience","Gulf Economy","Total Sum") 
     
     result$default_rank_test_1<-colSums(result$default_rank_test)
     #End test request
@@ -2658,9 +2658,9 @@ function(input, output, session) {
     result$default_rank1<-cbind(result$default_rank1,c(20,20,20,20,20,100)/100)
     
     colnames(result$default_rank)<- proplist[1:ncol(result$default_rank)]
-    rownames(result$default_rank)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
+    rownames(result$default_rank)<- c("Habitat","Water Quality & Quantity","Living Coastal & Marine Resource", "Community Resilience","Gulf Economy") 
     colnames(result$default_rank1)<- c(proplist[1:ncol(result$default_rank)],"Weights")
-    rownames(result$default_rank1)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
+    rownames(result$default_rank1)<- c("Habitat","Water Quality & Quantity","Living Coastal & Marine Resource", "Community Resilience","Gulf Economy","Total Sum") 
     ##print(colSums(WQ_hf))
     ##print(rbind(colSums(HA_hf),colSums(WQ_hf),colSums(WQ_hf),colSums(LC_hf),colSums(CL_hf),EC))
     ##print(result$final_rank)
@@ -3551,9 +3551,9 @@ function(input, output, session) {
     result$final_weighted_score<-cbind(result$final_weighted_score,c(weight$goal,100)/100)
 
     colnames(result$final_rank)<- proplist[1:ncol(result$final_rank)]
-    rownames(result$final_rank)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy") 
+    rownames(result$final_rank)<- c("Habitat","Water Quality & Quantity","Living Coastal & Marine Resource", "Community Resilience","Gulf Economy") 
     colnames(result$final_weighted_score)<- c(proplist[1:ncol(result$final_rank)],"Weights")
-    rownames(result$final_weighted_score)<- c("Habitat","Water Quality & Quantity","Living Coastal Marine Resources", "Community Resilience","Gulf Economy","Total Sum") 
+    rownames(result$final_weighted_score)<- c("Habitat","Water Quality & Quantity","Living Coastal & Marine Resource", "Community Resilience","Gulf Economy","Total Sum") 
 
     result$final_weighted_sum<-colSums(result$final_rank*(weight$goal))/100
 
@@ -3639,7 +3639,7 @@ function(input, output, session) {
   output$barportfolio<-renderPlotly({
     data<-result$showing_matrix_portfolio
     
-    coln_withicon<-paste0(c("Habitat", "Water Quality & Quantity","Living Coastal Marine Resources","Community Resilience","Gulf Economy"))
+    coln_withicon<-paste0(c("Habitat", "Water Quality & Quantity","Living Coastal & Marine Resource","Community Resilience","Gulf Economy"))
     data<-result$showing_matrix_portfolio
     #print("showing_matrix_portfolio")
     #print(result$showing_matrix_portfolio)
@@ -4100,7 +4100,7 @@ function(input, output, session) {
                                  "R_Fish"= ifelse(result_os$showing_matrix[21]==1,"Low",
                                                   ifelse(result_os$showing_matrix[21]==2,"Medium",
                                                          ifelse(result_os$showing_matrix[21]==3,"Medium-High",
-                                                                ifelse(result_os$showing_matrix[121]==4,"High","Insufficient Data")))),  #DONE
+                                                                ifelse(result_os$showing_matrix[21]==4,"High","Insufficient Data")))),  #DONE
                                  "A_and_R"= result_os$showing_matrix[22])  #DONE
       
       ##String Split TE Name
@@ -4136,7 +4136,7 @@ function(input, output, session) {
       dat_11_1<-paste0("Land-use change in ",report_table_1$AOI_Name," has resulted in ",report_table_1$Qp_Change," in hydrologic response to a standard rainfall event for this region. ")
       dat_11_2<-paste0("Land-use change in ",report_table_1$AOI_Name," has resulted in a ",report_table_1$Qp_Change," hydrologic response to a standard rainfall event for this region. ")
       dat_11_3<-paste0("There is insufficient data to determine the hydrologic response of ",report_table_1$AOI_Name," to land-use change.")
-      dat_12_1<-paste0("The landscape of ",report_table_1$AOI_Name," has a ",report_table_1$Biodiversity," Vulnerable Areas of Terrestrial Endemic Species, in accordance with the methods used by Jenkins et. al, 2015. ")
+      dat_12_1<-paste0("The landscape of ",report_table_1$AOI_Name," has a ",report_table_1$Biodiversity," value for vulnerable areas of terrestrial endemic species, in accordance with the methods used by Jenkins et. al, 2015. ")
       dat_12_2<-paste0("")
       dat_13_1<-paste0("Lands within ",report_table_1$AOI_Name," support roughly ",report_table_1$TE_Perc," of the critical habitat ranges for federally listed species. ")
       dat_13_2<-paste0("Lands within ",report_table_1$AOI_Name," are not known to support critical habitats for any federally listed species. ")
@@ -4166,7 +4166,7 @@ function(input, output, session) {
       dat_23_1<-paste0(" The community in and around ",report_table_1$AOI_Name," has a ",report_table_1$C_Fish," level of commercial fishing reliance. ")
       dat_23_2<-paste0(" There is insufficient data to determine the commercial fishing reliance of the communities that ",report_table_1$AOI_Name," is associated with. ")
       dat_24_1<-paste0(" The community in and around ",report_table_1$AOI_Name," has a ",report_table_1$R_Fish," level of recreational fishing engagement. ")
-      dat_24_2<-paste0(" There is insufficient data to determine the level recreational fishing engagement of the community that ",report_table_1$AOI_Name," is associated with.")
+      dat_24_2<-paste0(" There is insufficient data to determine the recreational fishing engagement of the communities that ",report_table_1$AOI_Name," is associated with.")
       dat_25_1<-paste0(" There are ",report_table_1$A_and_R," access points to natural areas within 25 km of ",report_table_1$AOI_Name,".")
       
       #Blank Statement if measure is zero-weighted
@@ -4449,13 +4449,13 @@ function(input, output, session) {
             "High Priority Working Lands: ", ps_list$hex_merge_final$WORKINGLAN[i], "<br>",
             "Commercial Fishing Reliance: ", ps_list$hex_merge_final$ComEng_ct[i], "<br>",
             "Recreational Fishing Engagement: ", ps_list$hex_merge_final$RecEng_ct[i],"<br>",
-            "Access & Recreation: Number of Access Points", ps_list$hex_merge_final$AR_boat[i]
+            "Access & Recreation - Number of Access Points", ps_list$hex_merge_final$AR_boat[i]
             )
     })
     
     leaflet() %>% addProviderTiles(providers$Esri.WorldStreetMap) %>%
       addPolygons(data= spatial_footprint,fillColor = color(spatial_footprint$proposal),
-                  fillOpacity = 0.3,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  fillOpacity = 0.3,weight=0.5,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list$hex_merge_final, fillOpacity = 0.6, layerId = as.character(ps_list$hex_merge_final$OBJECTID),
                   fillColor = "blue",weight=0.6,group="View Hexagons",stroke = F,
                   label = lapply(labs, HTML),
@@ -4463,11 +4463,11 @@ function(input, output, session) {
                   labelOptions = labelOptions(textsize = "15px")
       ) %>%
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
-      hideGroup("View Hexagons")%>%
+      # hideGroup("View Hexagons")%>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
                 labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
-      addLayersControl(position="topright",overlayGroups=c("Proposal boudaries", "View Hexagons"))
+      addLayersControl(position="topright",overlayGroups=c("Proposal boundaries", "View Hexagons"))
   })
   
   output$mapresultos<-renderLeaflet({
@@ -4494,11 +4494,11 @@ function(input, output, session) {
              "High Priority Working Lands: ", ps_list_os$hex_merge_final$WORKINGLAN[i], "<br>",
              "Commercial Fishing Reliance: ", ps_list_os$hex_merge_final$ComEng_ct[i], "<br>",
              "Recreational Fishing Engagement: ", ps_list_os$hex_merge_final$RecEng_ct[i], "<br>",
-             "Access & Recreation: Number of Access Points",ps_list_os$hex_merge_final$AR_boat[i])
+             "Access & Recreation - Number of Access Points",ps_list_os$hex_merge_final$AR_boat[i])
     })
     leaflet() %>% addProviderTiles(providers$Esri.WorldStreetMap) %>%
       addPolygons(data= spatial_footprint,fillColor = color(spatial_footprint$proposal),
-                  fillOpacity = 0.3,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  fillOpacity = 0.3,weight=0.5,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list_os$hex_merge_final, fillOpacity = 0.6, layerId = as.character(ps_list_os$hex_merge_final$OBJECTID),
                   fillColor = "blue",weight=0.6,group="View Hexagons",stroke = F,
                   label = lapply(labs, HTML),
@@ -4506,11 +4506,11 @@ function(input, output, session) {
                   labelOptions = labelOptions(textsize = "15px")
       ) %>%
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
-      hideGroup("View Hexagons")%>%
+      # hideGroup("View Hexagons")%>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
                 labels = proplist_os,opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
-      addLayersControl(position="topright",overlayGroups=c("Proposal boudaries", "View Hexagons"))
+      addLayersControl(position="topright",overlayGroups=c("Proposal boundaries", "View Hexagons"))
   })
   
   output$mapresult1<-renderLeaflet({
@@ -4520,9 +4520,9 @@ function(input, output, session) {
     
     leaflet() %>% addProviderTiles(providers$Esri.WorldStreetMap) %>%
       addPolygons(data= spatial_footprint,fill = F,
-                  weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  weight=2,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list$hex_merge_final,fillColor =  color(ps_list$hex_merge_final$appid),stroke = F,
-                  fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  fillOpacity = 0.5,weight=0.5,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
         options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
@@ -4565,10 +4565,10 @@ function(input, output, session) {
     leaflet() %>%
       addProviderTiles(providers$Esri.WorldStreetMap) %>%
       addPolygons(data= spatial_footprint,fill = F,
-                  weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>% 
+                  weight=2,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>% 
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>%
       addPolygons(data= ps_list$hex_merge_final,fillColor = color(ps_list$hex_merge_final$appid),stroke = F,
-                  fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  fillOpacity = 0.5,weight=0.5,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
         options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
@@ -4612,9 +4612,9 @@ function(input, output, session) {
     leaflet() %>% addProviderTiles(providers$Esri.WorldStreetMap) %>%
       addEsriFeatureLayer(url = 'https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/SCA_Boundary/FeatureServer/0',fill = F,weight = 1)%>% 
       addPolygons(data= spatial_footprint,fill = F,
-                  weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  weight=2,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list$hex_merge_final,fillColor = color(ps_list$hex_merge_final$appid),stroke = F,
-                  fillOpacity = 0.5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  fillOpacity = 0.5,weight=0.5,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addEsriDynamicMapLayer(
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
         options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
@@ -4677,9 +4677,9 @@ function(input, output, session) {
         options = providerTileOptions(opacity = 0.5),stroke=F,weight = 0.01 ,fillColor="green" ,group = "FNAI BOT Conservation Areas")%>%
       
       addPolygons(data= spatial_footprint,fill = F,
-                  weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  weight=2,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list_os$hex_merge_final,fillColor = color(spatial_footprint$proposal),stroke = F,
-                  fillOpacity = .5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  fillOpacity = .5,weight=0.5,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")%>%
       addFullscreenControl(position="bottomleft")%>%
       #hideGroup("MDEQ Target Areas")%>%
@@ -4721,9 +4721,9 @@ function(input, output, session) {
         url = paste0("https://gis.usgs.gov/sciencebase2/rest/services/Catalog/5da9e701e4b09fd3b0c9cb6a/MapServer"),
         options = dynamicMapLayerOptions(transparent = TRUE,opacity = 0.15),group = "SECAS Blueprint")%>%
       addPolygons(data= spatial_footprint,fill = F,
-                  weight=2,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  weight=2,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addPolygons(data= ps_list$hex_merge_final,fillColor = color(ps_list$hex_merge_final$appid),stroke = F,
-                  fillOpacity = .5,weight=0.5,group = "Proposal boudaries", options = pathOptions(clickable = FALSE) ) %>%
+                  fillOpacity = .5,weight=0.5,group = "Proposal boundaries", options = pathOptions(clickable = FALSE) ) %>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
                 labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5)%>%
       addFullscreenControl(position="bottomleft")%>%
