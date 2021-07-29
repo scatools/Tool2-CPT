@@ -82,7 +82,7 @@ Row1<-ifelse(Project_num==1,":-------------:|",
                                   ifelse(Project_num==5,":-------------:|:-------------:|:-------------:|:-------------:|:-------------:|","")))))
 
 ```
-## Spatial footprint of conservation area assessed
+## Spatial Footprint of Conservation Area Assessed
 ```{r echo=FALSE}
 c<-params$footprint
 c$proposal<-1:length(c$geometry)

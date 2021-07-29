@@ -3507,7 +3507,7 @@ function(input, output, session) {
   observeEvent(input$UAmove, {
     ##print(as.numeric(weight$CL))
     #session$sendCustomMessage('unbind-DT', 'UserAdded_PA_measures_Table')
-    updateTabsetPanel(session = session, inputId = "tabsPA", selected = "Weights Reivew")
+    updateTabsetPanel(session = session, inputId = "tabsPA", selected = "Weights Review")
   })
   
   observeEvent(input$Weightsdone, {
@@ -3801,9 +3801,9 @@ function(input, output, session) {
         footprint=spatial_footprint,
         rankmatrix=result$showing_rankaccept,
         rankalt=result$rankaccept_altlist,
-        centralweights =result$showing_central,
-        rawdata= as.data.frame(result$showing_matrix),
-        centralalt= result$showing_matrix
+        centralweights=result$showing_central,
+        rawdata=as.data.frame(result$showing_matrix),
+        centralalt=result$showing_matrix
         #,
         #proplist_final= value1$proplist
       )
@@ -3834,12 +3834,13 @@ function(input, output, session) {
       
       params <- list(#n = input$threshold, 
         #r= result$final_weighted_sum, 
-        footprint = spatial_footprint,
-        scorebygoal = result$final_weighted_score,
-        finalscore = result$final_weighted_sum,
-        table = tmp,
-        useraddedtable = WRtableua(),
-        weightstable =  GWtable()
+        footprint=spatial_footprint,
+        proplist=proplist,
+        scorebygoal=result$final_weighted_score,
+        finalscore=result$final_weighted_sum,
+        table=tmp,
+        useraddedtable=WRtableua(),
+        weightstable=GWtable()
         
       )
       

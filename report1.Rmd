@@ -12,6 +12,7 @@ output:
 params:
   #n: NA
   footprint: NA
+  proplist: NA
   scorebygoal: NA
   finalscore: NA
   table: NA
@@ -44,7 +45,7 @@ my_map<-leaflet() %>%
   addTiles() %>%
   addPolygons(data= c,fillColor = color(c$proposal),
               fillOpacity = 0.5,weight=0.5 ) %>%
-  addLegend(position ="bottomright", colors=color(c$proposal),labels=paste0("Proposal ",c$proposal),opacity = 0.5)%>%
+  addLegend(position ="bottomright", colors=color(c$proposal),labels=params$proplist[1:length(c$geometry)],opacity = 0.5)%>%
   addEsriTiledMapLayer(
         url = "https://services1.arcgis.com/cYEfxjk21j8UlsTQ/arcgis/rest/services/PADUS2_Fee_Easement_Designation/MapServer",
         options = providerTileOptions(opacity = 0.25),group = "PAD-US")%>%
@@ -60,7 +61,7 @@ my_map<-leaflet() %>%
 my_map
 ```
 
-This report evaluates `r length(params$footprint$proposal)` areas of interest
+This report evaluates `r length(params$footprint$proposal)` areas of interest.
 
 ##### The areas of interest were evaluated based on how well they achieved each goal of the RESTORE Council, with scores for each plan displayed in the following table. The user-provided weights, which indicate the relative importance of each goal in the analysis, are shown in the right column.   
 

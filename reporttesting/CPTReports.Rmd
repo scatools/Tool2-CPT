@@ -47,7 +47,7 @@ SOVI_Cbox<-ifelse(params$report_table_1$SOVI==1,"checkmark","times")
 ```
 # Area of Interest - **`r params$report_table$plan_Name`**
 
-## **Spatial footprint**
+## **Spatial Footprint**
 
 ```{r echo=FALSE}
 c<-params$footprint

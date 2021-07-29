@@ -28,7 +28,7 @@ library(shiny)
 ```
 
 
-## Spatial footprint of Area of Interest
+## Spatial Footprint of Areas of Interest
 
 ```{r include=FALSE}
 library(leaflet)
