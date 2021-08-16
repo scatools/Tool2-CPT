@@ -3826,6 +3826,21 @@ function(input, output, session) {
       # case we don't have write permissions to the current working dir (which
       # can happen when deployed).
       weights<-c(as.character(weight$HA),as.character(weight$WQ),as.character(weight$LC),as.character(weight$CL),as.character(weight$EC))
+      for (w in 1:length(weights)) {
+          if (weights[w] == "Zero") {
+            weights[w] = "Zero (0.00)"
+          }
+          else if (weights[w] == "Low") {
+            weights[w] = "Low (0.33)"
+          }
+          else if (weights[w] == "Medium") {
+            weights[w] = "Medium (0.67)"
+          }
+          else if (weights[w] == "High") {
+            weights[w] = "High (1.00)"
+          }
+      }
+
       tmp<-cbind(result$showing_matrix,weights)
       spatial_footprint<-do.call(rbind,ps_list$result)
       spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
