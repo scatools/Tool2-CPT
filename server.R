@@ -4933,8 +4933,6 @@ function(input, output, session) {
                   weight = .5, options = pathOptions(clickable = FALSE))
   })
   
-  
-  
   observeEvent(input$adjustmcdanumbers,{
     shinyjs::show("numMCDA")
   })
@@ -4942,8 +4940,8 @@ function(input, output, session) {
   observeEvent(input$numMCDA,{
     #print(input$numMCDA)
     value1$mcdarun<-as.numeric(input$numMCDA)
-  
-    })
+  })
+
   observeEvent(input$osconfirmname,{
     proplist_os<<- input$osrename1
     # The row andcolumn names of showing_matrix_os will automatically update after the changes of showing_matrix
@@ -4963,7 +4961,6 @@ function(input, output, session) {
       removeControl("legend") %>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")
   })
-  
   
   observeEvent(input$confirmname,{
     for(i in 1:length(ps_list$result)){
@@ -4993,12 +4990,10 @@ function(input, output, session) {
         where = "beforeBegin",
         ui = textAreaInput(paste0("txt", "i"), "Description for the Attribute", width = "400px",height = "150px")
       )
-    }
 
-    value2$test2<-0
-    # hide(selector = "#viewdata li a[data-value=addattr]")
-    colnames(result$newaddattr)<-c(colnames(result$newaddattr)[1:2],proplist[1:(ncol(result$newaddattr)-2)])
-    updateTabsetPanel(session = session, inputId = "viewdata", "addattr")
+      colnames(result$newaddattr)<-c(colnames(result$newaddattr)[1:2],proplist[1:(ncol(result$newaddattr)-2)])
+      updateTabsetPanel(session = session, inputId = "viewdata", "addattr")
+    }
 
     # Update Raw Data tab pane
     # The column names of showing_matrix will automatically update after the changes of showing_matrix_raw
@@ -5022,7 +5017,6 @@ function(input, output, session) {
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
                 labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")
   })
-  
  
   result$newaddattr<-NULL
   
