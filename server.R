@@ -4944,7 +4944,7 @@ function(input, output, session) {
 
   observeEvent(input$osconfirmname,{
     proplist_os<<- input$osrename1
-    # The row andcolumn names of showing_matrix_os will automatically update after the changes of showing_matrix
+    # The row and column names of showing_matrix_os will automatically update after the changes of showing_matrix
     rownames(result_os$showing_matrix)<-coln
     colnames(result_os$showing_matrix)<-proplist_os
     updateTabsetPanel(session = session, inputId = "viewdataos", "osdatasummary")
@@ -4952,6 +4952,7 @@ function(input, output, session) {
     spatial_footprint<-ps_list_os$result
     spatial_footprint$proposal<-1
     color<-colorNumeric(colorlist,spatial_footprint$proposal)
+    
     # Rename the legend labels of the small map at the bottom right
     leafletProxy("mapresult4")%>%
       removeControl("legend") %>%
@@ -4960,6 +4961,8 @@ function(input, output, session) {
     leafletProxy("mapresultos")%>%
       removeControl("legend") %>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")
+    # Rename the legend labels in the reports
+    result$rankaccept_altlist<-proplist[1:ncol(result$showing_matrix)]
   })
   
   observeEvent(input$confirmname,{
@@ -5006,6 +5009,7 @@ function(input, output, session) {
     spatial_footprint<-do.call(rbind,ps_list$result)
     spatial_footprint$proposal<-1:length(spatial_footprint$geometry)
     color<-colorNumeric(colorlist,spatial_footprint$proposal)
+    
     # Rename the legend labels of the small map at the bottom right
     leafletProxy("mapresult5")%>%
       removeControl("legend") %>%
@@ -5016,6 +5020,8 @@ function(input, output, session) {
       removeControl("legend") %>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),
                 labels = proplist[1:length(spatial_footprint$proposal)],opacity = 0.5,layerId = "legend")
+    # Rename the legend labels in the reports
+    result$rankaccept_altlist<-proplist[1:ncol(result$showing_matrix)]
   })
  
   result$newaddattr<-NULL
