@@ -64,7 +64,7 @@ weight_table<-data.frame("AOI_Area"= 1,
                          "A_and_R"= 0)
 
 ##Conditional Statements
-dat_1_1<-paste0("This report evaluates the ","**",report_table_1$AOI_Name,"**"," area of interest")
+dat_1_1<-paste0("This report evaluates the area of ","**",report_table_1$AOI_Name,"**")
 dat_2_1<-paste0(", approximately ","**",report_table_1$AOI_Area,"**"," acres of land")
 dat_3_1<-paste0(", that is within 1 km of currently protected land, according to the PAD-US layer. ")
 dat_3_2<-paste0(", that is not within 1 km of currently protected land. ")
