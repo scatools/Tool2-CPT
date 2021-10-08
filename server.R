@@ -4961,8 +4961,6 @@ function(input, output, session) {
     leafletProxy("mapresultos")%>%
       removeControl("legend") %>%
       addLegend(position = "bottomright",colors = color(spatial_footprint$proposal),labels = proplist_os,opacity = 0.5,layerId = "legend")
-    # Rename the legend labels in the reports
-    result$rankaccept_altlist<-proplist[1:ncol(result$showing_matrix)]
   })
   
   observeEvent(input$confirmname,{
